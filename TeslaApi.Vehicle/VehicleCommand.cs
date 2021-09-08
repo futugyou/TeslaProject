@@ -23,13 +23,13 @@ using TeslaApi.Vehicle.Abstractions;
 
 namespace TeslaApi.Vehicle
 {
-    public class VehcleCommand : IVehcleCommand
+    public class VehicleCommand : IVehicleCommand
     {
-        private readonly ILogger<VehcleCommand> _logger;
+        private readonly ILogger<VehicleCommand> _logger;
         private readonly VehicleOptions _options;
         private readonly HttpClient httpClient;
 
-        public VehcleCommand(ILogger<VehcleCommand> logger,
+        public VehicleCommand(ILogger<VehicleCommand> logger,
             IOptionsMonitor<VehicleOptions> options,
             IHttpClientFactory clientFactory)
         {

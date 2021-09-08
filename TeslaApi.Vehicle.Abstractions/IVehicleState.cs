@@ -12,7 +12,7 @@ using TeslaApi.Contract.Vehicle.State.VehicleState;
 using TeslaApi.Contract.Vehicle.Vehicles;
 
 namespace TeslaApi.Vehicle.Abstractions;
-public interface IVehcleState
+public interface IVehicleState
 {
     Task<VehiclesResponse> GetUserVehicles(string token);
     Task<VehicleResponse> GetUserVehicleById(string id, string token);

@@ -16,13 +16,13 @@ using TeslaApi.Contract.Vehicle.Vehicles;
 using TeslaApi.Vehicle.Abstractions;
 
 namespace TeslaApi.Vehicle;
-public class VehcleState : IVehcleState
+public class VehicleState : IVehicleState
 {
-    private readonly ILogger<VehcleState> _logger;
+    private readonly ILogger<VehicleState> _logger;
     private readonly VehicleOptions _options;
     private readonly HttpClient httpClient;
 
-    public VehcleState(ILogger<VehcleState> logger,
+    public VehicleState(ILogger<VehicleState> logger,
         IOptionsMonitor<VehicleOptions> options,
         IHttpClientFactory clientFactory)
     {

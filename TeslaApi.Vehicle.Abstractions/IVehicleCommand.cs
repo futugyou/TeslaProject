@@ -19,7 +19,7 @@ using TeslaApi.Contract.Vehicle.Commands.Windows;
 
 namespace TeslaApi.Vehicle.Abstractions
 {
-    public interface IVehcleCommand
+    public interface IVehicleCommand
     {
         Task<VehicleWakeResponse> WakeupVehicle(string id, string token);
         Task<AlertsResponse> HonkHornAlerts(string id, string token);
