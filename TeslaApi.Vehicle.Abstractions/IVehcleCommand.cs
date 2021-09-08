@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TeslaApi.Contract.Vehicle.Commands.Alerts;
 using TeslaApi.Contract.Vehicle.Commands.Charging;
+using TeslaApi.Contract.Vehicle.Commands.Climate;
 using TeslaApi.Contract.Vehicle.Commands.Doors;
 using TeslaApi.Contract.Vehicle.Commands.FrunkTrunk;
 using TeslaApi.Contract.Vehicle.Commands.Homelink;
@@ -51,7 +52,11 @@ namespace TeslaApi.Vehicle.Abstractions
         Task<ChargingResponse> ChargeStandard(string id, string token);
         Task<ChargingResponse> ChargeMaxRange(string id, string token);
         Task<ChargingResponse> SetChargeLimit(string id, ChargingRequest request, string token);
-
-
+        Task<ClimateResponse> AutoConditioningStart(string id, string token);
+        Task<ClimateResponse> AutoConditioningStop(string id, string token);
+        Task<ClimateResponse> SetTemps(string id, SetTempsRequest request, string token);
+        Task<ClimateResponse> SetPreconditioningMax(string id, SetPreconditioningMaxRequest request, string token);
+        Task<ClimateResponse> RemoteSeatHeater(string id, RemoteSeatHeaterRequest request, string token);
+        Task<ClimateResponse> RemoteSteeringWheelHeater(string id, RemoteSteeringWheelHeaterRequest request, string token);
     }
 }

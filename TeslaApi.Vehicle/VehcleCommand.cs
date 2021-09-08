@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TeslaApi.Contract;
 using TeslaApi.Contract.Vehicle.Commands.Alerts;
 using TeslaApi.Contract.Vehicle.Commands.Charging;
+using TeslaApi.Contract.Vehicle.Commands.Climate;
 using TeslaApi.Contract.Vehicle.Commands.Doors;
 using TeslaApi.Contract.Vehicle.Commands.FrunkTrunk;
 using TeslaApi.Contract.Vehicle.Commands.Homelink;
@@ -183,6 +184,42 @@ namespace TeslaApi.Vehicle
         {
             var url = string.Format(_options.ChangeChargeLimit, id);
             return await httpClient.UtilsPostAsync<ChargingRequest, ChargingResponse>(request, url, token);
+        }
+
+        public async Task<ClimateResponse> AutoConditioningStart(string id, string token)
+        {
+            var url = string.Format(_options.ClimateOn, id);
+            return await httpClient.UtilsPostAsync<ClimateResponse>(url, token);
+        }
+
+        public async Task<ClimateResponse> AutoConditioningStop(string id, string token)
+        {
+            var url = string.Format(_options.ClimateOff, id);
+            return await httpClient.UtilsPostAsync<ClimateResponse>(url, token);
+        }
+
+        public async Task<ClimateResponse> SetTemps(string id, SetTempsRequest request, string token)
+        {
+            var url = string.Format(_options.ChangeClimateTemperatureSetting, id);
+            return await httpClient.UtilsPostAsync<SetTempsRequest, ClimateResponse>(request, url, token);
+        }
+
+        public async Task<ClimateResponse> SetPreconditioningMax(string id, SetPreconditioningMaxRequest request, string token)
+        {
+            var url = string.Format(_options.MaxDefrost, id);
+            return await httpClient.UtilsPostAsync<SetPreconditioningMaxRequest, ClimateResponse>(request, url, token);
+        }
+
+        public async Task<ClimateResponse> RemoteSeatHeater(string id, RemoteSeatHeaterRequest request, string token)
+        {
+            var url = string.Format(_options.RemoteSeatHeaterRequest, id);
+            return await httpClient.UtilsPostAsync<RemoteSeatHeaterRequest, ClimateResponse>(request, url, token);
+        }
+
+        public async Task<ClimateResponse> RemoteSteeringWheelHeater(string id, RemoteSteeringWheelHeaterRequest request, string token)
+        {
+            var url = string.Format(_options.RemoteSteeringWheelHeaterRequest, id);
+            return await httpClient.UtilsPostAsync<RemoteSteeringWheelHeaterRequest, ClimateResponse>(request, url, token);
         }
     }
 }

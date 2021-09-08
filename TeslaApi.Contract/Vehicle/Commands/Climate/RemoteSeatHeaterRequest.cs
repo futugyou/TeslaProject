@@ -10,15 +10,15 @@ namespace TeslaApi.Contract.Vehicle.Commands.Climate
     public class RemoteSeatHeaterRequest
     {
         /// <summary>
-        /// The desired seat to heat. (0-5)
+        /// The desired seat to heat. (0-5)<see cref="HeaterType"/>
         /// </summary>
         [JsonPropertyName("heater")]
-        public HeaterType Heater { get; set; }
+        public int Heater { get; set; }
         /// <summary>
         /// The desired level for the heater. (0-3)
         /// </summary>
         [JsonPropertyName("level")]
-        public int? Level { get; set; }
+        public int Level { get; set; }
     }
 
     public enum HeaterType
