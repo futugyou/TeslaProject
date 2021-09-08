@@ -12,6 +12,8 @@ using TeslaApi.Contract.Vehicle.Commands.Homelink;
 using TeslaApi.Contract.Vehicle.Commands.Media;
 using TeslaApi.Contract.Vehicle.Commands.RemoteStart;
 using TeslaApi.Contract.Vehicle.Commands.SentryMode;
+using TeslaApi.Contract.Vehicle.Commands.Sharing;
+using TeslaApi.Contract.Vehicle.Commands.SoftwareUpdates;
 using TeslaApi.Contract.Vehicle.Commands.SpeedLimit;
 using TeslaApi.Contract.Vehicle.Commands.Sunroof;
 using TeslaApi.Contract.Vehicle.Commands.ValetMode;
@@ -27,7 +29,7 @@ namespace TeslaApi.Vehicle.Abstractions
         Task<AlertsResponse> FlashLightsAlerts(string id, string token);
         Task<RemoteStartResponse> RemoteStartDrive(string id, RemoteStartRequest request, string token);
         /// <summary>
-        ///  no test
+        /// no tested
         /// </summary>
         /// <param name="id"></param>
         /// <param name="request"></param>
@@ -68,5 +70,15 @@ namespace TeslaApi.Vehicle.Abstractions
         Task<MediaResponse> MediaPrevFav(string id, string token);
         Task<MediaResponse> MediaVolumeUp(string id, string token);
         Task<MediaResponse> MediaVolumeDown(string id, string token);
+        /// <summary>
+        /// no tested
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="request"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        Task<SharingResponse> ShareToVehicle(string id, SharingRequest request, string token);
+        Task<SoftwareUpdatesResponse> ScheduleSoftwareUupdate(string id, ScheduleSoftwareUpdateRequest request, string token);
+        Task<SoftwareUpdatesResponse> CancelSoftwareUpdate(string id, string token);
     }
 }

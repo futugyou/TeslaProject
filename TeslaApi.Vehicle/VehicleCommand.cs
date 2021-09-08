@@ -15,6 +15,8 @@ using TeslaApi.Contract.Vehicle.Commands.Homelink;
 using TeslaApi.Contract.Vehicle.Commands.Media;
 using TeslaApi.Contract.Vehicle.Commands.RemoteStart;
 using TeslaApi.Contract.Vehicle.Commands.SentryMode;
+using TeslaApi.Contract.Vehicle.Commands.Sharing;
+using TeslaApi.Contract.Vehicle.Commands.SoftwareUpdates;
 using TeslaApi.Contract.Vehicle.Commands.SpeedLimit;
 using TeslaApi.Contract.Vehicle.Commands.Sunroof;
 using TeslaApi.Contract.Vehicle.Commands.ValetMode;
@@ -263,6 +265,25 @@ namespace TeslaApi.Vehicle
         {
             var url = string.Format(_options.MediaVolumeDown, id);
             return await httpClient.UtilsPostAsync<MediaResponse>(url, token);
+        }
+
+
+        public async Task<SharingResponse> ShareToVehicle(string id, SharingRequest request, string token)
+        {
+            var url = string.Format(_options.ShareToVehicle, id);
+            return await httpClient.UtilsPostAsync<SharingRequest, SharingResponse>(request, url, token);
+        }
+
+        public async Task<SoftwareUpdatesResponse> ScheduleSoftwareUupdate(string id, ScheduleSoftwareUpdateRequest request, string token)
+        {
+            var url = string.Format(_options.ScheduleSoftwareUpdate, id);
+            return await httpClient.UtilsPostAsync<ScheduleSoftwareUpdateRequest, SoftwareUpdatesResponse>(request, url, token);
+        }
+
+        public async Task<SoftwareUpdatesResponse> CancelSoftwareUpdate(string id, string token)
+        {
+            var url = string.Format(_options.CancelSoftwareUpdate, id);
+            return await httpClient.UtilsPostAsync<SoftwareUpdatesResponse>(url, token);
         }
     }
 }
