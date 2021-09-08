@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TeslaApi.Contract;
 using TeslaApi.Contract.Vehicle.Commands.Alerts;
+using TeslaApi.Contract.Vehicle.Commands.Charging;
 using TeslaApi.Contract.Vehicle.Commands.Doors;
 using TeslaApi.Contract.Vehicle.Commands.FrunkTrunk;
 using TeslaApi.Contract.Vehicle.Commands.Homelink;
@@ -140,6 +141,48 @@ namespace TeslaApi.Vehicle
         {
             var url = string.Format(_options.ChangeSunroofState, id);
             return await httpClient.UtilsPostAsync<SunroofRequest, SunroofResponse>(request, url, token);
+        }
+
+        public async Task<ChargingResponse> ChargePortDoorOpen(string id, string token)
+        {
+            var url = string.Format(_options.ChargePortDoorOpen, id);
+            return await httpClient.UtilsPostAsync<ChargingResponse>(url, token);
+        }
+
+        public async Task<ChargingResponse> ChargePortDoorClose(string id, string token)
+        {
+            var url = string.Format(_options.ChargePortDoorClose, id);
+            return await httpClient.UtilsPostAsync<ChargingResponse>(url, token);
+        }
+
+        public async Task<ChargingResponse> ChargeStart(string id, string token)
+        {
+            var url = string.Format(_options.StartCharge, id);
+            return await httpClient.UtilsPostAsync<ChargingResponse>(url, token);
+        }
+
+        public async Task<ChargingResponse> ChargeStop(string id, string token)
+        {
+            var url = string.Format(_options.StopCharge, id);
+            return await httpClient.UtilsPostAsync<ChargingResponse>(url, token);
+        }
+
+        public async Task<ChargingResponse> ChargeStandard(string id, string token)
+        {
+            var url = string.Format(_options.ChargeStandard, id);
+            return await httpClient.UtilsPostAsync<ChargingResponse>(url, token);
+        }
+
+        public async Task<ChargingResponse> ChargeMaxRange(string id, string token)
+        {
+            var url = string.Format(_options.ChargeMaxRange, id);
+            return await httpClient.UtilsPostAsync<ChargingResponse>(url, token);
+        }
+
+        public async Task<ChargingResponse> SetChargeLimit(string id, ChargingRequest request, string token)
+        {
+            var url = string.Format(_options.ChangeChargeLimit, id);
+            return await httpClient.UtilsPostAsync<ChargingRequest, ChargingResponse>(request, url, token);
         }
     }
 }

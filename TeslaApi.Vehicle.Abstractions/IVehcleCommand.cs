@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeslaApi.Contract.Vehicle.Commands.Alerts;
+using TeslaApi.Contract.Vehicle.Commands.Charging;
 using TeslaApi.Contract.Vehicle.Commands.Doors;
 using TeslaApi.Contract.Vehicle.Commands.FrunkTrunk;
 using TeslaApi.Contract.Vehicle.Commands.Homelink;
@@ -42,7 +43,15 @@ namespace TeslaApi.Vehicle.Abstractions
         Task<DoorsResponse> DoorLock(string id, string token);
         Task<FrunkTrunkResponse> ActuateTrunk(string id, FrunkTrunkRequest request, string token);
         Task<WindowsResponse> WindowControl(string id, WindowsRequest request, string token);
-        Task<SunroofResponse> SunRoofControl(string id, SunroofRequest request, string token); 
+        Task<SunroofResponse> SunRoofControl(string id, SunroofRequest request, string token);
+        Task<ChargingResponse> ChargePortDoorOpen(string id, string token);
+        Task<ChargingResponse> ChargePortDoorClose(string id, string token);
+        Task<ChargingResponse> ChargeStart(string id, string token);
+        Task<ChargingResponse> ChargeStop(string id, string token);
+        Task<ChargingResponse> ChargeStandard(string id, string token);
+        Task<ChargingResponse> ChargeMaxRange(string id, string token);
+        Task<ChargingResponse> SetChargeLimit(string id, ChargingRequest request, string token);
+
 
     }
 }

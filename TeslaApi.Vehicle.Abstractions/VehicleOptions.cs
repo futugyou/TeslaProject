@@ -45,6 +45,8 @@ namespace TeslaApi.Vehicle.Abstractions
         public string ChargePortDoorClose { get; set; } = "api/1/vehicles/{0}/command/charge_port_door_close";
         public string StartCharge { get; set; } = "api/1/vehicles/{0}/command/charge_start";
         public string StopCharge { get; set; } = "api/1/vehicles/{0}/command/charge_stop";
+        public string ChargeStandard { get; set; } = "api/1/vehicles/{0}/command/charge_standard";
+        public string ChargeMaxRange { get; set; } = "api/1/vehicles/{0}/command/charge_max_range";
         public string MediaTogglePlayback { get; set; } = "api/1/vehicles/{0}/command/media_toggle_playback";
         public string MediaNextTrack { get; set; } = "api/1/vehicles/{0}/command/media_next_track";
         public string MediaPreviousTrack { get; set; } = "api/1/vehicles/{0}/command/media_prev_track";
