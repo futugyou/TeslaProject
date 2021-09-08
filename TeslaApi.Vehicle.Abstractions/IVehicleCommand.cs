@@ -9,6 +9,7 @@ using TeslaApi.Contract.Vehicle.Commands.Climate;
 using TeslaApi.Contract.Vehicle.Commands.Doors;
 using TeslaApi.Contract.Vehicle.Commands.FrunkTrunk;
 using TeslaApi.Contract.Vehicle.Commands.Homelink;
+using TeslaApi.Contract.Vehicle.Commands.Media;
 using TeslaApi.Contract.Vehicle.Commands.RemoteStart;
 using TeslaApi.Contract.Vehicle.Commands.SentryMode;
 using TeslaApi.Contract.Vehicle.Commands.SpeedLimit;
@@ -58,5 +59,14 @@ namespace TeslaApi.Vehicle.Abstractions
         Task<ClimateResponse> SetPreconditioningMax(string id, SetPreconditioningMaxRequest request, string token);
         Task<ClimateResponse> RemoteSeatHeater(string id, RemoteSeatHeaterRequest request, string token);
         Task<ClimateResponse> RemoteSteeringWheelHeater(string id, RemoteSteeringWheelHeaterRequest request, string token);
+
+
+        Task<MediaResponse> MediaTogglePlayback(string id, string token);
+        Task<MediaResponse> MediaNextTrack(string id, string token);
+        Task<MediaResponse> MediaPrevTrack(string id, string token);
+        Task<MediaResponse> MediaNextFav(string id, string token);
+        Task<MediaResponse> MediaPrevFav(string id, string token);
+        Task<MediaResponse> MediaVolumeUp(string id, string token);
+        Task<MediaResponse> MediaVolumeDown(string id, string token);
     }
 }

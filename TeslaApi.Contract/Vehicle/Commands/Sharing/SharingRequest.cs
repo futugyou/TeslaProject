@@ -5,15 +5,15 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace TeslaApi.Contract.Vehicle.Commands.Media
+namespace TeslaApi.Contract.Vehicle.Commands.Sharing
 {
-    public class MediaValue
+    public class SharingValue
     {
         [JsonPropertyName("android.intent.extra.TEXT")]
         public string AndroidIntentExtraTEXT { get; set; }
     }
 
-    public class MediaRequest
+    public class SharingRequest
     {
         /// <summary>
         /// Must be share_ext_content_raw.
@@ -24,7 +24,7 @@ namespace TeslaApi.Contract.Vehicle.Commands.Media
         /// The address or video URL to set as the navigation destination.
         /// </summary>
         [JsonPropertyName("value")]
-        public MediaValue MediaValue { get; set; }
+        public SharingValue MediaValue { get; set; }
         /// <summary>
         /// The locale for the navigation request. ISO 639-1 standard language codes
         /// </summary>        

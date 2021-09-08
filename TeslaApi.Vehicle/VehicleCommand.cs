@@ -12,6 +12,7 @@ using TeslaApi.Contract.Vehicle.Commands.Climate;
 using TeslaApi.Contract.Vehicle.Commands.Doors;
 using TeslaApi.Contract.Vehicle.Commands.FrunkTrunk;
 using TeslaApi.Contract.Vehicle.Commands.Homelink;
+using TeslaApi.Contract.Vehicle.Commands.Media;
 using TeslaApi.Contract.Vehicle.Commands.RemoteStart;
 using TeslaApi.Contract.Vehicle.Commands.SentryMode;
 using TeslaApi.Contract.Vehicle.Commands.SpeedLimit;
@@ -220,6 +221,48 @@ namespace TeslaApi.Vehicle
         {
             var url = string.Format(_options.RemoteSteeringWheelHeaterRequest, id);
             return await httpClient.UtilsPostAsync<RemoteSteeringWheelHeaterRequest, ClimateResponse>(request, url, token);
+        }
+
+        public async Task<MediaResponse> MediaTogglePlayback(string id, string token)
+        {
+            var url = string.Format(_options.MediaTogglePlayback, id);
+            return await httpClient.UtilsPostAsync<MediaResponse>(url, token);
+        }
+
+        public async Task<MediaResponse> MediaNextTrack(string id, string token)
+        {
+            var url = string.Format(_options.MediaNextTrack, id);
+            return await httpClient.UtilsPostAsync<MediaResponse>(url, token);
+        }
+
+        public async Task<MediaResponse> MediaPrevTrack(string id, string token)
+        {
+            var url = string.Format(_options.MediaPreviousTrack, id);
+            return await httpClient.UtilsPostAsync<MediaResponse>(url, token);
+        }
+
+        public async Task<MediaResponse> MediaNextFav(string id, string token)
+        {
+            var url = string.Format(_options.MediaNextFavorite, id);
+            return await httpClient.UtilsPostAsync<MediaResponse>(url, token);
+        }
+
+        public async Task<MediaResponse> MediaPrevFav(string id, string token)
+        {
+            var url = string.Format(_options.MediaPreviousFavorite, id);
+            return await httpClient.UtilsPostAsync<MediaResponse>(url, token);
+        }
+
+        public async Task<MediaResponse> MediaVolumeUp(string id, string token)
+        {
+            var url = string.Format(_options.MediaVolumeUp, id);
+            return await httpClient.UtilsPostAsync<MediaResponse>(url, token);
+        }
+
+        public async Task<MediaResponse> MediaVolumeDown(string id, string token)
+        {
+            var url = string.Format(_options.MediaVolumeDown, id);
+            return await httpClient.UtilsPostAsync<MediaResponse>(url, token);
         }
     }
 }

@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <Folder Include="Vehicle\Commands\Calendar\" />
-    <Folder Include="Vehicle\Commands\Sharing\" />
     <Folder Include="Vehicle\Autopark\" />
     <Folder Include="Vehicle\Streaming\" />
   </ItemGroup>
