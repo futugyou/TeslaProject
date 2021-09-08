@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Vehicle\Commands\Calendar\" />
+    <Folder Include="Vehicle\Commands\Sharing\" />
+    <Folder Include="Vehicle\Autopark\" />
+    <Folder Include="Vehicle\Streaming\" />
+  </ItemGroup>
+
+</Project>
