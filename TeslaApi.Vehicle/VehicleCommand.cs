@@ -1,12 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TeslaApi.Contract;
 using TeslaApi.Contract.Vehicle.Commands.Alerts;
+using TeslaApi.Contract.Vehicle.Commands.Calendar;
 using TeslaApi.Contract.Vehicle.Commands.Charging;
 using TeslaApi.Contract.Vehicle.Commands.Climate;
 using TeslaApi.Contract.Vehicle.Commands.Doors;
@@ -284,6 +280,12 @@ namespace TeslaApi.Vehicle
         {
             var url = string.Format(_options.CancelSoftwareUpdate, id);
             return await httpClient.UtilsPostAsync<SoftwareUpdatesResponse>(url, token);
+        }
+
+        public async Task<CalendarSyncResponse> CalendarSync(string id, string token)
+        {
+            var url = string.Format(_options.CalendarSync, id);
+            return await httpClient.UtilsPostAsync<CalendarSyncResponse>(url, token);
         }
     }
 }

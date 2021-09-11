@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeslaApi.Contract.Vehicle.Commands.Alerts;
+using TeslaApi.Contract.Vehicle.Commands.Calendar;
 using TeslaApi.Contract.Vehicle.Commands.Charging;
 using TeslaApi.Contract.Vehicle.Commands.Climate;
 using TeslaApi.Contract.Vehicle.Commands.Doors;
@@ -80,5 +81,6 @@ namespace TeslaApi.Vehicle.Abstractions
         Task<SharingResponse> ShareToVehicle(string id, SharingRequest request, string token);
         Task<SoftwareUpdatesResponse> ScheduleSoftwareUupdate(string id, ScheduleSoftwareUpdateRequest request, string token);
         Task<SoftwareUpdatesResponse> CancelSoftwareUpdate(string id, string token);
+        Task<CalendarSyncResponse> CalendarSync(string id, string token);
     }
 }
