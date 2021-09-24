@@ -14,7 +14,7 @@ namespace TeslaApi.Contract
                 PropertyNameCaseInsensitive = true,
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             };
-            json_setting.Converters.Add(new CustomJsonStringEnumConverter());   
+            json_setting.Converters.Add(new CustomJsonStringEnumConverter());
             //json_setting.Converters.Add(new JsonStringEnumConverter());
             json_setting.Converters.Add(new Int32NullConverter());
             json_setting.Converters.Add(new BoolNullConverter());
