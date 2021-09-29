@@ -3,6 +3,7 @@ public class AuthenticationOptions
 {
     public string AuthCodeEndPoint { get; set; } = "https://auth.tesla.com/oauth2/v3/authorize";
     public string BearerTokenEndPoint { get; set; } = "https://auth.tesla.cn/oauth2/v3/token";
+    public string RefreshTokenEndPoint { get; set; } = "https://auth.tesla.cn/oauth2/v3/token";
     public string AccessTokenEndPoint { get; set; } = "https://owner-api.teslamotors.com/oauth/token";
     public string AuthClientId { get; set; } = "ownerapi";
     public string AuthRedirectUri { get; set; } = "https://auth.tesla.com/void/callback";

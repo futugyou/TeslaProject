@@ -11,6 +11,7 @@ namespace TeslaApi.Authentication.Abstractions
     {
         Task<string> GetAuthorizeEndPoint(AuthorizeEndPointRequest request);
         Task<BearerTokenResponse> GetBearerToken(BearerTokenRequest request);
+        Task<RefreshBearerTokenResponse> RefreshBearerToken(RefreshBearerTokenRequest request);
         Task<AccessTokenResponse> GetAccessToken(AccessTokenRequest request, string bearerToken);
     }
 }

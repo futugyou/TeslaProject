@@ -34,6 +34,7 @@ public static class DependencyInjectionExtensions
         }
         services.Configure<AuthenticationOptions>(configuration.GetSection(TESLA_AUTH_OPTION_KEY));
         services.Configure<VehicleOptions>(configuration.GetSection(TESLA_VEHICLE_OPTION_KEY));
+        services.AddTransient<AuthHeaderHandler>();
 
         services.AddHttpClient(TeslaApiConst.TESLA_HTTPCLIENT_NAME);
 

@@ -24,11 +24,6 @@ namespace TeslaApi.Authentication
             httpClient = clientFactory.CreateClient(TeslaApiConst.TESLA_HTTPCLIENT_NAME);
         }
 
-        public async Task<AccessTokenResponse> GetAccessToken(AccessTokenRequest request, string bearerToken)
-        {
-            return await httpClient.UtilsPostAsync<AccessTokenRequest, AccessTokenResponse>(request, _options.AccessTokenEndPoint, bearerToken);
-        }
-
         public Task<string> GetAuthorizeEndPoint(AuthorizeEndPointRequest request)
         {
             return Task.FromResult(_options.AuthCodeEndPoint + "?" + request.ConverToUri());
@@ -37,6 +32,16 @@ namespace TeslaApi.Authentication
         public async Task<BearerTokenResponse> GetBearerToken(BearerTokenRequest request)
         {
             return await httpClient.UtilsPostAsync<BearerTokenRequest, BearerTokenResponse>(request, _options.BearerTokenEndPoint);
+        }
+
+        public async Task<RefreshBearerTokenResponse> RefreshBearerToken(RefreshBearerTokenRequest request)
+        {
+            return await httpClient.UtilsPostAsync<RefreshBearerTokenRequest, RefreshBearerTokenResponse>(request, _options.RefreshTokenEndPoint);
+        }
+
+        public async Task<AccessTokenResponse> GetAccessToken(AccessTokenRequest request, string bearerToken)
+        {
+            return await httpClient.UtilsPostAsync<AccessTokenRequest, AccessTokenResponse>(request, _options.AccessTokenEndPoint, bearerToken);
         }
     }
 }
