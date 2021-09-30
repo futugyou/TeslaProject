@@ -27,7 +27,7 @@ namespace TeslaApi.Vehicle
             clientFactory = clientFactory ?? throw new ArgumentNullException(nameof(clientFactory));
 
             _options = options.CurrentValue;
-            httpClient = clientFactory.CreateClient(TeslaApiConst.TESLA_HTTPCLIENT_NAME);
+            httpClient = clientFactory.CreateClient(TeslaApiConst.TESLA_SERVICE_HTTPCLIENT_NAME);
             httpClient.BaseAddress = new Uri(_options.TeslaBaseUrl);
         }
         public async Task<OnboardingExperienceResponse> GeOnboardingExperience(int id, string token)

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using TeslaApi.Vehicle;
 using TeslaApi.Vehicle.Abstractions;
 using TeslaApi.Authentication;
@@ -36,7 +37,23 @@ public static class DependencyInjectionExtensions
         services.Configure<VehicleOptions>(configuration.GetSection(TESLA_VEHICLE_OPTION_KEY));
         services.AddTransient<AuthHeaderHandler>();
 
-        services.AddHttpClient(TeslaApiConst.TESLA_HTTPCLIENT_NAME);
+        services.AddHttpClient(TeslaApiConst.TESLA_AUTH_HTTPCLIENT_NAME, (sp, client) =>
+        {
+
+        });
+
+        services.AddHttpClient(TeslaApiConst.TESLA_SERVICE_HTTPCLIENT_NAME, (sp, client) =>
+        {
+            var _optionsMonitor = sp.GetRequiredService<IOptionsMonitor<VehicleOptions>>();
+            var _options = _optionsMonitor.CurrentValue;
+            if (_options == null)
+            {
+                throw new ArgumentNullException(nameof(VehicleOptions));
+            }
+            client.BaseAddress = new Uri(_options.TeslaBaseUrl);
+        });
+        // TODO wait for token readly
+        //.AddHttpMessageHandler<AuthHeaderHandler>();
 
         services.AddScoped<ITeslaAuthentication, TeslaAuthentication>();
         services.AddScoped<IVehicleCommand, VehicleCommand>();

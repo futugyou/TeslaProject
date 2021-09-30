@@ -1,22 +1,18 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using TeslaApi.Vehicle;
 using TeslaApi.Vehicle.Abstractions;
 using TeslaApi.Authentication;
 using TeslaApi.Authentication.Abstractions;
 using TeslaApi.Contract;
-using Microsoft.Extensions.Logging;
+using System.Net.Http.Headers;
 
 namespace TeslaApi.Extensions.DependencyInjection;
 
 public class AuthHeaderHandler : DelegatingHandler
 {
     private readonly ILogger<AuthHeaderHandler> _logger;
-
-    private const string RequestSourceHeaderName = "Request-Source";
-    private const string RequestSource = "HttpClientFactorySampleApp";
-    private const string RequestIdHeaderName = "Request-Identifier";
-
     public AuthHeaderHandler(ILogger<AuthHeaderHandler> logger)
     {
         _logger = logger;
@@ -27,10 +23,9 @@ public class AuthHeaderHandler : DelegatingHandler
     {
         if (request.Headers.Authorization == null)
         {
-
+            var token = "";// TODO Get token
+            request.Headers.Authorization = new AuthenticationHeaderValue(TeslaApiConst.TESLA_Authorization_Type, token);
         }
-        request.Headers.Add(RequestSourceHeaderName, RequestSource); 
-
         return base.SendAsync(request, cancellationToken);
     }
 }

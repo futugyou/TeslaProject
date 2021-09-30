@@ -21,7 +21,7 @@ namespace TeslaApi.Authentication
             clientFactory = clientFactory ?? throw new ArgumentNullException(nameof(clientFactory));
 
             _options = options.CurrentValue;
-            httpClient = clientFactory.CreateClient(TeslaApiConst.TESLA_HTTPCLIENT_NAME);
+            httpClient = clientFactory.CreateClient(TeslaApiConst.TESLA_AUTH_HTTPCLIENT_NAME);
         }
 
         public Task<string> GetAuthorizeEndPoint(AuthorizeEndPointRequest request)
