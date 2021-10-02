@@ -1,11 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using TeslaApi.Vehicle;
-using TeslaApi.Vehicle.Abstractions;
 using TeslaApi.Authentication;
 using TeslaApi.Authentication.Abstractions;
 using TeslaApi.Contract;
+using TeslaApi.Storage;
+using TeslaApi.Storage.Abstractions;
+using TeslaApi.Vehicle;
+using TeslaApi.Vehicle.Abstractions;
 
 namespace TeslaApi.Extensions.DependencyInjection;
 public static class DependencyInjectionExtensions
@@ -59,6 +61,7 @@ public static class DependencyInjectionExtensions
         services.AddScoped<IVehicleCommand, VehicleCommand>();
         services.AddScoped<IVehicleState, VehicleState>();
         services.AddScoped<IVehicleUser, VehicleUser>();
+        services.AddScoped<ITeslaUserAuthInfoRepository, DefaultTeslaUserAuthInfoRepository>();
         return services;
     }
 }

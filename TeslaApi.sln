@@ -3,6 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CD187F8A-CBB1-4178-A061-A021479B3A19}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeslaApi.Contract", "TeslaApi.Contract\TeslaApi.Contract.csproj", "{B5B385DB-7007-4CCF-BD46-95FDC1CB1CBB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeslaApi.Authentication.Abstractions", "TeslaApi.Authentication.Abstractions\TeslaApi.Authentication.Abstractions.csproj", "{E6B67D5E-A977-4498-9E42-5554D5C16E7E}"
@@ -13,12 +18,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeslaApi.Vehicle", "TeslaAp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeslaApi.Vehicle.Abstractions", "TeslaApi.Vehicle.Abstractions\TeslaApi.Vehicle.Abstractions.csproj", "{BE5B1104-4DB9-4703-9CD7-1921684B8815}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CD187F8A-CBB1-4178-A061-A021479B3A19}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeslaApi.Extensions.DependencyInjection", "TeslaApi.Extensions.DependencyInjection\TeslaApi.Extensions.DependencyInjection.csproj", "{CEDA245A-FC4D-48A1-A900-56BA79B3E3B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeslaApi.Storage", "TeslaApi.Storage\TeslaApi.Storage.csproj", "{C30C9464-56C5-4092-8EDE-E9ABBFBD0BC5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeslaApi.Storage.Abstractions", "TeslaApi.Storage.Abstractions\TeslaApi.Storage.Abstractions.csproj", "{1DD17808-CBBD-4347-ABBA-5C6F43384FD3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,6 +54,14 @@ Global
 		{CEDA245A-FC4D-48A1-A900-56BA79B3E3B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CEDA245A-FC4D-48A1-A900-56BA79B3E3B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CEDA245A-FC4D-48A1-A900-56BA79B3E3B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C30C9464-56C5-4092-8EDE-E9ABBFBD0BC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C30C9464-56C5-4092-8EDE-E9ABBFBD0BC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C30C9464-56C5-4092-8EDE-E9ABBFBD0BC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C30C9464-56C5-4092-8EDE-E9ABBFBD0BC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DD17808-CBBD-4347-ABBA-5C6F43384FD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DD17808-CBBD-4347-ABBA-5C6F43384FD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DD17808-CBBD-4347-ABBA-5C6F43384FD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DD17808-CBBD-4347-ABBA-5C6F43384FD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
