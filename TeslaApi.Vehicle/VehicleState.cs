@@ -16,6 +16,7 @@ using TeslaApi.Contract.Vehicle.Vehicles;
 using TeslaApi.Vehicle.Abstractions;
 
 namespace TeslaApi.Vehicle;
+
 public class VehicleState : IVehicleState
 {
     private readonly ILogger<VehicleState> _logger;

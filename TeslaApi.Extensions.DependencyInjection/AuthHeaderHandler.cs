@@ -1,11 +1,5 @@
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using TeslaApi.Authentication;
-using TeslaApi.Authentication.Abstractions;
 using TeslaApi.Contract;
-using TeslaApi.Vehicle;
-using TeslaApi.Vehicle.Abstractions;
 using TeslaApi.Storage.Abstractions;
 using System.Net.Http.Headers;
 

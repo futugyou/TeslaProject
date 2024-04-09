@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿namespace TeslaApi.Contract.Vehicle.Commands.Alerts;
 
-namespace TeslaApi.Contract.Vehicle.Commands.Alerts
+public class AlertsResponse: CommandResponse
 {
-    public class AlertsResponse: CommandResponse
-    {
-    }
 }

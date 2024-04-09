@@ -1,4 +1,5 @@
 ﻿namespace TeslaApi.Authentication.Abstractions;
+
 public class AuthenticationOptions
 {
     public string AuthCodeEndPoint { get; set; } = "https://auth.tesla.com/oauth2/v3/authorize";

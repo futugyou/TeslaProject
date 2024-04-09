@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
-namespace TeslaApi.Contract.Vehicle.State.DriveState
+namespace TeslaApi.Contract.Vehicle.State.DriveState;
+
+public class DriveStateResponse : ResponseBase
 {
-    public class DriveStateResponse : ResponseBase
-    {
-        [JsonPropertyName("response")]
-        public DriveStateDetail Response { get; set; }
-    }
+    [JsonPropertyName("response")]
+    public DriveStateDetail Response { get; set; }
 }

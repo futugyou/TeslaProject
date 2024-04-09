@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace TeslaApi.Contract.Vehicle.Commands.FrunkTrunk;
 
-namespace TeslaApi.Contract.Vehicle.Commands.FrunkTrunk
+public class FrunkTrunkResponse : CommandResponse
 {
-    public class FrunkTrunkResponse : CommandResponse
-    {
-    }
 }

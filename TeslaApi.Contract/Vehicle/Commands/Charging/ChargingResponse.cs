@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace TeslaApi.Contract.Vehicle.Commands.Charging;
 
-namespace TeslaApi.Contract.Vehicle.Commands.Charging
+public class ChargingResponse : CommandResponse
 {
-    public class ChargingResponse : CommandResponse
-    {
-    }
 }

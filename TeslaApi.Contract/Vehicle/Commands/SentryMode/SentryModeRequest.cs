@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
-namespace TeslaApi.Contract.Vehicle.Commands.SentryMode
+namespace TeslaApi.Contract.Vehicle.Commands.SentryMode;
+
+public  class SentryModeRequest
 {
-  public  class SentryModeRequest
-    {
-        [JsonPropertyName("on")]
-        public bool On { get; set; }
-    }
+    [JsonPropertyName("on")]
+    public bool On { get; set; }
 }

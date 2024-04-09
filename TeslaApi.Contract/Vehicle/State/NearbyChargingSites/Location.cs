@@ -1,12 +1,11 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace TeslaApi.Contract.Vehicle.State.NearbyChargingSites
+namespace TeslaApi.Contract.Vehicle.State.NearbyChargingSites;
+
+public class Location
 {
-    public class Location
-    {
-        [JsonPropertyName("lat")]
-        public float Lat { get; set; }
-        [JsonPropertyName("long")]
-        public float Long { get; set; }
-    }
+    [JsonPropertyName("lat")]
+    public float Lat { get; set; }
+    [JsonPropertyName("long")]
+    public float Long { get; set; }
 }

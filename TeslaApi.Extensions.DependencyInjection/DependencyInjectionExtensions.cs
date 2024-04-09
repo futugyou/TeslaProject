@@ -10,6 +10,7 @@ using TeslaApi.Vehicle;
 using TeslaApi.Vehicle.Abstractions;
 
 namespace TeslaApi.Extensions.DependencyInjection;
+
 public static class DependencyInjectionExtensions
 {
     public static readonly string TESLA_AUTH_OPTION_KEY = "TeslaAuth";
