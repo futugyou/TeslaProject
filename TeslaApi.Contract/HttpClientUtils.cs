@@ -22,7 +22,7 @@ public static class HttpClientUtils
     public static async Task<Response> UtilsPostAsync<Response>(this HttpClient httpClient, string path, string token)
     {
         return await httpClient.UtilsPostAsync<NullClass, Response>(null, path, token);
-    } 
+    }
     public static async Task<Response> UtilsPostAsync<Request, Response>(this HttpClient httpClient, Request? request, string path, string token)
     {
         HttpContent? content = default;
@@ -52,7 +52,6 @@ public static class HttpClientUtils
             throw;
         }
     }
-
 
     public static async Task<Response> UtilsGetAsync<Response>(this HttpClient httpClient, string path)
     {

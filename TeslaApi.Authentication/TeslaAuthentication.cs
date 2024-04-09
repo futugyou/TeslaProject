@@ -8,15 +8,13 @@ namespace TeslaApi.Authentication;
 
 public class TeslaAuthentication : ITeslaAuthentication
 {
-    private readonly ILogger<TeslaAuthentication> _logger;
     private readonly AuthenticationOptions _options;
     private readonly HttpClient httpClient;
 
-    public TeslaAuthentication(ILogger<TeslaAuthentication> logger,
+    public TeslaAuthentication(
         IOptionsMonitor<AuthenticationOptions> options,
         IHttpClientFactory clientFactory)
     {
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         options = options ?? throw new ArgumentNullException(nameof(options));
         clientFactory = clientFactory ?? throw new ArgumentNullException(nameof(clientFactory));
 
@@ -29,18 +27,13 @@ public class TeslaAuthentication : ITeslaAuthentication
         return Task.FromResult(_options.AuthCodeEndPoint + "?" + request.ConverToUri());
     }
 
-    public async Task<BearerTokenResponse> GetBearerToken(BearerTokenRequest request)
+    public Task<AccessTokenResponse> GetAccessToken(AccessTokenRequest request)
     {
-        return await httpClient.UtilsPostAsync<BearerTokenRequest, BearerTokenResponse>(request, _options.BearerTokenEndPoint);
+        return httpClient.UtilsPostAsync<AccessTokenRequest, AccessTokenResponse>(request, _options.AccessTokenEndPoint);
     }
 
-    public async Task<RefreshBearerTokenResponse> RefreshBearerToken(RefreshBearerTokenRequest request)
+    public Task<AccessTokenResponse> RefreshBearerToken(RefreshTokenRequest request)
     {
-        return await httpClient.UtilsPostAsync<RefreshBearerTokenRequest, RefreshBearerTokenResponse>(request, _options.RefreshTokenEndPoint);
-    }
-
-    public async Task<AccessTokenResponse> GetAccessToken(AccessTokenRequest request, string bearerToken)
-    {
-        return await httpClient.UtilsPostAsync<AccessTokenRequest, AccessTokenResponse>(request, _options.AccessTokenEndPoint, bearerToken);
+        return httpClient.UtilsPostAsync<RefreshTokenRequest, AccessTokenResponse>(request, _options.RefreshTokenEndPoint);
     }
 }
