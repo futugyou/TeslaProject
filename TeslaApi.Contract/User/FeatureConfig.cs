@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace TeslaApi.Contract.User;
 
-public class FeatureConfigReponse : ResponseBase
+public class FeatureConfigResponse : ResponseBase
 {
     [JsonPropertyName("signaling")]
     public Signaling Signaling { get; set; }
