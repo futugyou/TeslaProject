@@ -61,7 +61,6 @@ public static class DependencyInjectionExtensions
         services.AddScoped<ITeslaAuthentication, TeslaAuthentication>();
         services.AddScoped<IVehicleCommand, VehicleCommand>();
         services.AddScoped<IVehicleState, VehicleState>();
-        services.AddScoped<IVehicleUser, VehicleUser>();
         services.AddScoped<ITeslaUserAuthInfoRepository, DefaultTeslaUserAuthInfoRepository>();
         return services;
     }

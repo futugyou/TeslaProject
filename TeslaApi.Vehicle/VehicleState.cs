@@ -3,15 +3,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using TeslaApi.Contract;
 using TeslaApi.Contract.Vehicle.Products;
-using TeslaApi.Contract.Vehicle.State.ChargeState;
-using TeslaApi.Contract.Vehicle.State.ClimateState;
 using TeslaApi.Contract.Vehicle.State.Data;
-using TeslaApi.Contract.Vehicle.State.DriveState;
-using TeslaApi.Contract.Vehicle.State.GUISettings;
 using TeslaApi.Contract.Vehicle.State.MobileEnabled;
 using TeslaApi.Contract.Vehicle.State.NearbyChargingSites;
-using TeslaApi.Contract.Vehicle.State.VehicleConfig;
-using TeslaApi.Contract.Vehicle.State.VehicleState;
 using TeslaApi.Contract.Vehicle.Vehicles;
 using TeslaApi.Vehicle.Abstractions;
 
@@ -54,18 +48,6 @@ public class VehicleState : IVehicleState
         return await httpClient.UtilsGetAsync<VehiclesResponse>(url, token);
     }
 
-    public async Task<ChargeStateResponse> GetVehicleChargeState(string id, string token)
-    {
-        var url = string.Format(_options.ChargeState, id);
-        return await httpClient.UtilsGetAsync<ChargeStateResponse>(url, token);
-    }
-
-    public async Task<ClimateStateResponse> GetVehicleClimateState(string id, string token)
-    {
-        var url = string.Format(_options.ClimateState, id);
-        return await httpClient.UtilsGetAsync<ClimateStateResponse>(url, token);
-    }
-
     public async Task<VehicleStateDataResponse> GetVehicleData(string id, string token)
     {
         var url = string.Format(_options.VehicleData, id);
@@ -76,30 +58,6 @@ public class VehicleState : IVehicleState
     {
         var url = string.Format(_options.VehicleDataLegacy, id);
         return await httpClient.UtilsGetAsync<VehicleDataLegacyResponse>(url, token);
-    }
-
-    public async Task<DriveStateResponse> GetVehicleDriveState(string id, string token)
-    {
-        var url = string.Format(_options.DriveState, id);
-        return await httpClient.UtilsGetAsync<DriveStateResponse>(url, token);
-    }
-
-    public async Task<GUISettingsResponse> GetVehicleGuiSettings(string id, string token)
-    {
-        var url = string.Format(_options.GuiSettings, id);
-        return await httpClient.UtilsGetAsync<GUISettingsResponse>(url, token);
-    }
-
-    public async Task<VehicleStateResponse> GetVehicleState(string id, string token)
-    {
-        var url = string.Format(_options.VehicleState, id);
-        return await httpClient.UtilsGetAsync<VehicleStateResponse>(url, token);
-    }
-
-    public async Task<VehicleConfigResponse> GetVehicleConfig(string id, string token)
-    {
-        var url = string.Format(_options.VehicleConfig, id);
-        return await httpClient.UtilsGetAsync<VehicleConfigResponse>(url, token);
     }
 
     public async Task<MobileEnabledResponse> GetVehicleMobileEnabled(string id, string token)

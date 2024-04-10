@@ -1,5 +1,4 @@
 ﻿using TeslaApi.Contract.Vehicle.Commands.Alerts;
-using TeslaApi.Contract.Vehicle.Commands.Calendar;
 using TeslaApi.Contract.Vehicle.Commands.Charging;
 using TeslaApi.Contract.Vehicle.Commands.Climate;
 using TeslaApi.Contract.Vehicle.Commands.Doors;
@@ -44,6 +43,7 @@ public interface IVehicleCommand
     Task<FrunkTrunkResponse> ActuateTrunk(string id, FrunkTrunkRequest request, string token);
     Task<WindowsResponse> WindowControl(string id, WindowsRequest request, string token);
     Task<SunroofResponse> SunRoofControl(string id, SunroofRequest request, string token);
+
     Task<ChargingResponse> ChargePortDoorOpen(string id, string token);
     Task<ChargingResponse> ChargePortDoorClose(string id, string token);
     Task<ChargingResponse> ChargeStart(string id, string token);
@@ -51,13 +51,22 @@ public interface IVehicleCommand
     Task<ChargingResponse> ChargeStandard(string id, string token);
     Task<ChargingResponse> ChargeMaxRange(string id, string token);
     Task<ChargingResponse> SetChargeLimit(string id, ChargingRequest request, string token);
+    Task<ChargingResponse> SetChargingAmps(string id, SetChargingAmpsRequest request, string token);
+    Task<ChargingResponse> SetScheduledCharging(string id, SetScheduledChargingRequest request, string token);
+    Task<ChargingResponse> SetScheduledDeparture(string id, SetScheduledDepartureRequest request, string token);
+
     Task<ClimateResponse> AutoConditioningStart(string id, string token);
     Task<ClimateResponse> AutoConditioningStop(string id, string token);
     Task<ClimateResponse> SetTemps(string id, SetTempsRequest request, string token);
     Task<ClimateResponse> SetPreconditioningMax(string id, SetPreconditioningMaxRequest request, string token);
     Task<ClimateResponse> RemoteSeatHeater(string id, RemoteSeatHeaterRequest request, string token);
+    Task<ClimateResponse> RemoteSeatCooler(string id, RemoteSeatCoolerRequest request, string token);
     Task<ClimateResponse> RemoteSteeringWheelHeater(string id, RemoteSteeringWheelHeaterRequest request, string token);
-
+    Task<ClimateResponse> SetBioweaponMode(string id, SetBioweaponModeRequest request, string token);
+    Task<ClimateResponse> SetClimateKeeperMode(string id, SetClimateKeeperModeRequest request, string token);
+    Task<ClimateResponse> RemoteAutoSeatClimate(string id, RemoteAutoSeatClimateRequest request, string token);
+    Task<ClimateResponse> SetCopTemp(string id, SetCopTempRequest request, string token);
+    Task<ClimateResponse> SetCabinOverheatProtection(string id, SetCabinOverheatProtectionRequest request, string token);
 
     Task<MediaResponse> MediaTogglePlayback(string id, string token);
     Task<MediaResponse> MediaNextTrack(string id, string token);
@@ -66,6 +75,7 @@ public interface IVehicleCommand
     Task<MediaResponse> MediaPrevFav(string id, string token);
     Task<MediaResponse> MediaVolumeUp(string id, string token);
     Task<MediaResponse> MediaVolumeDown(string id, string token);
+    Task<MediaResponse> AdjustVolume(string id, AdjustVolumeRequest request, string token);
     /// <summary>
     /// no tested
     /// </summary>
@@ -75,6 +85,5 @@ public interface IVehicleCommand
     /// <returns></returns>
     Task<SharingResponse> ShareToVehicle(string id, SharingRequest request, string token);
     Task<SoftwareUpdatesResponse> ScheduleSoftwareUupdate(string id, ScheduleSoftwareUpdateRequest request, string token);
-    Task<SoftwareUpdatesResponse> CancelSoftwareUpdate(string id, string token);
-    Task<CalendarSyncResponse> CalendarSync(string id, string token);
+    Task<SoftwareUpdatesResponse> CancelSoftwareUpdate(string id, string token); 
 }

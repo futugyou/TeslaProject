@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using TeslaApi.Authentication.Abstractions;
 using TeslaApi.Contract;
 using TeslaApi.Contract.Authentication;

@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Options;
 using TeslaApi.Contract;
 using TeslaApi.Contract.Vehicle.Commands.Alerts;
-using TeslaApi.Contract.Vehicle.Commands.Calendar;
 using TeslaApi.Contract.Vehicle.Commands.Charging;
 using TeslaApi.Contract.Vehicle.Commands.Climate;
 using TeslaApi.Contract.Vehicle.Commands.Doors;
@@ -185,6 +184,24 @@ public class VehicleCommand : IVehicleCommand
         return await httpClient.UtilsPostAsync<ChargingRequest, ChargingResponse>(request, url, token);
     }
 
+    public Task<ChargingResponse> SetChargingAmps(string id, SetChargingAmpsRequest request, string token)
+    {
+        var url = string.Format(_options.SetChargingAmps, id);
+        return httpClient.UtilsPostAsync<SetChargingAmpsRequest, ChargingResponse>(request, url, token);
+    }
+
+    public Task<ChargingResponse> SetScheduledCharging(string id, SetScheduledChargingRequest request, string token)
+    {
+        var url = string.Format(_options.SetScheduledCharging, id);
+        return httpClient.UtilsPostAsync<SetScheduledChargingRequest, ChargingResponse>(request, url, token);
+    }
+
+    public Task<ChargingResponse> SetScheduledDeparture(string id, SetScheduledDepartureRequest request, string token)
+    {
+        var url = string.Format(_options.SetScheduledDeparture, id);
+        return httpClient.UtilsPostAsync<SetScheduledDepartureRequest, ChargingResponse>(request, url, token);
+    }
+
     public async Task<ClimateResponse> AutoConditioningStart(string id, string token)
     {
         var url = string.Format(_options.ClimateOn, id);
@@ -211,14 +228,50 @@ public class VehicleCommand : IVehicleCommand
 
     public async Task<ClimateResponse> RemoteSeatHeater(string id, RemoteSeatHeaterRequest request, string token)
     {
-        var url = string.Format(_options.RemoteSeatHeaterRequest, id);
+        var url = string.Format(_options.RemoteSeatHeater, id);
         return await httpClient.UtilsPostAsync<RemoteSeatHeaterRequest, ClimateResponse>(request, url, token);
+    }
+
+    public Task<ClimateResponse> RemoteSeatCooler(string id, RemoteSeatCoolerRequest request, string token)
+    {
+        var url = string.Format(_options.RemoteSeatCooler, id);
+        return httpClient.UtilsPostAsync<RemoteSeatCoolerRequest, ClimateResponse>(request, url, token);
+    }
+
+    public Task<ClimateResponse> SetBioweaponMode(string id, SetBioweaponModeRequest request, string token)
+    {
+        var url = string.Format(_options.SetBioweaponMode, id);
+        return httpClient.UtilsPostAsync<SetBioweaponModeRequest, ClimateResponse>(request, url, token);
+    }
+
+    public Task<ClimateResponse> SetClimateKeeperMode(string id, SetClimateKeeperModeRequest request, string token)
+    {
+        var url = string.Format(_options.SetClimateKeeperMode, id);
+        return httpClient.UtilsPostAsync<SetClimateKeeperModeRequest, ClimateResponse>(request, url, token);
     }
 
     public async Task<ClimateResponse> RemoteSteeringWheelHeater(string id, RemoteSteeringWheelHeaterRequest request, string token)
     {
-        var url = string.Format(_options.RemoteSteeringWheelHeaterRequest, id);
+        var url = string.Format(_options.RemoteSteeringWheelHeater, id);
         return await httpClient.UtilsPostAsync<RemoteSteeringWheelHeaterRequest, ClimateResponse>(request, url, token);
+    }
+
+    public Task<ClimateResponse> RemoteAutoSeatClimate(string id, RemoteAutoSeatClimateRequest request, string token)
+    {
+        var url = string.Format(_options.RemoteAutoSeatClimate, id);
+        return httpClient.UtilsPostAsync<RemoteAutoSeatClimateRequest, ClimateResponse>(request, url, token);
+    }
+
+    public Task<ClimateResponse> SetCopTemp(string id, SetCopTempRequest request, string token)
+    {
+        var url = string.Format(_options.SetCopTemp, id);
+        return httpClient.UtilsPostAsync<SetCopTempRequest, ClimateResponse>(request, url, token);
+    }
+
+    public Task<ClimateResponse> SetCabinOverheatProtection(string id, SetCabinOverheatProtectionRequest request, string token)
+    {
+        var url = string.Format(_options.SetCabinOverheatProtection, id);
+        return httpClient.UtilsPostAsync<SetCabinOverheatProtectionRequest, ClimateResponse>(request, url, token);
     }
 
     public async Task<MediaResponse> MediaTogglePlayback(string id, string token)
@@ -263,6 +316,12 @@ public class VehicleCommand : IVehicleCommand
         return await httpClient.UtilsPostAsync<MediaResponse>(url, token);
     }
 
+    public Task<MediaResponse> AdjustVolume(string id, AdjustVolumeRequest request, string token)
+    {
+        var url = string.Format(_options.AdjustVolume, id);
+        return httpClient.UtilsPostAsync<AdjustVolumeRequest, MediaResponse>(request, url, token);
+    }
+
 
     public async Task<SharingResponse> ShareToVehicle(string id, SharingRequest request, string token)
     {
@@ -281,10 +340,5 @@ public class VehicleCommand : IVehicleCommand
         var url = string.Format(_options.CancelSoftwareUpdate, id);
         return await httpClient.UtilsPostAsync<SoftwareUpdatesResponse>(url, token);
     }
-
-    public async Task<CalendarSyncResponse> CalendarSync(string id, string token)
-    {
-        var url = string.Format(_options.CalendarSync, id);
-        return await httpClient.UtilsPostAsync<CalendarSyncResponse>(url, token);
-    }
+ 
 }
