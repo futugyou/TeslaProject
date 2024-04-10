@@ -16,10 +16,10 @@ public class VehicleOptions
     public string DriveState { get; set; } = "/api/1/vehicles/{0}/data_request/drive_state";
     public string GuiSettings { get; set; } = "/api/1/vehicles/{0}/data_request/gui_settings";
     public string VehicleState { get; set; } = "/api/1/vehicles/{0}/data_request/vehicle_state";
-    public string VehicleConfig { get; set; } = "/api/1/vehicles/{0}/data_request/vehicle_config";
-    public string VehicleServiceData { get; set; } = "api/1/vehicles/{0}/service_data";
+    public string VehicleConfig { get; set; } = "/api/1/vehicles/{0}/data_request/vehicle_config"; 
     public string MobileEnabled { get; set; } = "api/1/vehicles/{0}/mobile_enabled";
     public string NearbyChargingSites { get; set; } = "api/1/vehicles/{0}/nearby_charging_sites";
+    public string ReleaseNotes { get; set; } = "api/1/vehicles/{0}/release_notes";
     public string WakeUp { get; set; } = "api/1/vehicles/{0}/wake_up";
     public string Unlock { get; set; } = "api/1/vehicles/{0}/command/door_unlock";
     public string Lock { get; set; } = "api/1/vehicles/{0}/command/door_lock";
