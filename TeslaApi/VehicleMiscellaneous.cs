@@ -1,9 +1,9 @@
 using Microsoft.Extensions.Options;
 using TeslaApi.Contract;
 using TeslaApi.Contract.Vehicle.Miscellaneous;
-using TeslaApi.Vehicle.Abstractions;
+using TeslaApi.Abstractions;
 
-namespace TeslaApi.Vehicle;
+namespace TeslaApi;
 
 public class VehicleMiscellaneous : IVehicleMiscellaneous
 {

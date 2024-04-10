@@ -1,6 +1,6 @@
 using TeslaApi.Contract.User;
 
-namespace TeslaApi.User.Abstractions;
+namespace TeslaApi.Abstractions;
 
 public interface IUser
 {

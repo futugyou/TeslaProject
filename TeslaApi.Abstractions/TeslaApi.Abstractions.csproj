@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-	<ItemGroup>
+  <ItemGroup>
 		<ProjectReference Include="..\TeslaApi.Contract\TeslaApi.Contract.csproj" />
-	</ItemGroup>
+  </ItemGroup>
 </Project>

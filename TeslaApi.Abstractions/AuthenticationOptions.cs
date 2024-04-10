@@ -1,4 +1,4 @@
-﻿namespace TeslaApi.Authentication.Abstractions;
+﻿namespace TeslaApi.Abstractions;
 
 public class AuthenticationOptions
 {

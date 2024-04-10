@@ -1,4 +1,4 @@
-﻿namespace TeslaApi.Vehicle.Abstractions;
+﻿namespace TeslaApi.Abstractions;
 
 public class VehicleOptions
 {

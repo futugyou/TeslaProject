@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Options;
 using TeslaApi.Contract;
 using TeslaApi.Contract.User;
-using TeslaApi.User.Abstractions;
+using TeslaApi.Abstractions;
 
-namespace TeslaApi.User;
+namespace TeslaApi;
 
 public class User : IUser
 {

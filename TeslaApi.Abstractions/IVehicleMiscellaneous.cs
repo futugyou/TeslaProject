@@ -1,6 +1,6 @@
-
-
 using TeslaApi.Contract.Vehicle.Miscellaneous;
+
+namespace TeslaApi.Abstractions;
 
 public interface IVehicleMiscellaneous
 {

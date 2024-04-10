@@ -13,8 +13,7 @@
 	</ItemGroup>
 
   <ItemGroup>
-		<ProjectReference Include="..\TeslaApi.Vehicle\TeslaApi.Vehicle.csproj" />
-		<ProjectReference Include="..\TeslaApi.Authentication\TeslaApi.Authentication.csproj" />
+		<ProjectReference Include="..\TeslaApi\TeslaApi.csproj" />
 		<ProjectReference Include="..\TeslaApi.Storage\TeslaApi.Storage.csproj" />
 	</ItemGroup>
 </Project>

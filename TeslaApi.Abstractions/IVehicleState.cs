@@ -5,7 +5,7 @@ using TeslaApi.Contract.Vehicle.State.MobileEnabled;
 using TeslaApi.Contract.Vehicle.State.NearbyChargingSites;
 using TeslaApi.Contract.Vehicle.Vehicles;
 
-namespace TeslaApi.Vehicle.Abstractions;
+namespace TeslaApi.Abstractions;
 
 public interface IVehicleState
 {

@@ -15,7 +15,7 @@ using TeslaApi.Contract.Vehicle.Commands.ValetMode;
 using TeslaApi.Contract.Vehicle.Commands.Wake;
 using TeslaApi.Contract.Vehicle.Commands.Windows;
 
-namespace TeslaApi.Vehicle.Abstractions;
+namespace TeslaApi.Abstractions;
 
 public interface IVehicleCommand
 {

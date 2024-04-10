@@ -17,9 +17,9 @@ using TeslaApi.Contract.Vehicle.Commands.Sunroof;
 using TeslaApi.Contract.Vehicle.Commands.ValetMode;
 using TeslaApi.Contract.Vehicle.Commands.Wake;
 using TeslaApi.Contract.Vehicle.Commands.Windows;
-using TeslaApi.Vehicle.Abstractions;
+using TeslaApi.Abstractions;
 
-namespace TeslaApi.Vehicle;
+namespace TeslaApi;
 
 public class VehicleCommand : IVehicleCommand
 {

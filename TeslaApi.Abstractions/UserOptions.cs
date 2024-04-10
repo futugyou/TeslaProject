@@ -1,4 +1,4 @@
-﻿namespace TeslaApi.User.Abstractions;
+﻿namespace TeslaApi.Abstractions;
 
 public class UserOptions
 {

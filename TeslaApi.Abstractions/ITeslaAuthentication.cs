@@ -1,6 +1,6 @@
 ﻿using TeslaApi.Contract.Authentication;
 
-namespace TeslaApi.Authentication.Abstractions;
+namespace TeslaApi.Abstractions;
 
 public interface ITeslaAuthentication
 {

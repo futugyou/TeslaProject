@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Options;
-using TeslaApi.Authentication.Abstractions;
+using TeslaApi.Abstractions;
 using TeslaApi.Contract;
 using TeslaApi.Contract.Authentication;
 
-namespace TeslaApi.Authentication;
+namespace TeslaApi;
 
 public class TeslaAuthentication : ITeslaAuthentication
 {
