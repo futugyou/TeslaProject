@@ -10,4 +10,6 @@ public class TeslaApiConst
     public static readonly string TESLA_AUTH_HTTPCLIENT_NAME = "teslaapi";
     public static readonly string TESLA_SERVICE_HTTPCLIENT_NAME = "teslaapi";
     public static readonly string TESLA_Authorization_Type = "Bearer";
+    public static readonly string TESLA_STREAM_URL = "wss://streaming.vn.teslamotors.com/streaming";
+   
 }

@@ -4,5 +4,8 @@ namespace TeslaApi.Abstractions;
 
 public interface ITeslaStream
 {
-    Task HandleMessage(TeslaStreamMessage message, CancellationToken cancellation); 
+    Task ReceiveAsync(CancellationToken cancellation = default);
+    Task StartAsync(CancellationToken cancellationToken = default);
+    Task StopAsync(CancellationToken cancellationToken = default);
+    Task SendAsync(TeslaStreamMessage message, CancellationToken cancellationToken = default);
 }
