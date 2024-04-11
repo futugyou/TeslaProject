@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.ComponentModel;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -51,7 +52,19 @@ public class JsonSerializerExtensions
             }
             else
             {
-                return baseConverter.CreateConverter(typeToConvert, options);
+                var query2 = from field in typeToConvert.GetFields(BindingFlags.Public | BindingFlags.Static)
+                             let attr = field.GetCustomAttribute<DescriptionAttribute>()
+                             where attr != null
+                             select (field.Name, attr.Description);
+                var dictionary2 = query2.ToDictionary(p => p.Item1, p => p.Item2);
+                if (dictionary2.Count > 0)
+                {
+                    return new JsonStringEnumConverter(new DictionaryLookupNamingPolicy(dictionary2, namingPolicy), allowIntegerValues).CreateConverter(typeToConvert, options);
+                }
+                else
+                {
+                    return baseConverter.CreateConverter(typeToConvert, options);
+                }
             }
         }
     }
