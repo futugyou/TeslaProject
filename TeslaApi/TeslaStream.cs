@@ -10,9 +10,9 @@ public class TeslaStream : ITeslaStream
 {
     private readonly ClientWebSocket _webSocket;
 
-    public TeslaStream(ClientWebSocket webSocket)
+    public TeslaStream()
     {
-        _webSocket = webSocket;
+        _webSocket = new ClientWebSocket();
     }
 
     public async Task StartAsync(CancellationToken cancellationToken = default)
@@ -56,7 +56,6 @@ public class TeslaStream : ITeslaStream
                 {
                     continue;
                 }
-
                 await HandleMessage(message, cancellation);
             }
         }
