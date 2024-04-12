@@ -9,7 +9,7 @@ public interface IBackgroundTaskQueue
 {
     ValueTask QueueBackgroundWorkItemAsync(Func<IServiceProvider, CancellationToken, object, ValueTask> workItem, object state);
 
-    ValueTask<(Func<IServiceProvider, CancellationToken, object, ValueTask>, object)> DequeueAsync(CancellationToken cancellationToken);
+    ValueTask<(Func<IServiceProvider, CancellationToken, object, ValueTask> function, object data)> DequeueAsync(CancellationToken cancellationToken);
 }
 
 public class BackgroundTaskQueue : IBackgroundTaskQueue
@@ -39,8 +39,6 @@ public class BackgroundTaskQueue : IBackgroundTaskQueue
 
     public async ValueTask<(Func<IServiceProvider, CancellationToken, object, ValueTask>, object)> DequeueAsync(CancellationToken cancellationToken)
     {
-        var workItem = await _queue.Reader.ReadAsync(cancellationToken);
-
-        return workItem;
+        return await _queue.Reader.ReadAsync(cancellationToken);
     }
 }

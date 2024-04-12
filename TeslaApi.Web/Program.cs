@@ -32,32 +32,19 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
 app.MapGet("/vehicle/{vid}", async ([FromServices] IBackgroundTaskQueue queue, int vid) =>
 {
     // TODO:check Vehicle state
-    StreamRequest rquest = new StreamRequest
+    StreamRequest rquest = new()
     {
         Vin = "fake-tag-1126116947848350",
         Token = "fake-token-DC.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmdfaWQiOjI5NTM3NjU3OTk0LCJqdGkiOjcyNTQ3OTY0NTUxNzgyMzEzNzJ9.LWi3JiOfc_wl54880fmwEUJzwwsKCI5xkO3EPlj40lM",
 
     };
-    // send queue
+    // send to queue
     await queue.QueueBackgroundWorkItemAsync(ConnectVehicleStream, rquest);
 
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
+    return 1;
 })
 .WithName("vehicle")
 .WithOpenApi();
@@ -71,25 +58,15 @@ static async ValueTask ConnectVehicleStream(IServiceProvider sp, CancellationTok
     var _logger = scope.ServiceProvider.GetRequiredService<ILogger<ITeslaStream>>();
     await teslaStream.StartAsync(stoppingToken);
 
-    if (!stoppingToken.IsCancellationRequested)
+    try
     {
-        try
-        {
-            StreamRequest rquest = (StreamRequest)state;
-            await teslaStream.ReceiveAsync(rquest, stoppingToken);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError("{Message}", ex.Message);
-            await teslaStream.StopAsync();
-        }
+        StreamRequest rquest = (StreamRequest)state;
+        await teslaStream.ReceiveAsync(rquest, stoppingToken);
+    }
+    catch (Exception ex)
+    {
+        _logger.LogError("{Message}", ex.Message);
     }
 
     await teslaStream.StopAsync(stoppingToken);
 }
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
-
