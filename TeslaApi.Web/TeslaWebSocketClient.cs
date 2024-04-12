@@ -1,5 +1,3 @@
-using TeslaApi.Abstractions;
-
 namespace TeslaApi.Web;
 
 public class TeslaWebSocketClient : BackgroundService
@@ -8,6 +6,12 @@ public class TeslaWebSocketClient : BackgroundService
     private readonly IServiceProvider _services;
     public IBackgroundTaskQueue TaskQueue { get; }
 
+    /// <summary>
+    /// Do not use it in product.
+    /// </summary>
+    /// <param name="logger"></param>
+    /// <param name="services"></param>
+    /// <param name="taskQueue"></param>
     public TeslaWebSocketClient(ILogger<TeslaWebSocketClient> logger, IServiceProvider services, IBackgroundTaskQueue taskQueue)
     {
         _logger = logger;
@@ -23,28 +27,6 @@ public class TeslaWebSocketClient : BackgroundService
             $"background queue.{Environment.NewLine}");
 
         await BackgroundProcessing(stoppingToken);
-        // using var scope = _services.CreateScope();
-        // var teslaStream = scope.ServiceProvider.GetRequiredService<ITeslaStream>();
-        // await teslaStream.StartAsync(stoppingToken);
-
-        // while (true)
-        // {
-        //     if (stoppingToken.IsCancellationRequested)
-        //     {
-        //         break;
-        //     }
-
-        //     try
-        //     {
-        //         await teslaStream.ReceiveAsync(stoppingToken);
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         _logger.LogError(ex.Message);
-        //     }
-        // }
-
-        // await teslaStream.StopAsync(stoppingToken);
     }
 
     private async Task BackgroundProcessing(CancellationToken stoppingToken)
@@ -52,12 +34,12 @@ public class TeslaWebSocketClient : BackgroundService
         while (!stoppingToken.IsCancellationRequested)
         {
             var workItem = await TaskQueue.DequeueAsync(_services, stoppingToken);
+            var timeoutToken = new CancellationTokenSource(10000).Token;
+            var cancellation = CancellationTokenSource.CreateLinkedTokenSource(stoppingToken, timeoutToken);
 
             try
             {
-                // this is used to test tesla stream api
-                // for product, we should start a SocketClient from frontend to save server resources
-                Task.Run(async () => await workItem(_services, stoppingToken));
+                Task.Run(async () => await workItem(_services, cancellation.Token));
             }
             catch (Exception ex)
             {
@@ -69,7 +51,6 @@ public class TeslaWebSocketClient : BackgroundService
     public override async Task StopAsync(CancellationToken stoppingToken)
     {
         _logger.LogInformation("Queued Hosted Service is stopping.");
-
         await base.StopAsync(stoppingToken);
     }
 }

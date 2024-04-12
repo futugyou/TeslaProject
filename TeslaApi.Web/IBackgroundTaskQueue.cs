@@ -27,14 +27,13 @@ public class BackgroundTaskQueue : IBackgroundTaskQueue
         {
             FullMode = BoundedChannelFullMode.Wait
         };
-        Console.WriteLine(options.SingleReader + ""+options.SingleWriter + ""+ options.AllowSynchronousContinuations + ""+options.Capacity);
+
         _queue = Channel.CreateBounded<Func<IServiceProvider, CancellationToken, ValueTask>>(options);
     }
 
     public async ValueTask QueueBackgroundWorkItemAsync(Func<IServiceProvider, CancellationToken, ValueTask> workItem)
     {
         ArgumentNullException.ThrowIfNull(workItem);
-        Console.WriteLine(_queue.Reader.Count);
         await _queue.Writer.WriteAsync(workItem);
     }
 

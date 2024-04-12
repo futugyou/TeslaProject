@@ -39,7 +39,7 @@ var summaries = new[]
 app.MapGet("/vehicle/{vid}", async ([FromServices] IBackgroundTaskQueue queue, int vid) =>
 {
     // TODO:check Vehicle state
-    Console.WriteLine(vid);
+
     // send queue
     await queue.QueueBackgroundWorkItemAsync(ConnectVehicleStream);
 
@@ -73,7 +73,8 @@ static async ValueTask ConnectVehicleStream(IServiceProvider sp, CancellationTok
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex.Message);
+            _logger.LogError("{Message}", ex.Message);
+            await teslaStream.StopAsync();
         }
     }
 
