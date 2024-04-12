@@ -50,3 +50,17 @@ public enum MessageType
     [Description("autopark:cmd_abort")]
     CmdAbort,
 }
+
+public class StreamRequest
+{
+    [JsonPropertyName("user_id")]
+    public string UserID { get; set; }
+    [JsonPropertyName("vin_id")]
+    public int VinID { get; set; }
+    [JsonPropertyName("vin")]
+    public string Vin { get; set; }
+    [JsonPropertyName("user_name")]
+    public string UserName { get; set; }
+    [JsonPropertyName("token")]
+    public string Token { get; set; }
+}

@@ -33,13 +33,10 @@ public class TeslaWebSocketClient : BackgroundService
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            var workItem = await TaskQueue.DequeueAsync(_services, stoppingToken);
-            var timeoutToken = new CancellationTokenSource(10000).Token;
-            var cancellation = CancellationTokenSource.CreateLinkedTokenSource(stoppingToken, timeoutToken);
-
+            var workItem = await TaskQueue.DequeueAsync(stoppingToken);
             try
             {
-                Task.Run(async () => await workItem(_services, cancellation.Token));
+                Task.Run(async () => await workItem.Item1(_services, stoppingToken, workItem.Item2));
             }
             catch (Exception ex)
             {

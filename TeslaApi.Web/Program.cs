@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TeslaApi;
 using TeslaApi.Abstractions;
+using TeslaApi.Contract;
 using TeslaApi.Web;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,9 +40,14 @@ var summaries = new[]
 app.MapGet("/vehicle/{vid}", async ([FromServices] IBackgroundTaskQueue queue, int vid) =>
 {
     // TODO:check Vehicle state
+    StreamRequest rquest = new StreamRequest
+    {
+        Vin = "fake-tag-1126116947848350",
+        Token = "fake-token-DC.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmdfaWQiOjI5NTM3NjU3OTk0LCJqdGkiOjcyNTQ3OTY0NTUxNzgyMzEzNzJ9.LWi3JiOfc_wl54880fmwEUJzwwsKCI5xkO3EPlj40lM",
 
+    };
     // send queue
-    await queue.QueueBackgroundWorkItemAsync(ConnectVehicleStream);
+    await queue.QueueBackgroundWorkItemAsync(ConnectVehicleStream, rquest);
 
     var forecast = Enumerable.Range(1, 5).Select(index =>
         new WeatherForecast
@@ -58,7 +64,7 @@ app.MapGet("/vehicle/{vid}", async ([FromServices] IBackgroundTaskQueue queue, i
 
 app.Run();
 
-static async ValueTask ConnectVehicleStream(IServiceProvider sp, CancellationToken stoppingToken)
+static async ValueTask ConnectVehicleStream(IServiceProvider sp, CancellationToken stoppingToken, object state)
 {
     using var scope = sp.CreateScope();
     var teslaStream = scope.ServiceProvider.GetRequiredService<ITeslaStream>();
@@ -69,7 +75,8 @@ static async ValueTask ConnectVehicleStream(IServiceProvider sp, CancellationTok
     {
         try
         {
-            await teslaStream.ReceiveAsync(stoppingToken);
+            StreamRequest rquest = (StreamRequest)state;
+            await teslaStream.ReceiveAsync(rquest, stoppingToken);
         }
         catch (Exception ex)
         {

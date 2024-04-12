@@ -38,12 +38,16 @@ public class TeslaStream : ITeslaStream
     }
 
     // TODO: 
-    public async Task ReceiveAsync(CancellationToken cancellation = default)
+    public async Task ReceiveAsync(StreamRequest rquest, CancellationToken cancellation = default)
     {
         byte[] buffer = new byte[1024];
         while (_webSocket.State == WebSocketState.Open && !cancellation.IsCancellationRequested)
         {
-            var result = await _webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), cancellation);
+
+            var timeoutToken = new CancellationTokenSource(10000).Token;
+            var stoppingToken = CancellationTokenSource.CreateLinkedTokenSource(cancellation, timeoutToken);
+
+            var result = await _webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), stoppingToken.Token);
             if (result.MessageType == WebSocketMessageType.Close)
             {
                 await _webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, cancellation);
@@ -56,14 +60,14 @@ public class TeslaStream : ITeslaStream
                 {
                     continue;
                 }
-                await HandleMessage(message, cancellation);
+                await HandleMessage(message, cancellation, rquest);
             }
         }
 
         return;
     }
 
-    private async Task HandleMessage(TeslaStreamMessage message, CancellationToken cancellation)
+    private async Task HandleMessage(TeslaStreamMessage message, CancellationToken cancellation, StreamRequest rquest)
     {
         switch (message.MsgType)
         {
@@ -73,8 +77,8 @@ public class TeslaStream : ITeslaStream
                 var data = new TeslaStreamMessage
                 {
                     MsgType = MessageType.SubscribeOauth,
-                    Tag = "fake-tag-1126116947848350",
-                    Token = "fake-token-DC.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmdfaWQiOjI5NTM3NjU3OTk0LCJqdGkiOjcyNTQ3OTY0NTUxNzgyMzEzNzJ9.LWi3JiOfc_wl54880fmwEUJzwwsKCI5xkO3EPlj40lM",
+                    Tag = rquest.Vin,
+                    Token = rquest.Token,
                     Value = TeslaApiConst.TeslaMessageDataColumns,
                 };
                 await SendAsync(data, cancellation);

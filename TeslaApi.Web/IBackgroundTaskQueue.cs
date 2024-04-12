@@ -7,14 +7,14 @@ namespace TeslaApi.Web;
 /// </summary>
 public interface IBackgroundTaskQueue
 {
-    ValueTask QueueBackgroundWorkItemAsync(Func<IServiceProvider, CancellationToken, ValueTask> workItem);
+    ValueTask QueueBackgroundWorkItemAsync(Func<IServiceProvider, CancellationToken, object, ValueTask> workItem, object state);
 
-    ValueTask<Func<IServiceProvider, CancellationToken, ValueTask>> DequeueAsync(IServiceProvider sp, CancellationToken cancellationToken);
+    ValueTask<(Func<IServiceProvider, CancellationToken, object, ValueTask>, object)> DequeueAsync(CancellationToken cancellationToken);
 }
 
 public class BackgroundTaskQueue : IBackgroundTaskQueue
 {
-    private readonly Channel<Func<IServiceProvider, CancellationToken, ValueTask>> _queue;
+    private readonly Channel<(Func<IServiceProvider, CancellationToken, object, ValueTask>, object)> _queue;
 
     public BackgroundTaskQueue(int capacity)
     {
@@ -28,16 +28,16 @@ public class BackgroundTaskQueue : IBackgroundTaskQueue
             FullMode = BoundedChannelFullMode.Wait
         };
 
-        _queue = Channel.CreateBounded<Func<IServiceProvider, CancellationToken, ValueTask>>(options);
+        _queue = Channel.CreateBounded<(Func<IServiceProvider, CancellationToken, object, ValueTask>, object)>(options);
     }
 
-    public async ValueTask QueueBackgroundWorkItemAsync(Func<IServiceProvider, CancellationToken, ValueTask> workItem)
+    public async ValueTask QueueBackgroundWorkItemAsync(Func<IServiceProvider, CancellationToken, object, ValueTask> workItem, object state)
     {
         ArgumentNullException.ThrowIfNull(workItem);
-        await _queue.Writer.WriteAsync(workItem);
+        await _queue.Writer.WriteAsync((workItem, state));
     }
 
-    public async ValueTask<Func<IServiceProvider, CancellationToken, ValueTask>> DequeueAsync(IServiceProvider sp, CancellationToken cancellationToken)
+    public async ValueTask<(Func<IServiceProvider, CancellationToken, object, ValueTask>, object)> DequeueAsync(CancellationToken cancellationToken)
     {
         var workItem = await _queue.Reader.ReadAsync(cancellationToken);
 
