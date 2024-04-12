@@ -1,9 +1,4 @@
-using System.Net.WebSockets;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using TeslaApi.Abstractions;
-using TeslaApi.Contract;
 
 namespace TeslaApi.Web;
 
@@ -33,7 +28,7 @@ public class TeslaWebSocketClient : BackgroundService
 
             try
             {
-                await teslaStream.ReceiveAsync(CancellationToken.None);
+                await teslaStream.ReceiveAsync(stoppingToken);
             }
             catch (Exception ex)
             {

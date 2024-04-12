@@ -1,10 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options; 
+using Microsoft.Extensions.Options;
 using TeslaApi.Contract;
 using TeslaApi.Storage;
 using TeslaApi.Storage.Abstractions;
-using TeslaApi;
 using TeslaApi.Abstractions;
 
 namespace TeslaApi.Extensions.DependencyInjection;

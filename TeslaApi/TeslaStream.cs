@@ -33,7 +33,7 @@ public class TeslaStream : ITeslaStream
         if (_webSocket.State == WebSocketState.Open)
         {
             byte[] buffer = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message, JsonSerializerExtensions.CreateJsonSetting()));
-            await _webSocket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Binary, false, CancellationToken.None);
+            await _webSocket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Binary, false, cancellationToken);
         }
     }
 
@@ -41,12 +41,12 @@ public class TeslaStream : ITeslaStream
     public async Task ReceiveAsync(CancellationToken cancellation = default)
     {
         byte[] buffer = new byte[1024];
-        while (_webSocket.State == WebSocketState.Open)
+        while (_webSocket.State == WebSocketState.Open && !cancellation.IsCancellationRequested)
         {
-            var result = await _webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+            var result = await _webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), cancellation);
             if (result.MessageType == WebSocketMessageType.Close)
             {
-                await _webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
+                await _webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, cancellation);
             }
             else
             {
@@ -57,10 +57,10 @@ public class TeslaStream : ITeslaStream
                     continue;
                 }
 
-                await HandleMessage(message, CancellationToken.None);
+                await HandleMessage(message, cancellation);
             }
         }
-        
+
         return;
     }
 
