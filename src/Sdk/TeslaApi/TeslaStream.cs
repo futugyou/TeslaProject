@@ -60,14 +60,14 @@ public class TeslaStream : ITeslaStream
                 {
                     continue;
                 }
-                await HandleMessage(message, cancellation, rquest);
+                await HandleMessage(message, rquest, cancellation);
             }
         }
 
         return;
     }
 
-    private async Task HandleMessage(TeslaStreamMessage message, CancellationToken cancellation, StreamRequest rquest)
+    private async Task HandleMessage(TeslaStreamMessage message, StreamRequest rquest, CancellationToken cancellation)
     {
         switch (message.MsgType)
         {

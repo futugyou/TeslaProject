@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
-using TeslaApi;
+using Microsoft.AspNetCore.Mvc; 
 using TeslaApi.Abstractions;
 using TeslaApi.Contract;
+using TeslaApi;
 using TeslaApi.Web;
 
 var builder = WebApplication.CreateBuilder(args);

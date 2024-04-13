@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0E864112-FE42-4DFC-A4E6-8A118665D6E0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{35F30A30-480D-4936-9352-D95129DD701B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeslaApi.Web", "src\Web\TeslaApi.Web\TeslaApi.Web.csproj", "{C35C4C02-72DB-4410-BC94-71E1FAE6B48A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C35C4C02-72DB-4410-BC94-71E1FAE6B48A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C35C4C02-72DB-4410-BC94-71E1FAE6B48A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C35C4C02-72DB-4410-BC94-71E1FAE6B48A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C35C4C02-72DB-4410-BC94-71E1FAE6B48A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{35F30A30-480D-4936-9352-D95129DD701B} = {0E864112-FE42-4DFC-A4E6-8A118665D6E0}
+		{C35C4C02-72DB-4410-BC94-71E1FAE6B48A} = {35F30A30-480D-4936-9352-D95129DD701B}
+	EndGlobalSection
+EndGlobal
