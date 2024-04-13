@@ -5,6 +5,8 @@ using TeslaApi;
 using TeslaApi.Web;
 using Microsoft.EntityFrameworkCore;
 using Infrastruct;
+using Domain;
+using Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 var Configuration = builder.Configuration;
@@ -16,6 +18,9 @@ builder.Services.AddDbContextPool<UserContext>(
         .EnableSensitiveDataLogging()
         .EnableDetailedErrors()
 );
+
+builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+builder.Services.AddScoped<IWeixinRepository, WeixinRepository>();
 
 builder.Services.AddHostedService<TeslaWebSocketClient>();
 builder.Services.AddTransient<ITeslaStream, TeslaStream>();
@@ -41,6 +46,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseWeixinRequest();
 
 app.MapGet("/vehicle/{vid}", async ([FromServices] IBackgroundTaskQueue queue, int vid) =>
 {

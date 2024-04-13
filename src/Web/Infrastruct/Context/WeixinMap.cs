@@ -42,5 +42,9 @@ public class WeixinMap : IEntityTypeConfiguration<Weixin>
             .HasColumnType("nvarchar(100)")
             .HasColumnName("x-forwarded-for");
 
+        builder.Property(c => c.FromUnionId)
+            .HasColumnType("nvarchar(100)")
+            .HasColumnName("from_union_id");
+
     }
 }
