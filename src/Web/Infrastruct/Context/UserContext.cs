@@ -7,21 +7,23 @@ namespace Infrastruct;
 
 public class UserContext : DbContext
 {
-    public DbSet<Token> Tokens { get; set; } 
+  public DbSet<Token> Tokens { get; set; }
+  public DbSet<Weixin> Weixins { get; set; }
 
-    protected UserContext()
-    {
-    }
+  protected UserContext()
+  {
+  }
 
-    public UserContext(DbContextOptions<UserContext> options)
-      : base(options)
-    { 
-    } 
+  public UserContext(DbContextOptions<UserContext> options)
+    : base(options)
+  {
+  }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        _ = modelBuilder.ApplyConfiguration(new TokenMap()); 
+  protected override void OnModelCreating(ModelBuilder modelBuilder)
+  {
+    _ = modelBuilder.ApplyConfiguration(new TokenMap());
+    _ = modelBuilder.ApplyConfiguration(new WeixinMap());
 
-        base.OnModelCreating(modelBuilder);
-    } 
+    base.OnModelCreating(modelBuilder);
+  }
 }

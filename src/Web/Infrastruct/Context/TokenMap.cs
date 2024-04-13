@@ -9,6 +9,7 @@ public class TokenMap : IEntityTypeConfiguration<Token>
 {
     public void Configure(EntityTypeBuilder<Token> builder)
     {
+        builder.HasKey(c => c.UserId);
         builder.Property(c => c.UserId)
             .HasColumnName("user_id");
 
