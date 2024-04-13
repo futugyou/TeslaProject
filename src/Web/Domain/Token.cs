@@ -7,3 +7,4 @@ public class Token
     public string RefreshToken { get; set; }
     public int ExpiresIn { get; set; }
 }
+public interface ITokenRepository : IRepository<Token> { }

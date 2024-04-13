@@ -11,3 +11,5 @@ public class Weixin
     public string Source { get; set; }
     public string Forwarded { get; set; }
 }
+
+public interface IWeixinRepository : IRepository<Weixin> { }
