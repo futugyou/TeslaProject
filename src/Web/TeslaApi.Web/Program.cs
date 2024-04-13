@@ -1,11 +1,21 @@
-using Microsoft.AspNetCore.Mvc; 
+using Microsoft.AspNetCore.Mvc;
 using TeslaApi.Abstractions;
 using TeslaApi.Contract;
 using TeslaApi;
 using TeslaApi.Web;
+using Microsoft.EntityFrameworkCore;
+using Infrastruct;
 
 var builder = WebApplication.CreateBuilder(args);
 var Configuration = builder.Configuration;
+
+var serverVersion = new MySqlServerVersion(new Version(Configuration["MysqlVersion"]!));
+builder.Services.AddDbContextPool<UserContext>(
+    dbContextOptions => dbContextOptions
+        .UseMySql(Configuration.GetConnectionString("Default"), serverVersion)
+        .EnableSensitiveDataLogging()
+        .EnableDetailedErrors()
+);
 
 builder.Services.AddHostedService<TeslaWebSocketClient>();
 builder.Services.AddTransient<ITeslaStream, TeslaStream>();
