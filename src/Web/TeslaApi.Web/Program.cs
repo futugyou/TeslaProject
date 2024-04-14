@@ -35,6 +35,7 @@ builder.Services.AddSingleton<IBackgroundTaskQueue>(ctx =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
@@ -46,9 +47,15 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseAuthorization();
 
 app.UseWeixinRequest();
 
+app.MapRazorPages();
 app.MapGet("/vehicle/{vid}", async ([FromServices] IBackgroundTaskQueue queue, int vid) =>
 {
     // TODO:check Vehicle state
@@ -61,7 +68,7 @@ app.MapGet("/vehicle/{vid}", async ([FromServices] IBackgroundTaskQueue queue, i
     // send to queue
     await queue.QueueBackgroundWorkItemAsync(ConnectVehicleStream, rquest);
 
-    return 1;
+    return vid;
 })
 .WithName("vehicle")
 .WithOpenApi();
