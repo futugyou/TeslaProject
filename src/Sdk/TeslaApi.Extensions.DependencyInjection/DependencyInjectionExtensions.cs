@@ -11,6 +11,7 @@ namespace TeslaApi.Extensions.DependencyInjection;
 public static class DependencyInjectionExtensions
 {
     public static readonly string TESLA_AUTH_OPTION_KEY = "TeslaAuth";
+    public static readonly string TESLA_USER_OPTION_KEY = "TeslaUser";
     public static readonly string TESLA_VEHICLE_OPTION_KEY = "TeslaVehicle";
 
     public static IServiceCollection AddTeslaApiLibary(this IServiceCollection services)
@@ -33,6 +34,8 @@ public static class DependencyInjectionExtensions
         {
             throw new ArgumentNullException(nameof(configuration));
         }
+        
+        services.Configure<UserOptions>(configuration.GetSection(TESLA_USER_OPTION_KEY));
         services.Configure<AuthenticationOptions>(configuration.GetSection(TESLA_AUTH_OPTION_KEY));
         services.Configure<VehicleOptions>(configuration.GetSection(TESLA_VEHICLE_OPTION_KEY));
         services.AddTransient<AuthHeaderHandler>();
@@ -56,9 +59,10 @@ public static class DependencyInjectionExtensions
         //.AddHttpMessageHandler<AuthHeaderHandler>();
 
         services.AddScoped<ITeslaAuthentication, TeslaAuthentication>();
-        services.AddScoped<IVehicleCommand, VehicleCommand>();        
+        services.AddScoped<IVehicleCommand, VehicleCommand>();
         services.AddTransient<ITeslaStream, TeslaStream>();
         services.AddScoped<IVehicleState, VehicleState>();
+        services.AddScoped<IUser, User>();
         services.AddScoped<ITeslaUserAuthInfoRepository, DefaultTeslaUserAuthInfoRepository>();
         return services;
     }
