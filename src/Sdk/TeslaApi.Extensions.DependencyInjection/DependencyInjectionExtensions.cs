@@ -56,7 +56,8 @@ public static class DependencyInjectionExtensions
         //.AddHttpMessageHandler<AuthHeaderHandler>();
 
         services.AddScoped<ITeslaAuthentication, TeslaAuthentication>();
-        services.AddScoped<IVehicleCommand, VehicleCommand>();
+        services.AddScoped<IVehicleCommand, VehicleCommand>();        
+        services.AddTransient<ITeslaStream, TeslaStream>();
         services.AddScoped<IVehicleState, VehicleState>();
         services.AddScoped<ITeslaUserAuthInfoRepository, DefaultTeslaUserAuthInfoRepository>();
         return services;

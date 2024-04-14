@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
-using TeslaApi.Abstractions;
-using TeslaApi.Contract;
-using TeslaApi;
 using TeslaApi.Web;
 using Microsoft.EntityFrameworkCore;
 using Infrastruct;
 using Domain;
 using Extensions;
+using TeslaApi.Extensions.DependencyInjection;
+using TeslaApi.Contract;
+using TeslaApi.Abstractions;
 
 var builder = WebApplication.CreateBuilder(args);
 var Configuration = builder.Configuration;
@@ -21,9 +21,9 @@ builder.Services.AddDbContextPool<UserContext>(
 
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 builder.Services.AddScoped<IWeixinRepository, WeixinRepository>();
+builder.Services.AddTeslaApiLibary(Configuration);
 
-builder.Services.AddHostedService<TeslaWebSocketClient>();
-builder.Services.AddTransient<ITeslaStream, TeslaStream>();
+builder.Services.AddHostedService<TeslaWebSocketClient>(); 
 builder.Services.AddSingleton<IBackgroundTaskQueue>(ctx =>
 {
     if (!int.TryParse(Configuration["QueueCapacity"], out var queueCapacity))
