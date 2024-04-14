@@ -7,6 +7,7 @@ using Extensions;
 using TeslaApi.Extensions.DependencyInjection;
 using TeslaApi.Contract;
 using TeslaApi.Abstractions;
+using TeslaApi.Contract.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 var Configuration = builder.Configuration;
@@ -23,7 +24,7 @@ builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 builder.Services.AddScoped<IWeixinRepository, WeixinRepository>();
 builder.Services.AddTeslaApiLibary(Configuration);
 
-builder.Services.AddHostedService<TeslaWebSocketClient>(); 
+builder.Services.AddHostedService<TeslaWebSocketClient>();
 builder.Services.AddSingleton<IBackgroundTaskQueue>(ctx =>
 {
     if (!int.TryParse(Configuration["QueueCapacity"], out var queueCapacity))
@@ -72,6 +73,32 @@ app.MapGet("/vehicle/{vid}", async ([FromServices] IBackgroundTaskQueue queue, i
 })
 .WithName("vehicle")
 .WithOpenApi();
+
+// this is test
+app.MapGet("/token", async ([FromServices] ITeslaAuthentication tesla, [FromQuery] string code, [FromQuery] string verifier) =>
+{
+    var request = new AccessTokenRequest
+    {
+        Code = code,
+        CodeVerifier = verifier,
+    };
+    var result = await tesla.GetAccessToken(request);
+    return result;
+})
+.WithName("token")
+.WithOpenApi();
+
+
+// this is test
+app.MapGet("/user", async ([FromServices] IUser tesla, [FromQuery] string token ) =>
+{
+    var result = await tesla.UserInformation(token);
+    return result;
+})
+.WithName("user")
+.WithOpenApi();
+
+
 
 app.Run();
 
