@@ -2,7 +2,11 @@ using System.Text.Json.Serialization;
 
 namespace TeslaApi.Contract.User;
 
-public class MeReponse : ResponseBase
+public class MeReponse : ResponseBase<MeReponseDetail>
+{ 
+}
+
+public class MeReponseDetail
 {
     [JsonPropertyName("email")]
     public string Email { get; set; }
