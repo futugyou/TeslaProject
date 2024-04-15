@@ -13,6 +13,8 @@ public class PositionMap : IEntityTypeConfiguration<Position>
         builder.HasKey(c => c.Id);
         builder.Property(c => c.Id)
             .HasColumnName("id");
+        builder.HasOne(e => e.VehicleId);
+        builder.HasOne(e => e.DriveId);
 
         builder.Property(c => c.Date) 
             .HasColumnName("date");

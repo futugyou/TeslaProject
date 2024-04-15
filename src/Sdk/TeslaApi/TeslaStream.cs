@@ -43,7 +43,6 @@ public class TeslaStream : ITeslaStream
         byte[] buffer = new byte[1024];
         while (_webSocket.State == WebSocketState.Open && !cancellation.IsCancellationRequested)
         {
-
             var timeoutToken = new CancellationTokenSource(10000).Token;
             var stoppingToken = CancellationTokenSource.CreateLinkedTokenSource(cancellation, timeoutToken);
 

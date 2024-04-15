@@ -28,7 +28,7 @@ builder.Services.AddScoped<IChargesDetailRepository, ChargesDetailRepository>();
 builder.Services.AddScoped<IChargesRepository, ChargesRepository>();
 builder.Services.AddScoped<IDriveRepository, DriveRepository>();
 builder.Services.AddScoped<IGeofenceRepository, GeofenceRepository>();
-builder.Services.AddScoped<IPositionRepository, IPositionRepository>();
+builder.Services.AddScoped<IPositionRepository, PositionRepository>();
 
 builder.Services.AddTeslaApiLibary(Configuration);
 
@@ -65,13 +65,13 @@ app.UseAuthorization();
 app.UseWeixinRequest();
 
 app.MapRazorPages();
-app.MapGet("/vehicle/{vid}", async ([FromServices] IBackgroundTaskQueue queue, int vid) =>
+app.MapGet("/vehicle", async ([FromServices] IBackgroundTaskQueue queue, [FromQuery] string vid, [FromQuery] string token) =>
 {
     // TODO:check Vehicle state
     StreamRequest rquest = new()
     {
-        Vin = "fake-tag-1126116947848350",
-        Token = "fake-token-DC.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmdfaWQiOjI5NTM3NjU3OTk0LCJqdGkiOjcyNTQ3OTY0NTUxNzgyMzEzNzJ9.LWi3JiOfc_wl54880fmwEUJzwwsKCI5xkO3EPlj40lM",
+        Vin = vid,
+        Token = token,
 
     };
     // send to queue

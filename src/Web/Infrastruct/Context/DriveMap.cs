@@ -14,6 +14,13 @@ public class DriveMap : IEntityTypeConfiguration<Drive>
         builder.Property(c => c.Id)
             .HasColumnName("id"); 
 
+        builder.HasOne(e => e.StartAddressId);
+        builder.HasOne(e => e.EndAddressId);
+        builder.HasOne(e => e.StartGeofenceId);
+        builder.HasOne(e => e.EndGeofenceId);
+        builder.HasOne(e => e.StartPositionId);
+        builder.HasOne(e => e.EndPositionId);
+
         builder.Property(c => c.OutsideTempAvg)
             .HasColumnName("outside_temp_avg").HasColumnType("decimal(8, 6)");
         builder.Property(c => c.SpeedMax)
