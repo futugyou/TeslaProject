@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastruct;
 
-public class UserContext : DbContext
+public class TeslaContext : DbContext
 {
   public DbSet<Token> Tokens { get; set; }
   public DbSet<Weixin> Weixins { get; set; }
@@ -16,11 +16,11 @@ public class UserContext : DbContext
   public DbSet<Drive> Drives { get; set; }
   public DbSet<Geofence> Geofences { get; set; }
 
-  protected UserContext()
+  protected TeslaContext()
   {
   }
 
-  public UserContext(DbContextOptions<UserContext> options)
+  public TeslaContext(DbContextOptions<TeslaContext> options)
     : base(options)
   {
   }

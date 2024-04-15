@@ -5,9 +5,9 @@ namespace Infrastruct;
 
 public class BaseRepository<T> : IRepository<T> where T : class
 {
-    protected readonly UserContext _context;
+    protected readonly TeslaContext _context;
     protected readonly DbSet<T> _dbSet;
-    public BaseRepository(UserContext context)
+    public BaseRepository(TeslaContext context)
     {
         _context = context;
         _dbSet = context.Set<T>();

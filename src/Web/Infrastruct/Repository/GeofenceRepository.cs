@@ -5,7 +5,7 @@ namespace Infrastruct;
 
 public class GeofenceRepository : BaseRepository<Geofence>, IGeofenceRepository
 {
-    public GeofenceRepository(UserContext context) : base(context)
+    public GeofenceRepository(TeslaContext context) : base(context)
     {
     } 
 }

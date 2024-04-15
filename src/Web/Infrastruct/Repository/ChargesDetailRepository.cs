@@ -5,7 +5,7 @@ namespace Infrastruct;
 
 public class ChargesDetailRepository : BaseRepository<ChargesDetail>, IChargesDetailRepository
 {
-    public ChargesDetailRepository(UserContext context) : base(context)
+    public ChargesDetailRepository(TeslaContext context) : base(context)
     {
     } 
 }

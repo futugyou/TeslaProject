@@ -5,7 +5,7 @@ namespace Infrastruct;
 
 public class DriveRepository : BaseRepository<Drive>, IDriveRepository
 {
-    public DriveRepository(UserContext context) : base(context)
+    public DriveRepository(TeslaContext context) : base(context)
     {
     } 
 }

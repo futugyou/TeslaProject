@@ -5,7 +5,7 @@ namespace Infrastruct;
 
 public class VehicleRepository : BaseRepository<Vehicle>, IVehicleRepository
 {
-    public VehicleRepository(UserContext context) : base(context)
+    public VehicleRepository(TeslaContext context) : base(context)
     {
     } 
 }

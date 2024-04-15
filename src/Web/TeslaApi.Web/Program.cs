@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 var Configuration = builder.Configuration;
 
 var serverVersion = new MySqlServerVersion(new Version(Configuration["MysqlVersion"]!));
-builder.Services.AddDbContextPool<UserContext>(
+builder.Services.AddDbContextPool<TeslaContext>(
     dbContextOptions => dbContextOptions
         .UseMySql(Configuration.GetConnectionString("Default"), serverVersion)
         .EnableSensitiveDataLogging()

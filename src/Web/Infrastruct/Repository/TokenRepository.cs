@@ -4,7 +4,7 @@ namespace Infrastruct;
 
 public class TokenRepository : BaseRepository<Token>, ITokenRepository
 {
-    public TokenRepository(UserContext context) : base(context)
+    public TokenRepository(TeslaContext context) : base(context)
     {
     } 
 }

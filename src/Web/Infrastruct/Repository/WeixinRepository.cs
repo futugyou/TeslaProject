@@ -4,7 +4,7 @@ namespace Infrastruct;
 
 public class WeixinRepository : BaseRepository<Weixin>, IWeixinRepository
 {
-    public WeixinRepository(UserContext context) : base(context)
+    public WeixinRepository(TeslaContext context) : base(context)
     {
     } 
 }
