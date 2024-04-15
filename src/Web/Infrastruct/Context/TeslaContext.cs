@@ -15,6 +15,7 @@ public class TeslaContext : DbContext
   public DbSet<ChargesDetail> ChargesDetails { get; set; }
   public DbSet<Drive> Drives { get; set; }
   public DbSet<Geofence> Geofences { get; set; }
+  public DbSet<Position> Positions { get; set; }
 
   protected TeslaContext()
   {
@@ -35,6 +36,7 @@ public class TeslaContext : DbContext
     _ = modelBuilder.ApplyConfiguration(new ChargesDetailMap());
     _ = modelBuilder.ApplyConfiguration(new DriveMap());
     _ = modelBuilder.ApplyConfiguration(new GeofenceMap());
+    _ = modelBuilder.ApplyConfiguration(new PositionMap());
 
     base.OnModelCreating(modelBuilder);
   }

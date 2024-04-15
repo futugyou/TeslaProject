@@ -14,6 +14,8 @@ public class Charges
     public decimal OutsideTempAvg { get; set; }
     public Vehicle VehicleId { get; set; }
     public Address AddressId { get; set; }
+    public Position PositionId { get; set; }
+    public Geofence GeofenceId { get; set; }
     public decimal StartRatedRangeKm { get; set; }
     public decimal EndRatedRangeKm { get; set; }
     public decimal ChargeEnergyUsed { get; set; }

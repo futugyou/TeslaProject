@@ -20,8 +20,10 @@ public class Drive
     public Address StartAddressId { get; set; }
     public Address EndAddressId { get; set; }
     public decimal StartRatedRangeKm { get; set; }
-    public decimal EndRatedRangeKm { get; set; } 
-    public Geofence StartGeofenceId { get; set; } 
-    public Geofence EndGeofenceId { get; set; } 
+    public decimal EndRatedRangeKm { get; set; }
+    public Geofence StartGeofenceId { get; set; }
+    public Geofence EndGeofenceId { get; set; }
+    public Position StartPositionId { get; set; }
+    public Position EndPositionId { get; set; }
 }
 public interface IDriveRepository : IRepository<Drive> { }
