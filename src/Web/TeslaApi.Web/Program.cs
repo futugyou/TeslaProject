@@ -24,6 +24,8 @@ builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 builder.Services.AddScoped<IWeixinRepository, WeixinRepository>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
+builder.Services.AddScoped<IChargesDetailRepository, ChargesDetailRepository>();
+builder.Services.AddScoped<IChargesRepository, ChargesRepository>();
 builder.Services.AddTeslaApiLibary(Configuration);
 
 builder.Services.AddHostedService<TeslaWebSocketClient>();
@@ -92,7 +94,7 @@ app.MapGet("/token", async ([FromServices] ITeslaAuthentication tesla, [FromQuer
 
 
 // this is test
-app.MapGet("/user", async ([FromServices] IUser tesla, [FromQuery] string token ) =>
+app.MapGet("/user", async ([FromServices] IUser tesla, [FromQuery] string token) =>
 {
     var result = await tesla.UserInformation(token);
     return result;
