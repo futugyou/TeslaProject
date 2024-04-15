@@ -21,5 +21,7 @@ public class Drive
     public Address EndAddressId { get; set; }
     public decimal StartRatedRangeKm { get; set; }
     public decimal EndRatedRangeKm { get; set; } 
+    public Geofence StartGeofenceId { get; set; } 
+    public Geofence EndGeofenceId { get; set; } 
 }
 public interface IDriveRepository : IRepository<Drive> { }

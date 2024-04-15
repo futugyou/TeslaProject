@@ -14,6 +14,7 @@ public class UserContext : DbContext
   public DbSet<Charges> Chargeses { get; set; }
   public DbSet<ChargesDetail> ChargesDetails { get; set; }
   public DbSet<Drive> Drives { get; set; }
+  public DbSet<Geofence> Geofences { get; set; }
 
   protected UserContext()
   {
@@ -33,6 +34,7 @@ public class UserContext : DbContext
     _ = modelBuilder.ApplyConfiguration(new ChargesMap());
     _ = modelBuilder.ApplyConfiguration(new ChargesDetailMap());
     _ = modelBuilder.ApplyConfiguration(new DriveMap());
+    _ = modelBuilder.ApplyConfiguration(new GeofenceMap());
 
     base.OnModelCreating(modelBuilder);
   }

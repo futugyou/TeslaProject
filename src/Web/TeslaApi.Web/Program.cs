@@ -27,6 +27,7 @@ builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 builder.Services.AddScoped<IChargesDetailRepository, ChargesDetailRepository>();
 builder.Services.AddScoped<IChargesRepository, ChargesRepository>();
 builder.Services.AddScoped<IDriveRepository, DriveRepository>();
+builder.Services.AddScoped<IGeofenceRepository, GeofenceRepository>();
 
 builder.Services.AddTeslaApiLibary(Configuration);
 
