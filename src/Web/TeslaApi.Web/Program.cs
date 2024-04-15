@@ -22,6 +22,8 @@ builder.Services.AddDbContextPool<UserContext>(
 
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 builder.Services.AddScoped<IWeixinRepository, WeixinRepository>();
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 builder.Services.AddTeslaApiLibary(Configuration);
 
 builder.Services.AddHostedService<TeslaWebSocketClient>();
