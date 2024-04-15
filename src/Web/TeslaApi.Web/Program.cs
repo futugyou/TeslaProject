@@ -26,6 +26,8 @@ builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 builder.Services.AddScoped<IChargesDetailRepository, ChargesDetailRepository>();
 builder.Services.AddScoped<IChargesRepository, ChargesRepository>();
+builder.Services.AddScoped<IDriveRepository, DriveRepository>();
+
 builder.Services.AddTeslaApiLibary(Configuration);
 
 builder.Services.AddHostedService<TeslaWebSocketClient>();

@@ -13,6 +13,7 @@ public class UserContext : DbContext
   public DbSet<Vehicle> Vehicles { get; set; }
   public DbSet<Charges> Chargeses { get; set; }
   public DbSet<ChargesDetail> ChargesDetails { get; set; }
+  public DbSet<Drive> Drives { get; set; }
 
   protected UserContext()
   {
@@ -31,6 +32,7 @@ public class UserContext : DbContext
     _ = modelBuilder.ApplyConfiguration(new VehicleMap());
     _ = modelBuilder.ApplyConfiguration(new ChargesMap());
     _ = modelBuilder.ApplyConfiguration(new ChargesDetailMap());
+    _ = modelBuilder.ApplyConfiguration(new DriveMap());
 
     base.OnModelCreating(modelBuilder);
   }
