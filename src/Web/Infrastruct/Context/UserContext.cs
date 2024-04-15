@@ -9,6 +9,7 @@ public class UserContext : DbContext
 {
   public DbSet<Token> Tokens { get; set; }
   public DbSet<Weixin> Weixins { get; set; }
+  public DbSet<Address> Addresses { get; set; }
 
   protected UserContext()
   {
@@ -23,6 +24,7 @@ public class UserContext : DbContext
   {
     _ = modelBuilder.ApplyConfiguration(new TokenMap());
     _ = modelBuilder.ApplyConfiguration(new WeixinMap());
+    _ = modelBuilder.ApplyConfiguration(new AddressMap());
 
     base.OnModelCreating(modelBuilder);
   }

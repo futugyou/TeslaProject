@@ -36,7 +36,7 @@ public class TeslaWebSocketClient : BackgroundService
             var workItem = await TaskQueue.DequeueAsync(stoppingToken);
             try
             {
-                Task.Run(async () => await workItem.function(_services, stoppingToken, workItem.data));
+                _ = Task.Run(async () => await workItem.function(_services, stoppingToken, workItem.data));
             }
             catch (Exception ex)
             {
