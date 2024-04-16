@@ -106,6 +106,14 @@ app.MapGet("/user", async ([FromServices] IUser tesla, [FromQuery] string token)
 .WithName("user")
 .WithOpenApi();
 
+// this is test
+app.MapGet("/check", ([FromQuery] string token) =>
+{
+    var result = TokenParse.CheckTokenLocal(token);
+    return result;
+})
+.WithName("check")
+.WithOpenApi();
 
 
 app.Run();
