@@ -14,11 +14,11 @@ namespace TeslaApi;
 public class VehicleState : IVehicleState
 {
     private readonly ILogger<VehicleState> _logger;
-    private readonly VehicleOptions _options;
+    private readonly TeslaOptions _options;
     private readonly HttpClient httpClient;
 
     public VehicleState(ILogger<VehicleState> logger,
-        IOptionsMonitor<VehicleOptions> options,
+        IOptionsMonitor<TeslaOptions> options,
         IHttpClientFactory clientFactory)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -27,7 +27,6 @@ public class VehicleState : IVehicleState
 
         _options = options.CurrentValue;
         httpClient = clientFactory.CreateClient(TeslaApiConst.TESLA_SERVICE_HTTPCLIENT_NAME);
-        httpClient.BaseAddress = new Uri(_options.TeslaBaseUrl);
     }
 
     public async Task<ProductsResponse> GetProductList(string token)

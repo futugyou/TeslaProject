@@ -1,8 +1,22 @@
 ﻿namespace TeslaApi.Abstractions;
 
-public class VehicleOptions
+public class TeslaOptions
 {
     public string TeslaBaseUrl { get; set; } = "https://owner-api.teslamotors.com";
+    public string TeslaCnBaseUrl { get; set; } = "https://owner-api.vn.cloud.tesla.cn";
+
+    #region stream
+    public string TeslaStreamUrl { get; set; } = "wss://streaming.vn.teslamotors.com/streaming";
+    public string TeslaCnStreamUrl { get; set; } = "wss://streaming.vn.cloud.tesla.cn/streaming";
+    #endregion
+
+    #region user
+    public string Me { get; set; } = "/api/1/users/me";
+    public string VaultProfile { get; set; } = "/api/1/users/vault_profile";
+    public string FeatureConfig { get; set; } = "/api/1/users/feature_config";
+    public string UserKeys { get; set; } = "/api/1/users/keys";
+    #endregion
+
     public string TeslaEndPointHealthStatus { get; set; } = "status";
     public string Authenticate { get; set; } = "oauth/token";
     public string RevokeAuthToken { get; set; } = "oauth/revoke";

@@ -10,9 +10,8 @@ namespace TeslaApi.Extensions.DependencyInjection;
 
 public static class DependencyInjectionExtensions
 {
-    public static readonly string TESLA_AUTH_OPTION_KEY = "TeslaAuth";
-    public static readonly string TESLA_USER_OPTION_KEY = "TeslaUser";
-    public static readonly string TESLA_VEHICLE_OPTION_KEY = "TeslaVehicle";
+    public static readonly string TESLA_AUTH_OPTION_KEY = "TeslaAuth"; 
+    public static readonly string TESLA_OPTION_KEY = "Tesla";
 
     public static IServiceCollection AddTeslaApiLibary(this IServiceCollection services)
     {
@@ -35,9 +34,8 @@ public static class DependencyInjectionExtensions
             throw new ArgumentNullException(nameof(configuration));
         }
         
-        services.Configure<UserOptions>(configuration.GetSection(TESLA_USER_OPTION_KEY));
         services.Configure<AuthenticationOptions>(configuration.GetSection(TESLA_AUTH_OPTION_KEY));
-        services.Configure<VehicleOptions>(configuration.GetSection(TESLA_VEHICLE_OPTION_KEY));
+        services.Configure<TeslaOptions>(configuration.GetSection(TESLA_OPTION_KEY));
         services.AddTransient<AuthHeaderHandler>();
 
         services.AddHttpClient(TeslaApiConst.TESLA_AUTH_HTTPCLIENT_NAME, (sp, client) =>
@@ -47,11 +45,11 @@ public static class DependencyInjectionExtensions
 
         services.AddHttpClient(TeslaApiConst.TESLA_SERVICE_HTTPCLIENT_NAME, (sp, client) =>
         {
-            var _optionsMonitor = sp.GetRequiredService<IOptionsMonitor<VehicleOptions>>();
+            var _optionsMonitor = sp.GetRequiredService<IOptionsMonitor<TeslaOptions>>();
             var _options = _optionsMonitor.CurrentValue;
             if (_options == null)
             {
-                throw new ArgumentNullException(nameof(VehicleOptions));
+                throw new ArgumentNullException(nameof(TeslaOptions));
             }
             client.BaseAddress = new Uri(_options.TeslaBaseUrl);
         });

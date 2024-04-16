@@ -7,10 +7,10 @@ namespace TeslaApi;
 
 public class User : IUser
 {
-    private readonly UserOptions _options;
+    private readonly TeslaOptions _options;
     private readonly HttpClient httpClient;
 
-    public User(IOptionsMonitor<UserOptions> options,
+    public User(IOptionsMonitor<TeslaOptions> options,
         IHttpClientFactory clientFactory)
     {
         options = options ?? throw new ArgumentNullException(nameof(options));
@@ -18,7 +18,6 @@ public class User : IUser
 
         _options = options.CurrentValue;
         httpClient = clientFactory.CreateClient(TeslaApiConst.TESLA_SERVICE_HTTPCLIENT_NAME);
-        httpClient.BaseAddress = new Uri(_options.TeslaBaseUrl);
     }
 
     public Task<BluetoothKeysResponse> BluetoothKeys(BluetoothKeysRequest request, string token)

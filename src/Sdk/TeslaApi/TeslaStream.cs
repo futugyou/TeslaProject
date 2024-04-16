@@ -1,23 +1,20 @@
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
+using Microsoft.Extensions.Options;
 using TeslaApi.Abstractions;
 using TeslaApi.Contract;
 
 namespace TeslaApi;
 
-public class TeslaStream : ITeslaStream
+public class TeslaStream(IOptionsMonitor<TeslaOptions> options) : ITeslaStream
 {
-    private readonly ClientWebSocket _webSocket;
-
-    public TeslaStream()
-    {
-        _webSocket = new ClientWebSocket();
-    }
+    private readonly ClientWebSocket _webSocket = new();
+    private readonly TeslaOptions _options = options.CurrentValue;
 
     public async Task StartAsync(CancellationToken cancellationToken = default)
     {
-        await _webSocket.ConnectAsync(new Uri(TeslaApiConst.TESLA_STREAM_URL), cancellationToken);
+        await _webSocket.ConnectAsync(new Uri(_options.TeslaStreamUrl), cancellationToken);
     }
 
     public async Task StopAsync(CancellationToken cancellationToken = default)

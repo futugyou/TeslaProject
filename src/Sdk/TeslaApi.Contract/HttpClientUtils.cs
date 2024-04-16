@@ -25,6 +25,13 @@ public static class HttpClientUtils
     }
     public static async Task<Response> UtilsPostAsync<Request, Response>(this HttpClient httpClient, Request? request, string path, string token)
     {
+        var local = TokenParse.CheckTokenLocal(token);
+        if (local == TokenLocal.China)
+        {
+            //TODO: how to change the base url
+            // httpClient.BaseAddress = 
+        }
+
         HttpContent? content = default;
         if (request != null)
         {

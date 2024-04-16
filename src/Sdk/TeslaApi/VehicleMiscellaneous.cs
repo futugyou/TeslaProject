@@ -7,11 +7,11 @@ namespace TeslaApi;
 
 public class VehicleMiscellaneous : IVehicleMiscellaneous
 {
-    private readonly VehicleOptions _options;
+    private readonly TeslaOptions _options;
     private readonly HttpClient httpClient;
 
     public VehicleMiscellaneous(
-        IOptionsMonitor<VehicleOptions> options,
+        IOptionsMonitor<TeslaOptions> options,
         IHttpClientFactory clientFactory)
     {
         options = options ?? throw new ArgumentNullException(nameof(options));
@@ -19,7 +19,6 @@ public class VehicleMiscellaneous : IVehicleMiscellaneous
 
         _options = options.CurrentValue;
         httpClient = clientFactory.CreateClient(TeslaApiConst.TESLA_SERVICE_HTTPCLIENT_NAME);
-        httpClient.BaseAddress = new Uri(_options.TeslaBaseUrl);
     }
 
     public Task<ReleaseNotesResponse> ReleaseNote(string vehicle_id, string token)
