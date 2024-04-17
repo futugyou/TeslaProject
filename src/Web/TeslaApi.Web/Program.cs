@@ -30,7 +30,13 @@ builder.Services.AddScoped<IDriveRepository, DriveRepository>();
 builder.Services.AddScoped<IGeofenceRepository, GeofenceRepository>();
 builder.Services.AddScoped<IPositionRepository, PositionRepository>();
 
-builder.Services.AddTeslaApiLibary(Configuration);
+builder.Services.AddScoped<RefreshTokenHandler>();
+
+builder.Services.AddTeslaApiLibary(Configuration, option =>
+{
+    option.AddPolicyHandler(PolicyExtensions.GetTokenRefresher);
+    option.AddHttpMessageHandler<RefreshTokenHandler>();
+});
 
 builder.Services.AddHostedService<TeslaWebSocketClient>();
 builder.Services.AddSingleton<IBackgroundTaskQueue>(ctx =>
