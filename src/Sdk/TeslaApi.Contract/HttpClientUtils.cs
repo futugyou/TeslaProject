@@ -25,13 +25,6 @@ public static class HttpClientUtils
     }
     public static async Task<Response> UtilsPostAsync<Request, Response>(this HttpClient httpClient, Request? request, string path, string token)
     {
-        var local = TokenParse.CheckTokenLocal(token);
-        if (local == TokenLocal.China)
-        {
-            //TODO: how to change the base url
-            // httpClient.BaseAddress = 
-        }
-
         HttpContent? content = default;
         if (request != null)
         {
@@ -47,12 +40,7 @@ public static class HttpClientUtils
             }
             var responseMessage = await httpClient.PostAsync(path, content);
             var result = await responseMessage.Content.ReadAsStringAsync();
-            var response = JsonSerializer.Deserialize<Response>(result, JsonSerializerExtensions.CreateJsonSetting());
-            if (response == null)
-            {
-                throw new HttpRequestException(result);
-            }
-            return response;
+            return JsonSerializer.Deserialize<Response>(result, JsonSerializerExtensions.CreateJsonSetting()) ?? throw new HttpRequestException(result);
         }
         catch (Exception)
         {
@@ -75,12 +63,7 @@ public static class HttpClientUtils
             }
             var responseMessage = await httpClient.GetAsync(path);
             var result = await responseMessage.Content.ReadAsStringAsync();
-            var response = JsonSerializer.Deserialize<Response>(result, JsonSerializerExtensions.CreateJsonSetting());
-            if (response == null)
-            {
-                throw new HttpRequestException(result);
-            }
-            return response;
+            return JsonSerializer.Deserialize<Response>(result, JsonSerializerExtensions.CreateJsonSetting()) ?? throw new HttpRequestException(result);
         }
         catch (Exception)
         {

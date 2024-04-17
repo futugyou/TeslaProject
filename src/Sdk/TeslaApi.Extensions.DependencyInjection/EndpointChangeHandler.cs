@@ -5,9 +5,9 @@ using TeslaApi.Contract;
 
 namespace TeslaApi.Extensions.DependencyInjection;
 
-public class EndPointChangeHandler(ILogger<EndPointChangeHandler> logger, IOptionsMonitor<TeslaOptions> options) : DelegatingHandler
+public class EndpointChangeHandler(ILogger<EndpointChangeHandler> logger, IOptionsMonitor<TeslaOptions> options) : DelegatingHandler
 {
-    private readonly ILogger<EndPointChangeHandler> _logger = logger;
+    private readonly ILogger<EndpointChangeHandler> _logger = logger;
     private readonly TeslaOptions _options = options.CurrentValue;
 
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)

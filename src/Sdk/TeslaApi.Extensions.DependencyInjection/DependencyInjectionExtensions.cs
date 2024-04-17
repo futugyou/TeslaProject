@@ -37,6 +37,7 @@ public static class DependencyInjectionExtensions
         services.Configure<AuthenticationOptions>(configuration.GetSection(TESLA_AUTH_OPTION_KEY));
         services.Configure<TeslaOptions>(configuration.GetSection(TESLA_OPTION_KEY));
         services.AddTransient<AuthHeaderHandler>();
+        services.AddTransient<EndpointChangeHandler>();
 
         services.AddHttpClient(TeslaApiConst.TESLA_AUTH_HTTPCLIENT_NAME, (sp, client) =>
         {
@@ -52,7 +53,9 @@ public static class DependencyInjectionExtensions
                 throw new ArgumentNullException(nameof(TeslaOptions));
             }
             client.BaseAddress = new Uri(_options.TeslaBaseUrl);
-        });
+        })
+        .AddHttpMessageHandler<EndpointChangeHandler>()
+        ;
         // TODO wait for token readly
         //.AddHttpMessageHandler<AuthHeaderHandler>();
 
