@@ -15,28 +15,18 @@ public static class DependencyInjectionExtensions
 
     public static IServiceCollection AddTeslaApiLibary(this IServiceCollection services)
     {
-        if (services is null)
-        {
-            throw new ArgumentNullException(nameof(services));
-        }
+        ArgumentNullException.ThrowIfNull(services);
         var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
         return services.AddTeslaApiLibary(configuration);
     }
 
-    public static IServiceCollection AddTeslaApiLibary(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddTeslaApiLibary(this IServiceCollection services, IConfiguration configuration, Action<IHttpClientBuilder> clientBuilderOption = null)
     {
-        if (services is null)
-        {
-            throw new ArgumentNullException(nameof(services));
-        }
-        if (configuration is null)
-        {
-            throw new ArgumentNullException(nameof(configuration));
-        }
+        ArgumentNullException.ThrowIfNull(services);
+        ArgumentNullException.ThrowIfNull(configuration);
 
         services.Configure<AuthenticationOptions>(configuration.GetSection(TESLA_AUTH_OPTION_KEY));
         services.Configure<TeslaOptions>(configuration.GetSection(TESLA_OPTION_KEY));
-        services.AddTransient<AuthHeaderHandler>();
         services.AddTransient<EndpointChangeHandler>();
 
         services.AddHttpClient(TeslaApiConst.TESLA_AUTH_HTTPCLIENT_NAME, (sp, client) =>
@@ -44,18 +34,18 @@ public static class DependencyInjectionExtensions
 
         });
 
-        services.AddHttpClient(TeslaApiConst.TESLA_SERVICE_HTTPCLIENT_NAME, (sp, client) =>
-        {
-            var _optionsMonitor = sp.GetRequiredService<IOptionsMonitor<TeslaOptions>>();
-            var _options = _optionsMonitor.CurrentValue;
-            if (_options != null && !string.IsNullOrWhiteSpace(_options.TeslaBaseUrl))
-            {
-                client.BaseAddress = new Uri(_options.TeslaBaseUrl);
-            }
-        })
-        .AddPolicyHandler(PolicyExtensions.GetTokenRefresher) // policy should before than handler
-        .AddHttpMessageHandler<EndpointChangeHandler>()
-        .AddHttpMessageHandler<AuthHeaderHandler>();
+        var clientBuilder = services.AddHttpClient(TeslaApiConst.TESLA_SERVICE_HTTPCLIENT_NAME, (sp, client) =>
+         {
+             var _optionsMonitor = sp.GetRequiredService<IOptionsMonitor<TeslaOptions>>();
+             var _options = _optionsMonitor.CurrentValue;
+             if (_options != null && !string.IsNullOrWhiteSpace(_options.TeslaBaseUrl))
+             {
+                 client.BaseAddress = new Uri(_options.TeslaBaseUrl);
+             }
+         })
+         .AddHttpMessageHandler<EndpointChangeHandler>();
+
+        clientBuilderOption?.Invoke(clientBuilder);
 
         services.AddScoped<ITeslaAuthentication, TeslaAuthentication>();
         services.AddScoped<IVehicleCommand, VehicleCommand>();
@@ -65,4 +55,5 @@ public static class DependencyInjectionExtensions
         services.AddScoped<ITeslaUserAuthInfoRepository, DefaultTeslaUserAuthInfoRepository>();
         return services;
     }
+
 }
