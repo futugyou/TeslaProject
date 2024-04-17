@@ -10,7 +10,7 @@ namespace TeslaApi.Extensions.DependencyInjection;
 
 public static class DependencyInjectionExtensions
 {
-    public static readonly string TESLA_AUTH_OPTION_KEY = "TeslaAuth"; 
+    public static readonly string TESLA_AUTH_OPTION_KEY = "TeslaAuth";
     public static readonly string TESLA_OPTION_KEY = "Tesla";
 
     public static IServiceCollection AddTeslaApiLibary(this IServiceCollection services)
@@ -33,7 +33,7 @@ public static class DependencyInjectionExtensions
         {
             throw new ArgumentNullException(nameof(configuration));
         }
-        
+
         services.Configure<AuthenticationOptions>(configuration.GetSection(TESLA_AUTH_OPTION_KEY));
         services.Configure<TeslaOptions>(configuration.GetSection(TESLA_OPTION_KEY));
         services.AddTransient<AuthHeaderHandler>();
@@ -48,16 +48,14 @@ public static class DependencyInjectionExtensions
         {
             var _optionsMonitor = sp.GetRequiredService<IOptionsMonitor<TeslaOptions>>();
             var _options = _optionsMonitor.CurrentValue;
-            if (_options == null)
+            if (_options != null && !string.IsNullOrWhiteSpace(_options.TeslaBaseUrl))
             {
-                throw new ArgumentNullException(nameof(TeslaOptions));
+                client.BaseAddress = new Uri(_options.TeslaBaseUrl);
             }
-            client.BaseAddress = new Uri(_options.TeslaBaseUrl);
         })
+        .AddPolicyHandler(PolicyExtensions.GetTokenRefresher) // policy should before than handler
         .AddHttpMessageHandler<EndpointChangeHandler>()
-        ;
-        // TODO wait for token readly
-        //.AddHttpMessageHandler<AuthHeaderHandler>();
+        .AddHttpMessageHandler<AuthHeaderHandler>();
 
         services.AddScoped<ITeslaAuthentication, TeslaAuthentication>();
         services.AddScoped<IVehicleCommand, VehicleCommand>();

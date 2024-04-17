@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging;
 using TeslaApi.Contract;
 using TeslaApi.Storage.Abstractions;
 using System.Net.Http.Headers;
+using Polly;
 
 namespace TeslaApi.Extensions.DependencyInjection;
 
@@ -18,6 +19,10 @@ public class AuthHeaderHandler : DelegatingHandler
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
         CancellationToken cancellationToken)
     {
+        // It will not be null because policy is added before handler
+        var context = request.GetPolicyExecutionContext();
+
+        // TODO: this is not ready
         if (request.Headers.Authorization == null)
         {
             var vin = request.Headers.GetValues("x-tesla-api-vin").ToString();
@@ -42,6 +47,15 @@ public class AuthHeaderHandler : DelegatingHandler
             }
             request.Headers.Authorization = new AuthenticationHeaderValue(TeslaApiConst.TESLA_Authorization_Type, info.AccessToken);
         }
+
+        if (context != null && context.Count == 1)
+        {
+            if (context.TryGetValue(PolicyExtensions.TeslaTokenPolicy, out object token))
+            {
+                request.Headers.Authorization = new AuthenticationHeaderValue(TeslaApiConst.TESLA_Authorization_Type, token as string);
+            }
+        }
+
         return await base.SendAsync(request, cancellationToken);
     }
 }
