@@ -6,3 +6,24 @@ services:
       dockerfile: src/Web/TeslaApi.Web/Dockerfile
     ports:
       - 5000:5000
+  dbmysql:
+    image: mysql:8.3.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'test'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'admin'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - dbmysqlstorage:/var/lib/mysql
+  mysqladminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+volumes:
+  dbmysqlstorage:
