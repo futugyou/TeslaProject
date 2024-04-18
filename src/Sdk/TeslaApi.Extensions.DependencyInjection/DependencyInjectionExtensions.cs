@@ -35,17 +35,17 @@ public static class DependencyInjectionExtensions
         });
 
         var clientBuilder = services.AddHttpClient(TeslaApiConst.TESLA_SERVICE_HTTPCLIENT_NAME, (sp, client) =>
-         {
-             var _optionsMonitor = sp.GetRequiredService<IOptionsMonitor<TeslaOptions>>();
-             var _options = _optionsMonitor.CurrentValue;
-             if (_options != null && !string.IsNullOrWhiteSpace(_options.TeslaBaseUrl))
-             {
-                 client.BaseAddress = new Uri(_options.TeslaBaseUrl);
-             }
-         })
-         .AddHttpMessageHandler<EndpointChangeHandler>();
+        {
+            var _optionsMonitor = sp.GetRequiredService<IOptionsMonitor<TeslaOptions>>();
+            var _options = _optionsMonitor.CurrentValue;
+            if (_options != null && !string.IsNullOrWhiteSpace(_options.TeslaBaseUrl))
+            {
+                client.BaseAddress = new Uri(_options.TeslaBaseUrl);
+            }
+        });
 
         clientBuilderOption?.Invoke(clientBuilder);
+        clientBuilder.AddHttpMessageHandler<EndpointChangeHandler>();
 
         services.AddScoped<ITeslaAuthentication, TeslaAuthentication>();
         services.AddScoped<IVehicleCommand, VehicleCommand>();
