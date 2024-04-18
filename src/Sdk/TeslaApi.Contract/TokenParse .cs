@@ -74,7 +74,7 @@ public class TokenInfo
                 }
                 if (claim.Type == "exp")
                 {
-                    ExpirationTime = TokenParse.UnixStart.AddSeconds(long.Parse(claim.Value)).ToLocalTime();
+                    ExpirationTime = TokenParse.UnixStart.AddSeconds(long.Parse(claim.Value)).ToUniversalTime();
                 }
                 if (claim.Type == "ou_code")
                 {
@@ -88,5 +88,5 @@ public class TokenInfo
         }
     }
 
-    public bool IsTokenExpiration() => IssuedTime.CompareTo(DateTime.UtcNow.AddSeconds(-5)) < 0;
+    public bool IsTokenExpiration() => ExpirationTime.CompareTo(DateTime.UtcNow.AddSeconds(-5)) < 0;
 }
