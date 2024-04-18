@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using TeslaApi.Contract;
@@ -32,19 +33,21 @@ public static class HttpClientUtils
             content = new StringContent(json, Encoding.UTF8, TeslaApiConst.MEDIA_TYPE);
         }
 
-        try
+        if (!string.IsNullOrEmpty(token))
         {
-            if (!string.IsNullOrEmpty(token))
-            {
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(TeslaApiConst.TESLA_Authorization_Type, token);
-            }
-            var responseMessage = await httpClient.PostAsync(path, content);
-            var result = await responseMessage.Content.ReadAsStringAsync();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(TeslaApiConst.TESLA_Authorization_Type, token);
+        }
+
+        var responseMessage = await httpClient.PostAsync(path, content);
+        var result = await responseMessage.Content.ReadAsStringAsync();
+        if (responseMessage.IsSuccessStatusCode)
+        {
             return JsonSerializer.Deserialize<Response>(result, JsonSerializerExtensions.CreateJsonSetting()) ?? throw new HttpRequestException(result);
         }
-        catch (Exception)
+        else
         {
-            throw;
+            string errorMessage = $"Request failed with status code {responseMessage.StatusCode}: {responseMessage.ReasonPhrase}. Response content: {result}";
+            throw new HttpRequestException(errorMessage, null, responseMessage.StatusCode);
         }
     }
 
@@ -55,19 +58,20 @@ public static class HttpClientUtils
 
     public static async Task<Response> UtilsGetAsync<Response>(this HttpClient httpClient, string path, string token)
     {
-        try
+        if (!string.IsNullOrEmpty(token))
         {
-            if (!string.IsNullOrEmpty(token))
-            {
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(TeslaApiConst.TESLA_Authorization_Type, token);
-            }
-            var responseMessage = await httpClient.GetAsync(path);
-            var result = await responseMessage.Content.ReadAsStringAsync();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(TeslaApiConst.TESLA_Authorization_Type, token);
+        }
+        var responseMessage = await httpClient.GetAsync(path);
+        var result = await responseMessage.Content.ReadAsStringAsync();
+        if (responseMessage.IsSuccessStatusCode)
+        {
             return JsonSerializer.Deserialize<Response>(result, JsonSerializerExtensions.CreateJsonSetting()) ?? throw new HttpRequestException(result);
         }
-        catch (Exception)
+        else
         {
-            throw;
+            string errorMessage = $"Request failed with status code {responseMessage.StatusCode}: {responseMessage.ReasonPhrase}. Response content: {result}";
+            throw new HttpRequestException(errorMessage, null, responseMessage.StatusCode);
         }
     }
 }
