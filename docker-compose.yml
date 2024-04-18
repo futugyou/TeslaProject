@@ -1,0 +1,8 @@
+services:
+  teslaapiweb:
+    image: teslaapiweb
+    build:
+      context: .
+      dockerfile: src/Web/TeslaApi.Web/Dockerfile
+    ports:
+      - 5000:5000
