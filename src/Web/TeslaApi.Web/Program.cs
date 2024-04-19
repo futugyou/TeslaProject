@@ -12,6 +12,8 @@ using TeslaApi.Contract.Authentication;
 var builder = WebApplication.CreateBuilder(args);
 var Configuration = builder.Configuration;
 
+builder.Services.AddRedisExtension(Configuration);
+
 var serverVersion = new MySqlServerVersion(new Version(Configuration["MysqlVersion"]!));
 builder.Services.AddDbContextPool<TeslaContext>(
     dbContextOptions => dbContextOptions
