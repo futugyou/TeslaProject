@@ -25,5 +25,17 @@ services:
     restart: always
     ports:
       - 8080:8080
+  garnet:
+    image: 'ghcr.io/microsoft/garnet'
+    ulimits:
+      memlock: -1
+    ports:
+      - "6379:6379"
+    # To avoid docker NAT, consider `host` mode.
+    # https://docs.docker.com/compose/compose-file/compose-file-v3/#network_mode
+    # network_mode: "host"
+    volumes:
+      - garnetdata:/data
 volumes:
   dbmysqlstorage:
+  garnetdata:
