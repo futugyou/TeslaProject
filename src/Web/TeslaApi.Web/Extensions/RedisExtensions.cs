@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Options;
 using StackExchange.Redis;
 
 namespace Extensions;
@@ -34,6 +35,7 @@ public class RedisClient : IRedisClient
     private readonly IDatabase _db;
 
     private readonly ConnectionMultiplexer _redis;
+
     private const string LOCKSTRING = @"local isnx = redis.call('SETNX', @key, @value)
                                         if isnx == 1 then
                                             redis.call('PEXPIRE',@key,@time)
@@ -48,27 +50,61 @@ public class RedisClient : IRedisClient
                                             end
                                             return 0";
 
-    public RedisClient()
+    private readonly RedisOptions _options;
+    public RedisClient(IOptions<RedisOptions> option)
     {
-        _redis = ConnectionMultiplexer.Connect("");
+        _options = option.Value;
+        _redis = ConnectionMultiplexer.Connect(_options.Host);
         _db = _redis.GetDatabase(0);
     }
-    public async Task<bool> Lock(string key, string value, int expireMilliSeconds)
+
+    public Task<bool> Lock(string key, string value, int expireMilliSeconds) => _options.RedisType switch
+    {
+        RedisDbType.garnet => CodeLock(key, value, expireMilliSeconds),
+        _ => ScriptLock(key, value, expireMilliSeconds),
+    };
+
+    public Task<bool> UnLock(string key, string value) => _options.RedisType switch
+    {
+        RedisDbType.garnet => CodeUnLock(key, value),
+        _ => ScriptUnLock(key, value),
+    };
+
+    #region private
+    private async Task<bool> ScriptLock(string key, string value, int expireMilliSeconds)
     {
         var prepared = LuaScript.Prepare(LOCKSTRING);
         RedisResult redisResult = await _db.ScriptEvaluateAsync(prepared, new { key = (RedisKey)key, value = value, time = expireMilliSeconds });
         return "1".Equals(redisResult?.ToString());
     }
 
-    public async Task<bool> UnLock(string key, string value)
+    private async Task<bool> ScriptUnLock(string key, string value)
     {
         var prepared = LuaScript.Prepare(UNLOCKSTRING);
         RedisResult redisResult = await _db.ScriptEvaluateAsync(prepared, new { key = (RedisKey)key, value = value });
         return "1".Equals(redisResult?.ToString());
     }
+
+    private Task<bool> CodeLock(string key, string value, int expireMilliSeconds)
+    {
+        TimeSpan expirationTime = TimeSpan.FromMilliseconds(expireMilliSeconds);
+        return _db.StringSetAsync(key, value, expirationTime, When.NotExists);
+    }
+
+    private Task<bool> CodeUnLock(string key, string value)
+    {
+        return _db.KeyDeleteAsync(key);
+    }
+    #endregion
 }
 
 public class RedisOptions
 {
     public string Host { get; set; }
+    public RedisDbType RedisType { get; set; } = RedisDbType.redis;
+}
+public enum RedisDbType
+{
+    redis,
+    garnet,
 }
