@@ -13,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 var Configuration = builder.Configuration;
 
 builder.Services.AddRedisExtension(Configuration);
+builder.Services.AddBackgroundTaskQueue(Configuration);
 
 var serverVersion = new MySqlServerVersion(new Version(Configuration["MysqlVersion"]!));
 builder.Services.AddDbContextPool<TeslaContext>(
@@ -40,13 +41,7 @@ builder.Services.AddTeslaApiLibary(Configuration, option =>
     option.AddHttpMessageHandler<RefreshTokenHandler>();
 });
 
-builder.Services.AddHostedService<TeslaWebSocketClient>();
-builder.Services.AddSingleton<IBackgroundTaskQueue>(ctx =>
-{
-    if (!int.TryParse(Configuration["QueueCapacity"], out var queueCapacity))
-        queueCapacity = 100;
-    return new BackgroundTaskQueue(queueCapacity);
-});
+builder.Services.AddHostedService<TeslaWebSocketClient>(); 
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -73,19 +68,24 @@ app.UseAuthorization();
 app.UseWeixinRequest();
 
 app.MapRazorPages();
-app.MapGet("/vehicle", async ([FromServices] IBackgroundTaskQueue queue, [FromQuery] string vid, [FromQuery] string token) =>
+app.MapGet("/vehicle", async ([FromServices] IBackgroundTaskQueue queue, [FromQuery] string vin, [FromQuery] string token) =>
 {
     // TODO:check Vehicle state
     StreamRequest rquest = new()
     {
-        Vin = vid,
+        Vin = vin,
         Token = token,
 
     };
+    var pararmeter = new TaskQueueParameter
+    {
+        IdentityKey = vin,
+        Parameter = rquest,
+    };
     // send to queue
-    await queue.QueueBackgroundWorkItemAsync(ConnectVehicleStream, rquest);
+    await queue.QueueBackgroundWorkItemAsync(ConnectVehicleStream, pararmeter);
 
-    return vid;
+    return vin;
 })
 .WithName("vehicle")
 .WithOpenApi();
@@ -126,7 +126,7 @@ app.MapGet("/check", ([FromQuery] string token) =>
 
 app.Run();
 
-static async ValueTask ConnectVehicleStream(IServiceProvider sp, CancellationToken stoppingToken, object state)
+static async ValueTask ConnectVehicleStream(IServiceProvider sp, object state, CancellationToken stoppingToken)
 {
     using var scope = sp.CreateScope();
     var teslaStream = scope.ServiceProvider.GetRequiredService<ITeslaStream>();

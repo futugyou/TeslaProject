@@ -1,3 +1,5 @@
+using Extensions;
+
 namespace TeslaApi.Web;
 
 public class TeslaWebSocketClient : BackgroundService
@@ -33,7 +35,7 @@ public class TeslaWebSocketClient : BackgroundService
             var workItem = await TaskQueue.DequeueAsync(stoppingToken);
             try
             {
-                _ = Task.Run(async () => await workItem.function(_services, stoppingToken, workItem.data));
+                _ = Task.Run(async () => await workItem.function(_services, workItem.data.Parameter, stoppingToken));
             }
             catch (Exception ex)
             {
