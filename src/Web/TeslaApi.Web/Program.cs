@@ -41,7 +41,7 @@ builder.Services.AddTeslaApiLibary(Configuration, option =>
     option.AddHttpMessageHandler<RefreshTokenHandler>();
 });
 
-builder.Services.AddHostedService<TeslaWebSocketClient>(); 
+builder.Services.AddHostedService<TeslaWebSocketClient>();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -130,17 +130,22 @@ static async ValueTask ConnectVehicleStream(IServiceProvider sp, object state, C
 {
     using var scope = sp.CreateScope();
     var teslaStream = scope.ServiceProvider.GetRequiredService<ITeslaStream>();
+    var redis = scope.ServiceProvider.GetRequiredService<IRedisClient>();
     var _logger = scope.ServiceProvider.GetRequiredService<ILogger<ITeslaStream>>();
     await teslaStream.StartAsync(stoppingToken);
 
+    StreamRequest rquest = (StreamRequest)state;
     try
     {
-        StreamRequest rquest = (StreamRequest)state;
         await teslaStream.ReceiveAsync(rquest, stoppingToken);
     }
     catch (Exception ex)
     {
         _logger.LogError("{Message}", ex.Message);
+    }
+    finally
+    {
+        await redis.UnLock(rquest.Vin, rquest.Vin);
     }
 
     await teslaStream.StopAsync(stoppingToken);
