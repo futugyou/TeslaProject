@@ -14,11 +14,46 @@ public static class VehicleEndpoints
         .WithName("vehicle")
         .WithOpenApi();
 
-        vehicleGroup.MapGet("/{vin}", VehicleInfo);
+        vehicleGroup.MapPost("/sync", VehicleSync).WithDescription("This API sync data from tesla api");
+        vehicleGroup.MapGet("/{vin}", VehicleInfo).WithDescription("This API only get vehicle data from local db");
         vehicleGroup.MapGet("/{vin}/state", VehicleState);
         vehicleGroup.MapPost("/{vin}/ws", VehicleWebSocket);
     }
 
+    static async Task<IResult> VehicleSync([FromServices] IVehicleRepository repo, [FromServices] IVehicleState state)
+    {
+        var token = "";//TODO get token
+        var vehcileList = await state.GetUserVehicles(token);
+        if (vehcileList == null || vehcileList.Count < 1)
+        {
+            return TypedResults.NotFound();
+        }
+
+        //DOTO: update repository, support unitofwork
+        var taskList = new List<Task>();
+        foreach (var item in vehcileList.Response)
+        {
+            var vehicle = await repo.GetByVin(item.Vin);
+            if (vehicle == null)
+            {
+                vehicle = new Vehicle
+                {
+                    Vid = item.Id,
+                    Vin = item.Vin
+                };
+                taskList.Add(repo.Add(vehicle));
+            }
+            else
+            {
+                vehicle.Name = item.DisplayName;
+                taskList.Add(repo.Update(vehicle));
+            }
+        }
+
+        await Task.WhenAll(taskList);
+        return TypedResults.Ok();
+    }
+    
     static async Task<IResult> VehicleInfo([FromServices] IVehicleRepository repo, string vin)
     {
         var vehicle = await repo.GetByVin(vin);
@@ -30,7 +65,7 @@ public static class VehicleEndpoints
         return TypedResults.Ok(vehicle);
     }
 
-    static async Task<IResult> VehicleState([FromServices] IVehicleRepository repo, IVehicleState state, string vin)
+    static async Task<IResult> VehicleState([FromServices] IVehicleRepository repo, [FromServices] IVehicleState state, string vin)
     {
         var vehicle = await repo.GetByVin(vin);
         if (vehicle == null)
