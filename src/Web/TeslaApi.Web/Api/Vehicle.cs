@@ -15,13 +15,47 @@ public static class VehicleEndpoints
         .WithOpenApi();
 
         vehicleGroup.MapGet("/{vin}", VehicleInfo);
+        vehicleGroup.MapGet("/{vin}/state", VehicleState);
         vehicleGroup.MapPost("/{vin}/ws", VehicleWebSocket);
     }
 
     static async Task<IResult> VehicleInfo([FromServices] IVehicleRepository repo, string vin)
     {
         var vehicle = await repo.GetByVin(vin);
+        if (vehicle == null)
+        {
+            return TypedResults.NotFound();
+        }
+
         return TypedResults.Ok(vehicle);
+    }
+
+    static async Task<IResult> VehicleState([FromServices] IVehicleRepository repo, IVehicleState state, string vin)
+    {
+        var vehicle = await repo.GetByVin(vin);
+        if (vehicle == null)
+        {
+            return TypedResults.NotFound();
+        }
+
+        var token = "";//TODO get token
+        var vehicleState = await state.GetUserVehicleById(vehicle.Vid.ToString(), token);
+
+        // TODO: store the data
+        if (vehicleState == null || vehicleState.Response == null)
+        {
+            return TypedResults.NotFound();
+        }
+
+        if (vehicleState.Response.State != "online")
+        {
+            return TypedResults.Ok(vehicleState.Response);
+        }
+
+        // TODO: call this api may wakeup car, need some limit
+        // TODO: store the data
+        var vehicleData = await state.GetVehicleData(vehicle.Vid.ToString(), token);
+        return TypedResults.Ok(vehicleData?.Response);
     }
 
     static async Task<IResult> VehicleWebSocket([FromServices] IVehicleRepository repo, [FromServices] IBackgroundTaskQueue queue, string vin)
