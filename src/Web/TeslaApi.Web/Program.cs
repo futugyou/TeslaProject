@@ -8,6 +8,7 @@ using TeslaApi.Extensions.DependencyInjection;
 using TeslaApi.Contract;
 using TeslaApi.Abstractions;
 using TeslaApi.Contract.Authentication;
+using Api;
 
 var builder = WebApplication.CreateBuilder(args);
 var Configuration = builder.Configuration;
@@ -68,27 +69,8 @@ app.UseAuthorization();
 app.UseWeixinRequest();
 
 app.MapRazorPages();
-app.MapGet("/vehicle", async ([FromServices] IBackgroundTaskQueue queue, [FromQuery] string vin, [FromQuery] string token) =>
-{
-    // TODO:check Vehicle state
-    StreamRequest rquest = new()
-    {
-        Vin = vin,
-        Token = token,
 
-    };
-    var pararmeter = new TaskQueueParameter
-    {
-        IdentityKey = vin,
-        Parameter = rquest,
-    };
-    // send to queue
-    await queue.QueueBackgroundWorkItemAsync(ConnectVehicleStream, pararmeter);
-
-    return vin;
-})
-.WithName("vehicle")
-.WithOpenApi();
+VehicleEndpoints.Map(app);
 
 // this is test
 app.MapGet("/token", async ([FromServices] ITeslaAuthentication tesla, [FromQuery] string code, [FromQuery] string verifier) =>
@@ -125,28 +107,3 @@ app.MapGet("/check", ([FromQuery] string token) =>
 
 
 app.Run();
-
-static async ValueTask ConnectVehicleStream(IServiceProvider sp, object state, CancellationToken stoppingToken)
-{
-    using var scope = sp.CreateScope();
-    var teslaStream = scope.ServiceProvider.GetRequiredService<ITeslaStream>();
-    var redis = scope.ServiceProvider.GetRequiredService<IRedisClient>();
-    var _logger = scope.ServiceProvider.GetRequiredService<ILogger<ITeslaStream>>();
-    await teslaStream.StartAsync(stoppingToken);
-
-    StreamRequest rquest = (StreamRequest)state;
-    try
-    {
-        await teslaStream.ReceiveAsync(rquest, stoppingToken);
-    }
-    catch (Exception ex)
-    {
-        _logger.LogError("{Message}", ex.Message);
-    }
-    finally
-    {
-        await redis.UnLock(rquest.Vin, rquest.Vin);
-    }
-
-    await teslaStream.StopAsync(stoppingToken);
-}
