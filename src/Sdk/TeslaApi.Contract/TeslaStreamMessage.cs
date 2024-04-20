@@ -56,7 +56,7 @@ public class StreamRequest
     [JsonPropertyName("user_id")]
     public string UserID { get; set; }
     [JsonPropertyName("vin_id")]
-    public int VinID { get; set; }
+    public long VinID { get; set; }
     [JsonPropertyName("vin")]
     public string Vin { get; set; }
     [JsonPropertyName("user_name")]

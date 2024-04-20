@@ -73,7 +73,7 @@ public class TeslaStream(IOptionsMonitor<TeslaOptions> options) : ITeslaStream
                 var data = new TeslaStreamMessage
                 {
                     MsgType = MessageType.SubscribeOauth,
-                    Tag = rquest.Vin,
+                    Tag = rquest.VinID.ToString(),
                     Token = rquest.Token,
                     Value = TeslaApiConst.TeslaMessageDataColumns,
                 };
