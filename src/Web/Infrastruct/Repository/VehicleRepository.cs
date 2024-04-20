@@ -1,11 +1,18 @@
 
 using Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastruct;
 
-public class VehicleRepository : BaseRepository<Vehicle>, IVehicleRepository
+public class VehicleRepository(TeslaContext context) : BaseRepository<Vehicle>(context), IVehicleRepository
 {
-    public VehicleRepository(TeslaContext context) : base(context)
+    public Task<Vehicle?> GetByVid(long vid)
     {
-    } 
+         return GetAll().FirstOrDefaultAsync(p => p.Vid == vid);
+    }
+
+    public Task<Vehicle?> GetByVin(string vin)
+    {
+        return GetAll().FirstOrDefaultAsync(p => p.Vin == vin);
+    }
 }
