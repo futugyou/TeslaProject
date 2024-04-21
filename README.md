@@ -1,12 +1,20 @@
-# TeslaAPI
+# Tesla
 
-[TeslaAPI Doc](https://tesla-api.timdorr.com/)
+This repository is for implementing some functionalities related to Tesla.
+Updates will be made based on mood.
 
-## docker support
+## doc
 
-```ps
-docker build -f src/Web/TeslaApi.Web/Dockerfile .
-docker-compose build
-```
+1. [overview](./doc/01.architecture.md)
 
-[garnet](https://microsoft.github.io/garnet/docs)
+## reference
+
+- [TeslaAPI Doc](https://tesla-api.timdorr.com/)
+- docker support
+
+    ```ps
+    docker build -f src/Web/TeslaApi.Web/Dockerfile .
+    docker-compose build
+    ```
+
+- [garnet](https://microsoft.github.io/garnet/docs)
