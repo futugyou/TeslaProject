@@ -70,7 +70,7 @@ app.UseWeixinRequest();
 
 app.MapRazorPages();
 
-VehicleEndpoints.Map(app);
+app.UseVehicleEndpoints();
 
 // this is test
 app.MapGet("/token", async ([FromServices] ITeslaAuthentication tesla, [FromQuery] string code, [FromQuery] string verifier) =>

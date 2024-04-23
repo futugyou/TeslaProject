@@ -8,16 +8,16 @@ namespace Api;
 
 public static class VehicleEndpoints
 {
-    public static void Map(WebApplication app)
+    public static void UseVehicleEndpoints(this IEndpointRouteBuilder app)
     {
         var vehicleGroup = app.MapGroup("/vehicle")
-        .WithName("vehicle")
-        .WithOpenApi();
+                .WithName("vehicle")
+                .WithOpenApi();
 
-        vehicleGroup.MapPost("/sync", VehicleSync).WithDescription("This API sync data from tesla api");
-        vehicleGroup.MapGet("/{vin}", VehicleInfo).WithDescription("This API only get vehicle data from local db");
-        vehicleGroup.MapGet("/{vin}/state", VehicleState);
-        vehicleGroup.MapPost("/{vin}/ws", VehicleWebSocket);
+        vehicleGroup.MapPost("/sync", VehicleSync).WithName("sync").WithDescription("This API sync data from tesla api");
+        vehicleGroup.MapGet("/{vin}", VehicleInfo).WithName("local").WithDescription("This API only get vehicle data from local db");
+        vehicleGroup.MapGet("/{vin}/state", VehicleState).WithName("state");
+        vehicleGroup.MapPost("/{vin}/ws", VehicleWebSocket).WithName("ws");
     }
 
     static async Task<IResult> VehicleSync([FromServices] IVehicleRepository repo, [FromServices] IVehicleState state)
@@ -53,7 +53,7 @@ public static class VehicleEndpoints
         await Task.WhenAll(taskList);
         return TypedResults.Ok();
     }
-    
+
     static async Task<IResult> VehicleInfo([FromServices] IVehicleRepository repo, string vin)
     {
         var vehicle = await repo.GetByVin(vin);
