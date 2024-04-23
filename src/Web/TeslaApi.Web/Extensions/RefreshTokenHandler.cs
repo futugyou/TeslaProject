@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Logging;
 using TeslaApi.Contract;
 using TeslaApi.Storage.Abstractions;
 using System.Net.Http.Headers;
