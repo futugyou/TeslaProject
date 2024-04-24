@@ -1,5 +1,4 @@
 using TeslaApi.Contract;
-using TeslaApi.Storage.Abstractions;
 using System.Net.Http.Headers;
 using Polly;
 
@@ -8,11 +7,9 @@ namespace Extensions;
 public class RefreshTokenHandler : DelegatingHandler
 {
     private readonly ILogger<RefreshTokenHandler> _logger;
-    private readonly ITeslaUserAuthInfoRepository _authInfoRepository;
-    public RefreshTokenHandler(ILogger<RefreshTokenHandler> logger, ITeslaUserAuthInfoRepository authInfoRepository)
+    public RefreshTokenHandler(ILogger<RefreshTokenHandler> logger)
     {
         _logger = logger;
-        _authInfoRepository = authInfoRepository;
     }
 
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
