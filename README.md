@@ -39,7 +39,7 @@ Updates will be made based on mood.
 - docker compose
 
     ```ps
-    docker-compose build
+    docker-compose -f ./docker-compose.debug.yml up
     ```
 
 ## reference
