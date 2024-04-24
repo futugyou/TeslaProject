@@ -3,7 +3,7 @@ using TeslaApi.Contract.User;
 
 namespace TeslaApi.Abstractions;
 
-public interface IUser
+public interface IUser : IVehicleRefit
 {
     [Get("/api/1/users/me")]
     Task<MeReponse> UserInformation([Authorize("Bearer")] string token);

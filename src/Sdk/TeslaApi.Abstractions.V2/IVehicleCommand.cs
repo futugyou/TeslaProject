@@ -18,7 +18,7 @@ using Refit;
 
 namespace TeslaApi.Abstractions;
 
-public interface IVehicleCommand
+public interface IVehicleCommand : IVehicleRefit
 {
     [Post("/api/1/vehicles/{id}/wake_up")]
     Task<VehicleWakeResponse> WakeupVehicle(string id, [Authorize("Bearer")] string token);

@@ -8,7 +8,7 @@ using Refit;
 
 namespace TeslaApi.Abstractions;
 
-public interface IVehicleState
+public interface IVehicleState : IVehicleRefit
 {
     [Get("/api/1/vehicles")]
     Task<VehiclesResponse> GetUserVehicles([Authorize("Bearer")] string token);
