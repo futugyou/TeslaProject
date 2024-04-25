@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.Json;
 using TeslaApi.Contract;
 
-namespace TeslaApi.Abstractions;
+namespace TeslaApi.SDK;
 
 public interface ITeslaStream
 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
-using TeslaApi.Abstractions;
+using TeslaApi.SDK;
 
 namespace TeslaApi.Extensions.DependencyInjection;
 

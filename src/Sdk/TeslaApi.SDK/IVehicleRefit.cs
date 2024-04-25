@@ -1,3 +1,3 @@
-namespace TeslaApi.Abstractions;
+namespace TeslaApi.SDK;
 
 public interface IVehicleRefit{}

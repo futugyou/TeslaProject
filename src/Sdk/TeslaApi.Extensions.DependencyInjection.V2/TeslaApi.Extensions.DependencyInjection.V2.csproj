@@ -14,6 +14,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\TeslaApi.Abstractions.V2\TeslaApi.Abstractions.V2.csproj" />
+		<ProjectReference Include="..\TeslaApi.SDK\TeslaApi.SDK.csproj" />
 	</ItemGroup>
 </Project>

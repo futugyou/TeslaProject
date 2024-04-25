@@ -6,7 +6,7 @@ using TeslaApi.Contract.Vehicle.State.NearbyChargingSites;
 using TeslaApi.Contract.Vehicle.Vehicles;
 using Refit;
 
-namespace TeslaApi.Abstractions;
+namespace TeslaApi.SDK;
 
 public interface IVehicleState : IVehicleRefit
 {

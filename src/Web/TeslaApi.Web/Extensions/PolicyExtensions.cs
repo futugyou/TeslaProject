@@ -1,7 +1,7 @@
 using Domain;
 using Polly;
 using System.Net;
-using TeslaApi.Abstractions;
+using TeslaApi.SDK;
 using TeslaApi.Contract.Authentication;
 
 namespace Extensions;

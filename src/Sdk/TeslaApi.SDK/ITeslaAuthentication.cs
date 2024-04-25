@@ -1,7 +1,7 @@
 ﻿using Refit;
 using TeslaApi.Contract.Authentication;
 
-namespace TeslaApi.Abstractions;
+namespace TeslaApi.SDK;
 
 public interface ITeslaAuthentication
 {

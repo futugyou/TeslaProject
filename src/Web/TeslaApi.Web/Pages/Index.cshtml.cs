@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using TeslaApi.Abstractions;
+using TeslaApi.SDK;
 using TeslaApi.Contract;
 using TeslaApi.Contract.Authentication;
 

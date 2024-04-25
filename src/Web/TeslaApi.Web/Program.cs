@@ -6,7 +6,7 @@ using Domain;
 using Extensions;
 using TeslaApi.Extensions.DependencyInjection;
 using TeslaApi.Contract;
-using TeslaApi.Abstractions;
+using TeslaApi.SDK;
 using TeslaApi.Contract.Authentication;
 using Api;
 

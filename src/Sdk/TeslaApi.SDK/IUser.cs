@@ -1,7 +1,7 @@
 using Refit;
 using TeslaApi.Contract.User;
 
-namespace TeslaApi.Abstractions;
+namespace TeslaApi.SDK;
 
 public interface IUser : IVehicleRefit
 {

@@ -16,7 +16,7 @@ using TeslaApi.Contract.Vehicle.Commands.Wake;
 using TeslaApi.Contract.Vehicle.Commands.Windows;
 using Refit;
 
-namespace TeslaApi.Abstractions;
+namespace TeslaApi.SDK;
 
 public interface IVehicleCommand : IVehicleRefit
 {
