@@ -18,6 +18,24 @@ public static class TestEndpoints
         vehicleGroup.MapGet("/user", UserInfo).WithName("user");
         vehicleGroup.MapGet("/tokeninfo", LocalInfo).WithName("tokeninfo");
         vehicleGroup.MapGet("/ws", VehicleWebSocket).WithName("wstest");
+        vehicleGroup.MapGet("/vehicle", VehicleInfo).WithName("vehicletest");
+    }
+
+    static async Task<IResult> VehicleInfo([FromServices] IVehicleState state, [FromQuery] string vid, [FromQuery] string token)
+    {
+        var vehicleState = await state.GetUserVehicleById(vid, token);
+        if (vehicleState == null || vehicleState.Response == null)
+        {
+            return TypedResults.NotFound();
+        }
+
+        if (vehicleState.Response.State != "online")
+        {
+            return TypedResults.Ok(vehicleState.Response);
+        }
+
+        var vehicleData = await state.GetVehicleData(vid, token);
+        return TypedResults.Ok(vehicleData?.Response);
     }
 
     static async Task<IResult> AccessToken([FromServices] ITeslaAuthentication tesla, [FromQuery] string code, [FromQuery] string verifier)
@@ -44,7 +62,7 @@ public static class TestEndpoints
         return TypedResults.Ok(result);
     }
 
-    static async Task<IResult> VehicleWebSocket([FromServices] IBackgroundTaskQueue queue, string token, string vid)
+    static async Task<IResult> VehicleWebSocket([FromServices] IBackgroundTaskQueue queue, [FromQuery] string token, [FromQuery] string vid)
     {
         StreamRequest rquest = new()
         {
