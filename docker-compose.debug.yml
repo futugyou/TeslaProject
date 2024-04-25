@@ -8,6 +8,9 @@ services:
       - 5000:5000
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - dbmysql
+      - garnet
   dbmysql:
     image: mysql:8.3.0
     restart: always

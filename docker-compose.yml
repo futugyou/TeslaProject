@@ -6,6 +6,9 @@ services:
       dockerfile: src/Web/TeslaApi.Web/Dockerfile
     ports:
       - 5000:5000
+    depends_on:
+      - dbmysql
+      - garnet
   dbmysql:
     image: mysql:8.3.0
     restart: always
