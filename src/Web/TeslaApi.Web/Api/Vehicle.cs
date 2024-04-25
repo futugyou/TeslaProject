@@ -123,12 +123,17 @@ public static class VehicleEndpoints
         var teslaStream = scope.ServiceProvider.GetRequiredService<ITeslaStream>();
         var redis = scope.ServiceProvider.GetRequiredService<IRedisClient>();
         var _logger = scope.ServiceProvider.GetRequiredService<ILogger<ITeslaStream>>();
-        await teslaStream.StartAsync(stoppingToken);
 
         StreamRequest rquest = (StreamRequest)state;
+
         try
         {
-            await teslaStream.ReceiveAsync(rquest, stoppingToken);
+            await teslaStream.StartAsync(rquest, stoppingToken);
+            while (await teslaStream.MessageReader.WaitToReadAsync(stoppingToken))
+            {
+                var msg = await teslaStream.MessageReader.ReadAsync(stoppingToken);
+                _logger.LogInformation("{Message}", msg?.Value);
+            }
         }
         catch (Exception ex)
         {
@@ -137,9 +142,7 @@ public static class VehicleEndpoints
         finally
         {
             await redis.UnLock(rquest.Vin, rquest.Vin);
+            await teslaStream.StopAsync(stoppingToken);
         }
-
-        await teslaStream.StopAsync(stoppingToken);
     }
-
 }

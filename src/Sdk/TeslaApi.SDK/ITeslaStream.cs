@@ -1,59 +1,80 @@
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Channels;
 using TeslaApi.Contract;
 
 namespace TeslaApi.SDK;
 
 public interface ITeslaStream
 {
-    Task ReceiveAsync(StreamRequest rquest, CancellationToken cancellation = default);
-    Task StartAsync(CancellationToken cancellationToken = default);
+    Task StartAsync(StreamRequest rquest, CancellationToken cancellationToken = default);
     Task StopAsync(CancellationToken cancellationToken = default);
-    Task SendAsync(TeslaStreamMessage message, CancellationToken cancellationToken = default);
+    public ChannelReader<TeslaStreamMessage> MessageReader { get; }
+    public ChannelWriter<TeslaStreamMessage> MessagelWriter { get; }
 }
 
 
 public class TeslaStream() : ITeslaStream
 {
     public string TeslaStreamUrl { get; set; } = "wss://streaming.vn.teslamotors.com/streaming";
-    public string TeslaCnStreamUrl { get; set; } = "wss://streaming.vn.cloud.tesla.cn/streaming"; private readonly ClientWebSocket _webSocket = new();
+    public string TeslaCnStreamUrl { get; set; } = "wss://streaming.vn.cloud.tesla.cn/streaming";
+    private readonly ClientWebSocket _webSocket = new();
+    private StreamRequest _rquest;
+    private readonly Channel<TeslaStreamMessage> _receiveChannel = Channel.CreateUnbounded<TeslaStreamMessage>();
+    private readonly Channel<TeslaStreamMessage> _sendChannel = Channel.CreateUnbounded<TeslaStreamMessage>();
+    public ChannelReader<TeslaStreamMessage> MessageReader => _receiveChannel.Reader;
+    public ChannelWriter<TeslaStreamMessage> MessagelWriter => _sendChannel.Writer;
 
-    public async Task StartAsync(CancellationToken cancellationToken = default)
+    public async Task StartAsync(StreamRequest rquest, CancellationToken cancelToken = default)
     {
-        await _webSocket.ConnectAsync(new Uri(TeslaStreamUrl), cancellationToken);
-    }
-
-    public async Task StopAsync(CancellationToken cancellationToken = default)
-    {
-        if (_webSocket.State == WebSocketState.Open || _webSocket.State == WebSocketState.CloseReceived)
+        _rquest = rquest;
+        var tokenInfo = new TokenInfo(rquest.Token);
+        if (tokenInfo.IsTokenExpiration())
         {
-            await _webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Service stopping", cancellationToken);
+            throw new Exception("token is expirated");
         }
-    }
 
-    public async Task SendAsync(TeslaStreamMessage message, CancellationToken cancellationToken = default)
-    {
-        if (_webSocket.State == WebSocketState.Open)
+        if (tokenInfo.Locale == TokenLocal.China)
         {
-            byte[] buffer = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message, JsonSerializerExtensions.CreateJsonSetting()));
-            await _webSocket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Binary, false, cancellationToken);
+            await _webSocket.ConnectAsync(new Uri(TeslaCnStreamUrl), cancelToken);
         }
+        else
+        {
+            await _webSocket.ConnectAsync(new Uri(TeslaStreamUrl), cancelToken);
+        }
+
+        FireAndForget(Task.WhenAll(ReceiveLoop(cancelToken), SendLoop(cancelToken)));
     }
 
-    // TODO: 
-    public async Task ReceiveAsync(StreamRequest rquest, CancellationToken cancellation = default)
+    static void FireAndForget(Task task)
     {
-        byte[] buffer = new byte[1024];
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                await task;
+            }
+            catch (Exception)
+            {
+            }
+        });
+    }
+
+    private async Task ReceiveLoop(CancellationToken cancellation = default)
+    {
+        var buffer = new byte[1024 * 4];
+
         while (_webSocket.State == WebSocketState.Open && !cancellation.IsCancellationRequested)
         {
             var timeoutToken = new CancellationTokenSource(10000).Token;
             var stoppingToken = CancellationTokenSource.CreateLinkedTokenSource(cancellation, timeoutToken);
 
             var result = await _webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), stoppingToken.Token);
+
             if (result.MessageType == WebSocketMessageType.Close)
             {
-                await _webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, cancellation);
+                await _webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
             }
             else
             {
@@ -63,33 +84,50 @@ public class TeslaStream() : ITeslaStream
                 {
                     continue;
                 }
-                await HandleMessage(message, rquest, cancellation);
+                await HandleMessage(message, cancellation);
             }
         }
-
-        return;
     }
 
-    private async Task HandleMessage(TeslaStreamMessage message, StreamRequest rquest, CancellationToken cancellation)
+    private async Task SendLoop(CancellationToken cancellationToken = default)
+    {
+        while (await _sendChannel.Reader.WaitToReadAsync(cancellationToken))
+        {
+            var message = await _sendChannel.Reader.ReadAsync(cancellationToken);
+            if (message is not null)
+            {
+                byte[] buffer = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message, JsonSerializerExtensions.CreateJsonSetting()));
+                await _webSocket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Binary, false, cancellationToken);
+            }
+        }
+    }
+
+    public async Task StopAsync(CancellationToken cancellationToken = default)
+    {
+        _receiveChannel.Writer.TryComplete();
+        _sendChannel.Writer.TryComplete();
+        if (_webSocket.State == WebSocketState.Open || _webSocket.State == WebSocketState.CloseReceived)
+        {
+            await _webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Service stopping", cancellationToken);
+        }
+    }
+
+    private async Task HandleMessage(TeslaStreamMessage message, CancellationToken cancellation)
     {
         switch (message.MsgType)
         {
             case MessageType.Hello:
-                // send SubscribeOauth
-                // TODO: get data
                 var data = new TeslaStreamMessage
                 {
                     MsgType = MessageType.SubscribeOauth,
-                    Tag = rquest.VinID.ToString(),
-                    Token = rquest.Token,
+                    Tag = _rquest.VinID.ToString(),
+                    Token = _rquest.Token,
                     Value = TeslaApiConst.TeslaMessageDataColumns,
                 };
-                await SendAsync(data, cancellation);
+                await _sendChannel.Writer.WriteAsync(data, cancellation);
                 break;
-            case MessageType.Update:
-            // update vehicle data
-            case MessageType.WsError:
-                // handle error
+            default:
+                await _receiveChannel.Writer.WriteAsync(message, cancellation);
                 break;
 
         }
