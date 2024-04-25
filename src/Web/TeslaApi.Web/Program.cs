@@ -1,13 +1,9 @@
-using Microsoft.AspNetCore.Mvc;
 using TeslaApi.Web;
 using Microsoft.EntityFrameworkCore;
 using Infrastruct;
 using Domain;
 using Extensions;
 using TeslaApi.Extensions.DependencyInjection;
-using TeslaApi.Contract;
-using TeslaApi.SDK;
-using TeslaApi.Contract.Authentication;
 using Api;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -73,37 +69,6 @@ app.MapRazorPages();
 app.UseVehicleEndpoints();
 
 // this is test
-app.MapGet("/token", async ([FromServices] ITeslaAuthentication tesla, [FromQuery] string code, [FromQuery] string verifier) =>
-{
-    var request = new AccessTokenRequest
-    {
-        Code = code,
-        CodeVerifier = verifier,
-    };
-    var result = await tesla.GetAccessToken(request);
-    return result;
-})
-.WithName("token")
-.WithOpenApi();
-
-
-// this is test
-app.MapGet("/user", async ([FromServices] IUser tesla, [FromQuery] string token) =>
-{
-    var result = await tesla.UserInformation(token);
-    return result;
-})
-.WithName("user")
-.WithOpenApi();
-
-// this is test
-app.MapGet("/check", ([FromQuery] string token) =>
-{
-    var result = TokenParse.CheckTokenLocal(token);
-    return result;
-})
-.WithName("check")
-.WithOpenApi();
-
+app.UseTestEndpoints();
 
 app.Run();
