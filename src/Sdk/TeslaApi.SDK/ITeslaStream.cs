@@ -63,14 +63,24 @@ public class TeslaStream() : ITeslaStream
 
     private async Task ReceiveLoop(CancellationToken cancellation = default)
     {
-        var buffer = new byte[1024 * 4];
-
         while (_webSocket.State == WebSocketState.Open && !cancellation.IsCancellationRequested)
         {
             var timeoutToken = new CancellationTokenSource(10000).Token;
             var stoppingToken = CancellationTokenSource.CreateLinkedTokenSource(cancellation, timeoutToken);
 
-            var result = await _webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), stoppingToken.Token);
+            var buffer = new ArraySegment<byte>(new byte[1024 * 4]);
+            var receivedMessage = new StringBuilder();
+
+            WebSocketReceiveResult result;
+            do
+            {
+                result = await _webSocket.ReceiveAsync(buffer, stoppingToken.Token);
+                if (buffer.Array != null)
+                {
+                    receivedMessage.Append(Encoding.UTF8.GetString(buffer.Array, buffer.Offset, result.Count));
+                }
+            }
+            while (!result.EndOfMessage);
 
             if (result.MessageType == WebSocketMessageType.Close)
             {
@@ -78,8 +88,7 @@ public class TeslaStream() : ITeslaStream
             }
             else
             {
-                string res = Encoding.UTF8.GetString(buffer, 0, result.Count);
-                var message = JsonSerializer.Deserialize<TeslaStreamMessage>(res, JsonSerializerExtensions.CreateJsonSetting());
+                var message = JsonSerializer.Deserialize<TeslaStreamMessage>(receivedMessage.ToString(), JsonSerializerExtensions.CreateJsonSetting());
                 if (message == null)
                 {
                     continue;
