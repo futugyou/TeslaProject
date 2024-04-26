@@ -43,10 +43,10 @@ public class TeslaStream(ClientWebSocket clientWebSocket) : ITeslaStream
             await clientWebSocket.ConnectAsync(new Uri(TeslaStreamUrl), cancelToken);
         }
 
-        FireAndForget(Task.WhenAll(ReceiveLoop(cancelToken), SendLoop(cancelToken)));
+        FireAndForget(Task.WhenAll(ReceiveLoop(cancelToken), SendLoop(cancelToken)), cancelToken);
     }
 
-    static void FireAndForget(Task task)
+    static void FireAndForget(Task task, CancellationToken cancelToken = default)
     {
         _ = Task.Run(async () =>
         {
@@ -56,44 +56,55 @@ public class TeslaStream(ClientWebSocket clientWebSocket) : ITeslaStream
             }
             catch (Exception)
             {
+                //TODO: log
             }
-        });
+        }, cancelToken);
     }
 
     private async Task ReceiveLoop(CancellationToken cancellation = default)
     {
+        using var timeoutCts = new CancellationTokenSource();
         while (clientWebSocket.State == WebSocketState.Open && !cancellation.IsCancellationRequested)
         {
-            var timeoutToken = new CancellationTokenSource(10000).Token;
-            var stoppingToken = CancellationTokenSource.CreateLinkedTokenSource(cancellation, timeoutToken);
+            timeoutCts.CancelAfter(TimeSpan.FromMilliseconds(10000));
+            var stoppingToken = CancellationTokenSource.CreateLinkedTokenSource(cancellation, timeoutCts.Token);
 
             var buffer = new ArraySegment<byte>(new byte[1024 * 4]);
             var receivedMessage = new StringBuilder();
-
-            WebSocketReceiveResult result;
-            do
-            {
-                result = await clientWebSocket.ReceiveAsync(buffer, stoppingToken.Token);
-                if (buffer.Array != null)
-                {
-                    receivedMessage.Append(Encoding.UTF8.GetString(buffer.Array, buffer.Offset, result.Count));
-                }
-            }
-            while (!result.EndOfMessage);
+            WebSocketReceiveResult result = await GetMessageAsync(buffer, receivedMessage, stoppingToken);
 
             if (result.MessageType == WebSocketMessageType.Close)
             {
                 await clientWebSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
+                continue;
             }
-            else
+
+            ProcessMessage(receivedMessage.ToString(), cancellation);
+        }
+    }
+
+
+    private async Task<WebSocketReceiveResult> GetMessageAsync(ArraySegment<byte> buffer, StringBuilder receivedMessage, CancellationTokenSource stoppingToken)
+    {
+        WebSocketReceiveResult result;
+        do
+        {
+            result = await clientWebSocket.ReceiveAsync(buffer, stoppingToken.Token);
+            if (buffer.Array != null)
             {
-                var message = JsonSerializer.Deserialize<TeslaStreamMessage>(receivedMessage.ToString(), JsonSerializerExtensions.CreateJsonSetting());
-                if (message == null)
-                {
-                    continue;
-                }
-                await HandleMessage(message, cancellation);
+                receivedMessage.Append(Encoding.UTF8.GetString(buffer.Array, buffer.Offset, result.Count));
             }
+        }
+        while (!result.EndOfMessage);
+        return result;
+    }
+
+    private void ProcessMessage(string messageContent, CancellationToken cancellation)
+    {
+        var message = JsonSerializer.Deserialize<TeslaStreamMessage>(messageContent, JsonSerializerExtensions.CreateJsonSetting());
+        if (message != null)
+        {
+            HandleMessage(message, cancellation).Wait(cancellation);
         }
     }
 
@@ -101,12 +112,14 @@ public class TeslaStream(ClientWebSocket clientWebSocket) : ITeslaStream
     {
         while (await _sendChannel.Reader.WaitToReadAsync(cancellationToken))
         {
-            var message = await _sendChannel.Reader.ReadAsync(cancellationToken);
-            if (message is not null)
+            TeslaStreamMessage message = await _sendChannel.Reader.ReadAsync(cancellationToken);
+            if (message is null || clientWebSocket.State != WebSocketState.Open)
             {
-                byte[] buffer = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message, JsonSerializerExtensions.CreateJsonSetting()));
-                await clientWebSocket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Binary, false, cancellationToken);
+                continue;
             }
+
+            byte[] buffer = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message, JsonSerializerExtensions.CreateJsonSetting()));
+            await clientWebSocket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Binary, false, cancellationToken);
         }
     }
 
