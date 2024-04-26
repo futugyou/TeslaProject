@@ -15,11 +15,10 @@ public interface ITeslaStream
 }
 
 
-public class TeslaStream() : ITeslaStream
+public class TeslaStream(ClientWebSocket clientWebSocket) : ITeslaStream
 {
     public string TeslaStreamUrl { get; set; } = "wss://streaming.vn.teslamotors.com/streaming";
     public string TeslaCnStreamUrl { get; set; } = "wss://streaming.vn.cloud.tesla.cn/streaming";
-    private readonly ClientWebSocket _webSocket = new();
     private StreamRequest _rquest;
     private readonly Channel<TeslaStreamMessage> _receiveChannel = Channel.CreateUnbounded<TeslaStreamMessage>();
     private readonly Channel<TeslaStreamMessage> _sendChannel = Channel.CreateUnbounded<TeslaStreamMessage>();
@@ -37,11 +36,11 @@ public class TeslaStream() : ITeslaStream
 
         if (tokenInfo.Locale == TokenLocal.China)
         {
-            await _webSocket.ConnectAsync(new Uri(TeslaCnStreamUrl), cancelToken);
+            await clientWebSocket.ConnectAsync(new Uri(TeslaCnStreamUrl), cancelToken);
         }
         else
         {
-            await _webSocket.ConnectAsync(new Uri(TeslaStreamUrl), cancelToken);
+            await clientWebSocket.ConnectAsync(new Uri(TeslaStreamUrl), cancelToken);
         }
 
         FireAndForget(Task.WhenAll(ReceiveLoop(cancelToken), SendLoop(cancelToken)));
@@ -63,7 +62,7 @@ public class TeslaStream() : ITeslaStream
 
     private async Task ReceiveLoop(CancellationToken cancellation = default)
     {
-        while (_webSocket.State == WebSocketState.Open && !cancellation.IsCancellationRequested)
+        while (clientWebSocket.State == WebSocketState.Open && !cancellation.IsCancellationRequested)
         {
             var timeoutToken = new CancellationTokenSource(10000).Token;
             var stoppingToken = CancellationTokenSource.CreateLinkedTokenSource(cancellation, timeoutToken);
@@ -74,7 +73,7 @@ public class TeslaStream() : ITeslaStream
             WebSocketReceiveResult result;
             do
             {
-                result = await _webSocket.ReceiveAsync(buffer, stoppingToken.Token);
+                result = await clientWebSocket.ReceiveAsync(buffer, stoppingToken.Token);
                 if (buffer.Array != null)
                 {
                     receivedMessage.Append(Encoding.UTF8.GetString(buffer.Array, buffer.Offset, result.Count));
@@ -84,7 +83,7 @@ public class TeslaStream() : ITeslaStream
 
             if (result.MessageType == WebSocketMessageType.Close)
             {
-                await _webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
+                await clientWebSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
             }
             else
             {
@@ -106,7 +105,7 @@ public class TeslaStream() : ITeslaStream
             if (message is not null)
             {
                 byte[] buffer = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message, JsonSerializerExtensions.CreateJsonSetting()));
-                await _webSocket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Binary, false, cancellationToken);
+                await clientWebSocket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Binary, false, cancellationToken);
             }
         }
     }
@@ -115,9 +114,9 @@ public class TeslaStream() : ITeslaStream
     {
         _receiveChannel.Writer.TryComplete();
         _sendChannel.Writer.TryComplete();
-        if (_webSocket.State == WebSocketState.Open || _webSocket.State == WebSocketState.CloseReceived)
+        if (clientWebSocket.State == WebSocketState.Open || clientWebSocket.State == WebSocketState.CloseReceived)
         {
-            await _webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Service stopping", cancellationToken);
+            await clientWebSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Service stopping", cancellationToken);
         }
     }
 

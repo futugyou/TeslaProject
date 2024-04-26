@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Net.WebSockets;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
 using TeslaApi.SDK;
@@ -44,6 +45,7 @@ public static class DependencyInjectionExtensions
             builder.AddHttpMessageHandler<EndpointChangeHandler>();
         }
 
+        services.AddTransient<ClientWebSocket>();
         services.AddTransient<ITeslaStream, TeslaStream>();
         return services;
     }
