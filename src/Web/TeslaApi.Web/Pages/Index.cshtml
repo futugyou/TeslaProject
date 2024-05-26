@@ -1,20 +1,40 @@
 ﻿@page
 @model IndexModel
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
 @{
     ViewData["Title"] = "Home page";
 }
 
 <div class="text-center">
     <form method="post" id="teslaForm">
+        <input name="__RequestVerificationToken" type="hidden" value="@Antiforgery.GetTokens(HttpContext).RequestToken" />
         <p>
-            <input type="submit" value="Tesla" onclick="openInNewTab()" />
+            <input type="button" value="Tesla" onclick="submitForm()" />
         </p>
     </form>
+
+    <p id="verifierText">Verifier: </p>
 </div>
 
 <script type="text/javascript">
-    function openInNewTab() {
-        var form = document.getElementById('teslaForm');
-        form.target = '_blank';
+    function submitForm() {
+        var token = $('input[name="__RequestVerificationToken"]').val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Page("Index")', // URL for the current page
+            headers: {
+                "RequestVerificationToken": token
+            },
+            success: function (data) {
+                $('#verifierText').text('Verifier: ' + data.verifier);
+                var url = data.url;
+                window.open(url, '_blank');
+            },
+            error: function (xhr, status, error) {
+                console.error("Error: " + error);
+                console.error("Status: " + status);
+                console.dir(xhr);
+            }
+        });
     }
 </script>
