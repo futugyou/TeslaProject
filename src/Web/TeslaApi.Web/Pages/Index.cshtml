@@ -5,10 +5,16 @@
 }
 
 <div class="text-center">
-    <form method="post">
+    <form method="post" id="teslaForm">
         <p>
-            <input type="submit" value="Tesla" />
+            <input type="submit" value="Tesla" onclick="openInNewTab()" />
         </p>
     </form>
 </div>
- 
+
+<script type="text/javascript">
+    function openInNewTab() {
+        var form = document.getElementById('teslaForm');
+        form.target = '_blank';
+    }
+</script>
