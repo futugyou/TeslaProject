@@ -11,6 +11,16 @@
 
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting.AppHost" Version="8.0.1" />
+    <PackageReference Include="Aspire.Hosting.Redis" Version="8.0.1" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tealse.Charge\Tealse.Charge.csproj" />
+    <ProjectReference Include="..\Tealse.Dashboards\Tealse.Dashboards.csproj" />
+    <ProjectReference Include="..\Tealse.Journey\Tealse.Journey.csproj" />
+    <ProjectReference Include="..\Tealse.Stream\Tealse.Stream.csproj" />
+    <ProjectReference Include="..\Tealse.User\Tealse.User.csproj" />
+    <ProjectReference Include="..\Tealse.Vehicle\Tealse.Vehicle.csproj" />
+  </ItemGroup>
 </Project>
