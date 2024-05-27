@@ -38,6 +38,9 @@ public static class Extensions
         //     options.AllowedSchemes = ["https"];
         // });
 
+        builder.AddRabbitMQClient("messaging");
+        builder.AddRedisClient("redis");
+
         return builder;
     }
 

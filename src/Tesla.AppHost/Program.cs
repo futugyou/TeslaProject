@@ -4,12 +4,12 @@ var redis = builder.AddRedis("redis");
 var messaging = builder.AddRabbitMQ("messaging");
 var mysql = builder.AddMySql("mysql");
 
-var chargedb = mysql.AddDatabase("charge");
-var dashboardsdb = mysql.AddDatabase("dashboards");
-var journeydb = mysql.AddDatabase("journey");
-var streamdb = mysql.AddDatabase("stream");
-var userdb = mysql.AddDatabase("user");
-var vehicledb = mysql.AddDatabase("vehicle");
+var chargedb = mysql.AddDatabase("chargedb");
+var dashboardsdb = mysql.AddDatabase("dashboardsdb");
+var journeydb = mysql.AddDatabase("journeydb");
+var streamdb = mysql.AddDatabase("streamdb");
+var userdb = mysql.AddDatabase("userdb");
+var vehicledb = mysql.AddDatabase("vehicledb");
 
 // Service consumption
 builder.AddProject<Projects.Tealse_Charge>("charge")
