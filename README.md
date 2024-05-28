@@ -41,6 +41,11 @@ Updates will be made based on mood.
     ```ps
     docker-compose -f ./docker-compose.debug.yml up
     ```
+- aspire demo
+
+    ```ps
+    dotnet run --project ./src/Tesla.AppHost/
+    ```
 
 ## reference
 
