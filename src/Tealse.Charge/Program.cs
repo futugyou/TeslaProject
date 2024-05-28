@@ -1,4 +1,4 @@
-using Tealse.Charge;
+using Tealse.Charge.Infrastruct;
 
 var builder = WebApplication.CreateBuilder(args);
 
