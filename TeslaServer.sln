@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeslaApi.Contract", "src\Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tool", "src\Tool\Tool.csproj", "{76599F55-2460-4D78-B109-F892D560EED4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeslaApi.Extensions.DependencyInjection.V2", "src\Tesla.Sdk\TeslaApi.Extensions.DependencyInjection.V2\TeslaApi.Extensions.DependencyInjection.V2.csproj", "{AF42965D-53E8-4FB5-B8B7-AD3BEDD600C8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeslaApi.Extensions.DependencyInjection", "src\Tesla.Sdk\TeslaApi.Extensions.DependencyInjection\TeslaApi.Extensions.DependencyInjection.csproj", "{AF42965D-53E8-4FB5-B8B7-AD3BEDD600C8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeslaApi.SDK", "src\Tesla.Sdk\TeslaApi.SDK\TeslaApi.SDK.csproj", "{1C2EA10F-543C-4C6C-9D90-E6737160B53D}"
 EndProject

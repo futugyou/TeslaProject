@@ -18,7 +18,7 @@
   </ItemGroup> 
   
   <ItemGroup>
-		<ProjectReference Include="..\..\Tesla.Sdk\TeslaApi.Extensions.DependencyInjection.V2\TeslaApi.Extensions.DependencyInjection.V2.csproj" />
+		<ProjectReference Include="..\..\Tesla.Sdk\TeslaApi.Extensions.DependencyInjection\TeslaApi.Extensions.DependencyInjection.csproj" />
 		<ProjectReference Include="..\Infrastruct\Infrastruct.csproj" />
   </ItemGroup>
 </Project>
