@@ -42,7 +42,7 @@ Updates will be made based on mood.
     docker-compose -f ./docker-compose.debug.yml up
     ```
 
-- aspire demo
+- aspire demo, Note: It is not appropriate to use aspire at present,
 
     ```ps
     dotnet run --project ./src/Tesla.AppHost/

@@ -41,6 +41,25 @@ services:
     # network_mode: "host"
     volumes:
       - garnetdata:/data
+  rabbitmq:
+    image: rabbitmq:3.13.2-management
+    container_name: 'rabbitmq'
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password
+    ports:
+        - 5672:5672
+        - 15672:15672
+    volumes:
+        - rabbitmqdata:/var/lib/rabbitmq/
+        - rabbitmqlog:/var/log/rabbitmq
+    networks:
+        - rabbitmq_go_net
+networks:
+  rabbitmq_go_net:
+    driver: bridge
 volumes:
   dbmysqlstorage:
   garnetdata:
+  rabbitmqdata:
+  rabbitmqlog:
