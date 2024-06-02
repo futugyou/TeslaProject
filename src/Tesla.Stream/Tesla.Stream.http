@@ -1,0 +1,6 @@
+@Tesla.Stream_HostAddress = http://localhost:5228
+
+GET {{Tesla.Stream_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

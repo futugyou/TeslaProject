@@ -1,4 +1,4 @@
-using Tealse.Charge.Infrastruct;
+using Tesla.Charge.Infrastruct;
 
 var builder = WebApplication.CreateBuilder(args);
 

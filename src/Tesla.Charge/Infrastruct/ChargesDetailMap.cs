@@ -2,7 +2,7 @@ using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Tealse.Charge.Infrastruct;
+namespace Tesla.Charge.Infrastruct;
 
 public class ChargesDetailMap : IEntityTypeConfiguration<ChargesDetail>
 {

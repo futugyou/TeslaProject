@@ -1,6 +1,0 @@
-@Tealse.Dashboards_HostAddress = http://localhost:5127
-
-GET {{Tealse.Dashboards_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

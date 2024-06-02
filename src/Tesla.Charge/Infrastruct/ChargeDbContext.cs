@@ -1,7 +1,7 @@
 using Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace Tealse.Charge.Infrastruct;
+namespace Tesla.Charge.Infrastruct;
 public class ChargeDbContext : DbContext
 {
     public ChargeDbContext(DbContextOptions<ChargeDbContext> options) : base(options)

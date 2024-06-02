@@ -27,17 +27,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tesla.AppHost", "src\Tesla.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tesla.ServiceDefaults", "src\Tesla.ServiceDefaults\Tesla.ServiceDefaults.csproj", "{6099F1B7-6ED0-4203-AA74-86D6935ED135}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tealse.User", "src\Tealse.User\Tealse.User.csproj", "{1F3638A0-BE2A-4AF4-89D2-9B953A4F959C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tesla.User", "src\Tesla.User\Tesla.User.csproj", "{1F3638A0-BE2A-4AF4-89D2-9B953A4F959C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tealse.Stream", "src\Tealse.Stream\Tealse.Stream.csproj", "{F1D4C430-1BB6-42B0-B364-9BF819D849AE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tesla.Stream", "src\Tesla.Stream\Tesla.Stream.csproj", "{F1D4C430-1BB6-42B0-B364-9BF819D849AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tealse.Vehicle", "src\Tealse.Vehicle\Tealse.Vehicle.csproj", "{A83F7103-7B14-4470-9E6D-DC397339D8E6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tesla.Vehicle", "src\Tesla.Vehicle\Tesla.Vehicle.csproj", "{A83F7103-7B14-4470-9E6D-DC397339D8E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tealse.Charge", "src\Tealse.Charge\Tealse.Charge.csproj", "{D004AC87-5CD6-45F3-8294-44E7C65FF9D0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tesla.Charge", "src\Tesla.Charge\Tesla.Charge.csproj", "{D004AC87-5CD6-45F3-8294-44E7C65FF9D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tealse.Journey", "src\Tealse.Journey\Tealse.Journey.csproj", "{EC6BC360-7BE7-414C-AAB0-5EF1661A77B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tesla.Journey", "src\Tesla.Journey\Tesla.Journey.csproj", "{EC6BC360-7BE7-414C-AAB0-5EF1661A77B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tealse.Dashboards", "src\Tealse.Dashboards\Tealse.Dashboards.csproj", "{475F012B-3280-4D03-A7CA-6ECE5CD844D7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tesla.Dashboards", "src\Tesla.Dashboards\Tesla.Dashboards.csproj", "{475F012B-3280-4D03-A7CA-6ECE5CD844D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

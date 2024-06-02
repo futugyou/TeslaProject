@@ -18,11 +18,11 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\Tealse.Charge\Tealse.Charge.csproj" />
-    <ProjectReference Include="..\Tealse.Dashboards\Tealse.Dashboards.csproj" />
-    <ProjectReference Include="..\Tealse.Journey\Tealse.Journey.csproj" />
-    <ProjectReference Include="..\Tealse.Stream\Tealse.Stream.csproj" />
-    <ProjectReference Include="..\Tealse.User\Tealse.User.csproj" />
-    <ProjectReference Include="..\Tealse.Vehicle\Tealse.Vehicle.csproj" />
+    <ProjectReference Include="..\Tesla.Charge\Tesla.Charge.csproj" />
+    <ProjectReference Include="..\Tesla.Dashboards\Tesla.Dashboards.csproj" />
+    <ProjectReference Include="..\Tesla.Journey\Tesla.Journey.csproj" />
+    <ProjectReference Include="..\Tesla.Stream\Tesla.Stream.csproj" />
+    <ProjectReference Include="..\Tesla.User\Tesla.User.csproj" />
+    <ProjectReference Include="..\Tesla.Vehicle\Tesla.Vehicle.csproj" />
   </ItemGroup>
 </Project>
