@@ -9,6 +9,6 @@
 
 
   <ItemGroup> 
-		<ProjectReference Include="..\Sdk\TeslaApi.Contract\TeslaApi.Contract.csproj" />
+		<ProjectReference Include="..\Tesla.Sdk\TeslaApi.Contract\TeslaApi.Contract.csproj" />
   </ItemGroup>
 </Project>
