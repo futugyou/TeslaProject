@@ -11,6 +11,7 @@ var Configuration = builder.Configuration;
 
 builder.Services.AddRedisExtension(Configuration);
 builder.Services.AddBackgroundTaskQueue(Configuration);
+builder.Services.AddMQMassTransit(Configuration);
 
 var serverVersion = new MySqlServerVersion(new Version(Configuration["MysqlVersion"]!));
 builder.Services.AddDbContextPool<TeslaContext>(

@@ -4,7 +4,7 @@ namespace TeslaApi.Contract;
 
 public class TokenParse
 {
-    public static DateTime UnixStart = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+    public static readonly DateTime UnixStart = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
     public static TokenLocal CheckTokenLocal(string accessToken)
     {
         // Decode the access token
