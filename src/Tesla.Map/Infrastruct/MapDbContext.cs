@@ -1,3 +1,4 @@
+using Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastruct;
@@ -11,11 +12,13 @@ public class MapDbContext : DbContext
     {
     }
 
-    public DbSet<AddressMap> AddressMaps { get; set; } 
+    public DbSet<Address> Addresses { get; set; } 
+    public DbSet<Geofence> Geofences { get; set; } 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         _ = modelBuilder.ApplyConfiguration(new AddressMap()); 
+        _ = modelBuilder.ApplyConfiguration(new GeofenceMap()); 
 
         base.OnModelCreating(modelBuilder);
     }
