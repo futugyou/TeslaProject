@@ -30,6 +30,7 @@ builder.Services.AddScoped<IChargesRepository, ChargesRepository>();
 builder.Services.AddScoped<IDriveRepository, DriveRepository>();
 builder.Services.AddScoped<IGeofenceRepository, GeofenceRepository>();
 builder.Services.AddScoped<IPositionRepository, PositionRepository>();
+builder.Services.AddScoped<ISocketDataRepository, SocketDataRepository>();
 
 builder.Services.AddScoped<RefreshTokenHandler>();
 
