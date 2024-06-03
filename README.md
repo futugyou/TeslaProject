@@ -3,6 +3,8 @@
 This repository is for implementing some functionalities related to Tesla.
 Updates will be made based on mood.
 
+Currently, only Web and Tesla.Sdk projects have content, and the others are empty projects
+
 ## doc
 
 1. [overview](./doc/01.architecture.md)

@@ -24,5 +24,6 @@
     <ProjectReference Include="..\Tesla.Stream\Tesla.Stream.csproj" />
     <ProjectReference Include="..\Tesla.User\Tesla.User.csproj" />
     <ProjectReference Include="..\Tesla.Vehicle\Tesla.Vehicle.csproj" />
+    <ProjectReference Include="..\Tesla.Map\Tesla.Map.csproj" />
   </ItemGroup>
 </Project>

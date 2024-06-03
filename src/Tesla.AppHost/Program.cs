@@ -10,6 +10,7 @@ var journeydb = mysql.AddDatabase("journeydb");
 var streamdb = mysql.AddDatabase("streamdb");
 var userdb = mysql.AddDatabase("userdb");
 var vehicledb = mysql.AddDatabase("vehicledb");
+var mapdb = mysql.AddDatabase("mapdb");
 
 // Service consumption
 builder.AddProject<Projects.Tesla_Charge>("charge")
@@ -41,5 +42,10 @@ builder.AddProject<Projects.Tesla_Vehicle>("vehicle")
        .WithReference(redis)
        .WithReference(messaging)
        .WithReference(vehicledb);
+
+builder.AddProject<Projects.Tesla_Map>("map")
+       .WithReference(redis)
+       .WithReference(messaging)
+       .WithReference(mapdb);
 
 builder.Build().Run();
