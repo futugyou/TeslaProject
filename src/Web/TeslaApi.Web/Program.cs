@@ -11,7 +11,6 @@ var Configuration = builder.Configuration;
 
 builder.Services.AddRedisExtension(Configuration);
 builder.Services.AddBackgroundTaskQueue(Configuration);
-builder.Services.AddMQMassTransit(Configuration);
 
 var serverVersion = new MySqlServerVersion(new Version(Configuration["MysqlVersion"]!));
 builder.Services.AddDbContextPool<TeslaContext>(
@@ -20,6 +19,10 @@ builder.Services.AddDbContextPool<TeslaContext>(
         .EnableSensitiveDataLogging()
         .EnableDetailedErrors()
 );
+
+// NOTES: do not use in prod
+builder.Services.AddHostedService<RecreateDatabaseHostedService<TeslaContext>>();
+builder.Services.AddMQMassTransit(Configuration);
 
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 builder.Services.AddScoped<IWeixinRepository, WeixinRepository>();
