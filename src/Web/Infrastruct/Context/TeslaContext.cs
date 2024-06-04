@@ -1,4 +1,5 @@
 using Domain;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastruct;
@@ -26,6 +27,8 @@ public class TeslaContext : DbContext
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
+    base.OnModelCreating(modelBuilder);
+
     _ = modelBuilder.ApplyConfiguration(new TokenMap());
     _ = modelBuilder.ApplyConfiguration(new WeixinMap());
     _ = modelBuilder.ApplyConfiguration(new AddressMap());
@@ -36,6 +39,6 @@ public class TeslaContext : DbContext
     _ = modelBuilder.ApplyConfiguration(new GeofenceMap());
     _ = modelBuilder.ApplyConfiguration(new PositionMap());
 
-    base.OnModelCreating(modelBuilder);
+    modelBuilder.AddTransactionalOutboxEntities();
   }
 }

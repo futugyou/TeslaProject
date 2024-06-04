@@ -1,4 +1,5 @@
 
+using Infrastruct;
 using MassTransit;
 
 namespace Extensions;
@@ -19,6 +20,14 @@ public static class MassTransitExtensions
 
         services.AddMassTransit(x =>
         {
+            x.AddEntityFrameworkOutbox<TeslaContext>(o =>
+            {
+                o.QueryDelay = TimeSpan.FromSeconds(1);
+
+                o.UseMySql();
+                o.UseBusOutbox();
+            });
+
             x.AddConsumer<TeslaEventConsumer>();
 
             x.SetKebabCaseEndpointNameFormatter();
@@ -31,6 +40,7 @@ public static class MassTransitExtensions
                     h.Password(option.Password);
                 });
 
+                cfg.AutoStart = true;
                 cfg.ConfigureEndpoints(context);
             });
         });
