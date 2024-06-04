@@ -3,6 +3,10 @@ using TeslaApi.SDK;
 using TeslaApi.Contract;
 using TeslaApi.Contract.Authentication;
 using Extensions;
+using Infrastruct;
+using MassTransit;
+using Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api;
 
@@ -19,6 +23,35 @@ public static class TestEndpoints
         vehicleGroup.MapGet("/tokeninfo", LocalInfo).WithName("tokeninfo");
         vehicleGroup.MapGet("/ws", VehicleWebSocket).WithName("wstest");
         vehicleGroup.MapGet("/vehicle", VehicleInfo).WithName("vehicletest");
+        vehicleGroup.MapGet("/mass", MassTest).WithName("masstest");
+    }
+
+    static async Task<IResult> MassTest([FromServices] TeslaContext dbContext, [FromServices] IPublishEndpoint publishEndpoint)
+    {
+        // using var transaction = await dbContext.Database.BeginTransactionAsync();
+        var token = new Token
+        {
+            AccessToken = Guid.NewGuid().ToString(),
+            RefreshToken = Guid.NewGuid().ToString(),
+        };
+        dbContext.Tokens.Add(token);
+        await dbContext.SaveChangesAsync();
+
+        await publishEndpoint.Publish(new TeslaEvent
+        {
+            Value = token.AccessToken.ToString(),
+        });
+
+        // await transaction.CommitAsync();
+        try
+        {
+            await dbContext.SaveChangesAsync();
+        }
+        catch (DbUpdateException exception)
+        {
+            return TypedResults.BadRequest(exception.Message);
+        }
+        return TypedResults.Ok(token);
     }
 
     static async Task<IResult> VehicleInfo([FromServices] IVehicleState state, [FromQuery] string vid, [FromQuery] string token)

@@ -22,10 +22,13 @@ public static class MassTransitExtensions
         {
             x.AddEntityFrameworkOutbox<TeslaContext>(o =>
             {
-                o.QueryDelay = TimeSpan.FromSeconds(1);
-
                 o.UseMySql();
                 o.UseBusOutbox();
+                // o.QueryDelay = TimeSpan.FromSeconds(1);
+                o.QueryDelay = TimeSpan.FromSeconds(10);
+                o.QueryTimeout = TimeSpan.FromSeconds(30);
+                o.DuplicateDetectionWindow = TimeSpan.FromMinutes(30);
+                o.DisableInboxCleanupService();
             });
 
             x.AddConsumer<TeslaEventConsumer>();
@@ -59,13 +62,13 @@ public class TeslaEventConsumer : IConsumer<TeslaEvent>
 
     public async Task Consume(ConsumeContext<TeslaEvent> context)
     {
-        _logger.LogInformation("Value: {Value}", context.Message.Value);
+        _logger.LogError("Value: {Value}", context.Message.Value);
     }
 }
 
 public record TeslaEvent
 {
-    public string? Value { get; internal set; }
+    public string? Value { get; init; }
 }
 
 
