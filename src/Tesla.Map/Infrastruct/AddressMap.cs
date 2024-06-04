@@ -63,8 +63,9 @@ public class AddressMap : IEntityTypeConfiguration<Address>
             .HasColumnType("nvarchar(255)");
 
         builder.Property(c => c.Raw)
-            .HasColumnName("raw")
-            .HasColumnType("nvarchar(max)");
+            // .HasColumnType("nvarchar(max)")
+            .HasColumnType("TEXT")
+            .HasColumnName("raw");
 
         builder.Property(c => c.InsertedAt)
             .HasColumnName("inserted_at");
@@ -76,7 +77,8 @@ public class AddressMap : IEntityTypeConfiguration<Address>
             .HasColumnName("osm_id");
 
         builder.Property(c => c.OsmType)
-            .HasColumnName("osm_type")
-            .HasColumnType("nvarchar(max)");
+            // .HasColumnType("nvarchar(max)")
+            .HasColumnType("TEXT")
+            .HasColumnName("osm_type");
     }
 }

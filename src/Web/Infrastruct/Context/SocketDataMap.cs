@@ -24,8 +24,9 @@ public class SocketDataMap : IEntityTypeConfiguration<SocketData>
             .HasColumnName("vin");
 
         builder.Property(c => c.Raw)
-            .HasColumnName("raw")
-            .HasColumnType("nvarchar(max)");
+            // .HasColumnType("nvarchar(max)")
+            .HasColumnType("TEXT")
+            .HasColumnName("raw");
 
         builder.Property(c => c.IsHandled)
             .HasColumnName("is_handled");

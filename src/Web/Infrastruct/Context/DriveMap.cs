@@ -8,7 +8,7 @@ public class DriveMap : IEntityTypeConfiguration<Drive>
 {
     public void Configure(EntityTypeBuilder<Drive> builder)
     {
-        builder.ToTable("drivees");
+        builder.ToTable("drives");
         builder.HasKey(c => c.Id);
         builder.Property(c => c.Id)
             .HasColumnName("id"); 
