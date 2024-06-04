@@ -1,6 +1,7 @@
 services:
   teslaapiweb:
     image: teslaapiweb
+    container_name: 'teslaapiweb'
     build:
       context: .
       dockerfile: src/Web/TeslaApi.Web/Dockerfile
@@ -12,6 +13,7 @@ services:
       - dbmysql
       - garnet
   dbmysql:
+    container_name: 'dbmysql'
     image: mysql:8.3.0
     restart: always
     environment:
@@ -26,11 +28,13 @@ services:
     volumes:
       - dbmysqlstorage:/var/lib/mysql
   mysqladminer:
+    container_name: 'mysqladminer'
     image: adminer
     restart: always
     ports:
       - 8080:8080
   garnet:
+    container_name: 'garnet'
     image: 'ghcr.io/microsoft/garnet'
     ulimits:
       memlock: -1
@@ -53,11 +57,11 @@ services:
     volumes:
         - rabbitmqdata:/var/lib/rabbitmq/
         - rabbitmqlog:/var/log/rabbitmq
-    networks:
-        - rabbitmq_go_net
-networks:
-  rabbitmq_go_net:
-    driver: bridge
+#     networks:
+#         - rabbitmq_go_net
+# networks:
+#   rabbitmq_go_net:
+#     driver: bridge
 volumes:
   dbmysqlstorage:
   garnetdata:
