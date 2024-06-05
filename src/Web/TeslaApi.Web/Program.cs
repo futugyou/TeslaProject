@@ -38,6 +38,8 @@ builder.Services.AddScoped<IGeofenceRepository, GeofenceRepository>();
 builder.Services.AddScoped<IPositionRepository, PositionRepository>();
 builder.Services.AddScoped<IVehicleMessageRepository, VehicleMessageRepository>();
 
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 builder.Services.AddScoped<RefreshTokenHandler>();
 
 builder.Services.AddTeslaApiLibary(Configuration, option =>
