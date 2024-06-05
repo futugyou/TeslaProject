@@ -5,6 +5,7 @@ using Domain;
 using Extensions;
 using TeslaApi.Extensions.DependencyInjection;
 using Api;
+using Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var Configuration = builder.Configuration;
@@ -23,6 +24,8 @@ builder.Services.AddDbContextPool<TeslaContext>(
 // NOTES: do not use in prod
 builder.Services.AddHostedService<RecreateDatabaseHostedService<TeslaContext>>();
 builder.Services.AddMQMassTransit(Configuration);
+
+builder.Services.AddScoped<IVehicleMessage, VehicleMessage>();
 
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 builder.Services.AddScoped<IWeixinRepository, WeixinRepository>();

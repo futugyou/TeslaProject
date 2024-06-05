@@ -3,6 +3,7 @@ using Extensions;
 using Microsoft.AspNetCore.Mvc;
 using TeslaApi.SDK;
 using TeslaApi.Contract;
+using Services;
 
 namespace Api;
 
@@ -120,39 +121,18 @@ public static class VehicleEndpoints
     static async ValueTask ConnectVehicleStream(IServiceProvider sp, object state, CancellationToken stoppingToken)
     {
         using var scope = sp.CreateScope();
-        var teslaStream = scope.ServiceProvider.GetRequiredService<ITeslaStream>();
         var redis = scope.ServiceProvider.GetRequiredService<IRedisClient>();
-        var _logger = scope.ServiceProvider.GetRequiredService<ILogger<ITeslaStream>>();
-        var repo = scope.ServiceProvider.GetRequiredService<ISocketDataRepository>();
+        var service = scope.ServiceProvider.GetRequiredService<IVehicleMessage>();
 
         StreamRequest request = (StreamRequest)state;
 
         try
         {
-            await teslaStream.StartAsync(request, stoppingToken);
-            while (await teslaStream.MessageReader.WaitToReadAsync(stoppingToken))
-            {
-                var msg = await teslaStream.MessageReader.ReadAsync(stoppingToken);
-                _logger.LogInformation("{Message}", msg?.Value);
-                var data = new SocketData
-                {
-                    VinID = request.VinID,
-                    Vin = request.Vin,
-                    UserID = request.UserID,
-                    Raw = msg?.Value ?? "",
-                    InsertedAt = DateTime.UtcNow,
-                };
-                await repo.Add(data);
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError("{Message}", ex.Message);
+            await service.HandleVehicleMessage(request, stoppingToken);
         }
         finally
         {
             await redis.UnLock(request.Vin, request.Vin);
-            await teslaStream.StopAsync(stoppingToken);
         }
     }
 }
