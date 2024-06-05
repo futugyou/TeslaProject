@@ -35,7 +35,6 @@ public static class TestEndpoints
             RefreshToken = Guid.NewGuid().ToString(),
         };
         dbContext.Tokens.Add(token);
-        await dbContext.SaveChangesAsync();
 
         await publishEndpoint.Publish(new TeslaEvent
         {

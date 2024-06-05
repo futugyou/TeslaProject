@@ -21,7 +21,7 @@ public static class VehicleEndpoints
         vehicleGroup.MapPost("/{vin}/ws", VehicleWebSocket).WithName("ws");
     }
 
-    static async Task<IResult> VehicleSync([FromServices] IVehicleRepository repo, [FromServices] IVehicleState state)
+    static async Task<IResult> VehicleSync([FromServices] IVehicleRepository repo, [FromServices] IVehicleState state, [FromServices] IUnitOfWork unitOfWork)
     {
         var token = "";//TODO get token
         var vehcileList = await state.GetUserVehicles(token);
@@ -30,7 +30,6 @@ public static class VehicleEndpoints
             return TypedResults.NotFound();
         }
 
-        //DOTO: update repository, support unitofwork
         var taskList = new List<Task>();
         foreach (var item in vehcileList.Response)
         {
@@ -51,7 +50,8 @@ public static class VehicleEndpoints
             }
         }
 
-        await Task.WhenAll(taskList);
+        await unitOfWork.CommitAsync(CancellationToken.None);
+        // await Task.WhenAll(taskList);
         return TypedResults.Ok();
     }
 

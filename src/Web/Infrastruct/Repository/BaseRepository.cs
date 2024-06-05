@@ -39,13 +39,14 @@ public class BaseRepository<T> : IRepository<T> where T : class
         if (entity != null)
         {
             _dbSet.Remove(entity);
-            await _context.SaveChangesAsync();
+            // await _context.SaveChangesAsync();
         }
     }
 
-    public async Task Update(T obj)
+    public Task Update(T obj)
     {
         _dbSet.Update(obj);
-        await _context.SaveChangesAsync();
+        return Task.CompletedTask;
+        // await _context.SaveChangesAsync();
     }
 }

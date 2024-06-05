@@ -1,4 +1,5 @@
 using Domain;
+using MassTransit;
 using TeslaApi.Contract;
 using TeslaApi.SDK;
 
@@ -13,12 +14,14 @@ public class VehicleStreamService : IVehicleStreamService
 {
     private readonly IVehicleMessageRepository _repository;
     private readonly ITeslaStream _teslaStream;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<VehicleStreamService> _logger;
 
-    public VehicleStreamService(ILogger<VehicleStreamService> logger, IVehicleMessageRepository repository, ITeslaStream teslaStream)
+    public VehicleStreamService(ILogger<VehicleStreamService> logger, IVehicleMessageRepository repository, ITeslaStream teslaStream, IUnitOfWork unitOfWork)
     {
         _repository = repository;
         _teslaStream = teslaStream;
+        _unitOfWork = unitOfWork;
         _logger = logger;
     }
 
@@ -40,6 +43,7 @@ public class VehicleStreamService : IVehicleStreamService
                     InsertedAt = DateTime.UtcNow,
                 };
                 await _repository.Add(data);
+                await _unitOfWork.CommitAsync(stoppingToken);
             }
         }
         catch (Exception ex)
