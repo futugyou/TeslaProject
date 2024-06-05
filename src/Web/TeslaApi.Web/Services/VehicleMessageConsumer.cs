@@ -1,5 +1,6 @@
 using System.Reflection;
 using Domain;
+using Extensions;
 using MassTransit;
 
 namespace Services;
@@ -14,7 +15,7 @@ public class VehicleMessageConsumer : IConsumer<VehicleMessage>
     }
     public async Task Consume(ConsumeContext<VehicleMessage> context)
     {
-        var data = VehicleStreamData.ParseVehicleStreamData(context.Message.Raw);
+        var data = Util.ConvertStringToType<VehicleStreamData>(context.Message.Raw);
         _logger.LogError("Value: {Value}", data.ShiftState);
     }
 }
@@ -138,44 +139,4 @@ public class VehicleStreamData
     /// </summary>
     [DataPosition(18)]
     public double Heading { get; set; }
-
-    public static VehicleStreamData ParseVehicleStreamData(string data)
-    {
-        // Split the string by the comma delimiter
-        string[] parts = data.Split(',');
-        VehicleStreamData vehicleData = new();
-
-        // Get the properties of VehicleData
-        var properties = typeof(VehicleStreamData).GetProperties();
-
-        foreach (var property in properties)
-        {
-            // Get the DataPosition attribute if it exists
-            var attribute = property.GetCustomAttribute<DataPositionAttribute>();
-            if (attribute != null)
-            {
-                int position = attribute.Position;
-
-                // Convert the part at the given position to the property type and set the value
-                if (position < parts.Length)
-                {
-                    object value = Convert.ChangeType(parts[position], property.PropertyType);
-                    property.SetValue(vehicleData, value);
-                }
-            }
-        }
-
-        return vehicleData;
-    }
-}
-
-[AttributeUsage(AttributeTargets.Property)]
-public class DataPositionAttribute : Attribute
-{
-    public int Position { get; private set; }
-
-    public DataPositionAttribute(int position)
-    {
-        Position = position;
-    }
 }
