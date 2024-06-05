@@ -12,14 +12,14 @@ public interface IVehicleStreamService
 
 public class VehicleStreamService : IVehicleStreamService
 {
-    private readonly IVehicleMessageRepository _repository;
+    private readonly IPublishEndpoint _publishEndpoint;
     private readonly ITeslaStream _teslaStream;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<VehicleStreamService> _logger;
 
-    public VehicleStreamService(ILogger<VehicleStreamService> logger, IVehicleMessageRepository repository, ITeslaStream teslaStream, IUnitOfWork unitOfWork)
+    public VehicleStreamService(ILogger<VehicleStreamService> logger, ITeslaStream teslaStream, IUnitOfWork unitOfWork, IPublishEndpoint publishEndpoint)
     {
-        _repository = repository;
+        _publishEndpoint = publishEndpoint;
         _teslaStream = teslaStream;
         _unitOfWork = unitOfWork;
         _logger = logger;
@@ -42,7 +42,7 @@ public class VehicleStreamService : IVehicleStreamService
                     Raw = msg?.Value ?? "",
                     InsertedAt = DateTime.UtcNow,
                 };
-                await _repository.Add(data);
+                await _publishEndpoint.Publish(data);
                 await _unitOfWork.CommitAsync(stoppingToken);
             }
         }

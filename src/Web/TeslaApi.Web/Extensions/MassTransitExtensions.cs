@@ -1,6 +1,7 @@
 
 using Infrastruct;
 using MassTransit;
+using Services;
 
 namespace Extensions;
 
@@ -32,6 +33,7 @@ public static class MassTransitExtensions
             });
 
             x.AddConsumer<TeslaEventConsumer>();
+            x.AddConsumer<VehicleMessageConsumer>();
 
             x.SetKebabCaseEndpointNameFormatter();
 
