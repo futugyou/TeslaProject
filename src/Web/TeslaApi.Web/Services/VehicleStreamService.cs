@@ -4,25 +4,25 @@ using TeslaApi.SDK;
 
 namespace Services;
 
-public interface IVehicleMessage
+public interface IVehicleStreamService
 {
-    Task HandleVehicleMessage(StreamRequest message, CancellationToken stoppingToken);
+    Task HandleStreamRequest(StreamRequest message, CancellationToken stoppingToken);
 }
 
-public class VehicleMessage : IVehicleMessage
+public class VehicleStreamService : IVehicleStreamService
 {
-    private readonly ISocketDataRepository _repository;
+    private readonly IVehicleMessageRepository _repository;
     private readonly ITeslaStream _teslaStream;
-    private readonly ILogger<VehicleMessage> _logger;
+    private readonly ILogger<VehicleStreamService> _logger;
 
-    public VehicleMessage(ILogger<VehicleMessage> logger, ISocketDataRepository repository, ITeslaStream teslaStream)
+    public VehicleStreamService(ILogger<VehicleStreamService> logger, IVehicleMessageRepository repository, ITeslaStream teslaStream)
     {
         _repository = repository;
         _teslaStream = teslaStream;
         _logger = logger;
     }
 
-    public async Task HandleVehicleMessage(StreamRequest message, CancellationToken stoppingToken)
+    public async Task HandleStreamRequest(StreamRequest message, CancellationToken stoppingToken)
     {
         try
         {
@@ -31,7 +31,7 @@ public class VehicleMessage : IVehicleMessage
             {
                 var msg = await _teslaStream.MessageReader.ReadAsync(stoppingToken);
                 _logger.LogInformation("{Message}", msg?.Value);
-                var data = new SocketData
+                var data = new VehicleMessage
                 {
                     VinID = message.VinID,
                     Vin = message.Vin,

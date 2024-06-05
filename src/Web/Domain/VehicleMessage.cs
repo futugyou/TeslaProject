@@ -1,6 +1,6 @@
 namespace Domain;
 
-public class SocketData
+public class VehicleMessage
 {
     public int Id { get; set; }
     public string UserID { get; set; }
@@ -11,4 +11,4 @@ public class SocketData
     public DateTime InsertedAt { get; set; }
 }
 
-public interface ISocketDataRepository : IRepository<SocketData> { }
+public interface IVehicleMessageRepository : IRepository<VehicleMessage> { }

@@ -25,7 +25,7 @@ builder.Services.AddDbContextPool<TeslaContext>(
 builder.Services.AddHostedService<RecreateDatabaseHostedService<TeslaContext>>();
 builder.Services.AddMQMassTransit(Configuration);
 
-builder.Services.AddScoped<IVehicleMessage, VehicleMessage>();
+builder.Services.AddScoped<IVehicleStreamService, VehicleStreamService>();
 
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 builder.Services.AddScoped<IWeixinRepository, WeixinRepository>();
@@ -36,7 +36,7 @@ builder.Services.AddScoped<IChargesRepository, ChargesRepository>();
 builder.Services.AddScoped<IDriveRepository, DriveRepository>();
 builder.Services.AddScoped<IGeofenceRepository, GeofenceRepository>();
 builder.Services.AddScoped<IPositionRepository, PositionRepository>();
-builder.Services.AddScoped<ISocketDataRepository, SocketDataRepository>();
+builder.Services.AddScoped<IVehicleMessageRepository, VehicleMessageRepository>();
 
 builder.Services.AddScoped<RefreshTokenHandler>();
 

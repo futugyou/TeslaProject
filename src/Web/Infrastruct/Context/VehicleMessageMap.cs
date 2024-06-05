@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastruct;
 
-public class SocketDataMap : IEntityTypeConfiguration<SocketData>
+public class VehicleMessageMap : IEntityTypeConfiguration<VehicleMessage>
 {
-    public void Configure(EntityTypeBuilder<SocketData> builder)
+    public void Configure(EntityTypeBuilder<VehicleMessage> builder)
     {
         builder.ToTable("socket_datas");
         builder.HasKey(c => c.Id);

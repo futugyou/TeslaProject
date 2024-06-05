@@ -122,13 +122,13 @@ public static class VehicleEndpoints
     {
         using var scope = sp.CreateScope();
         var redis = scope.ServiceProvider.GetRequiredService<IRedisClient>();
-        var service = scope.ServiceProvider.GetRequiredService<IVehicleMessage>();
+        var service = scope.ServiceProvider.GetRequiredService<IVehicleStreamService>();
 
         StreamRequest request = (StreamRequest)state;
 
         try
         {
-            await service.HandleVehicleMessage(request, stoppingToken);
+            await service.HandleStreamRequest(request, stoppingToken);
         }
         finally
         {
