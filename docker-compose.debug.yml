@@ -13,7 +13,7 @@ services:
       - dbmysql
       - garnet
       - rabbitmq
-      - kafka
+      - create-topics
   dbmysql:
     container_name: 'dbmysql'
     image: mysql:8.3.0
@@ -80,6 +80,17 @@ services:
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
       - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+
+  create-topics:
+    image: docker.io/bitnami/kafka:3.7
+    depends_on:
+      - kafka
+    entrypoint: >
+      bash -c " 
+      kafka-topics.sh --create --topic topic-name --partitions 1 --replication-factor 1  --bootstrap-server kafka:9092 --if-not-exists;
+      sleep infinity"
+  
 # networks:
 #   rabbitmq_go_net:
 #     driver: bridge
