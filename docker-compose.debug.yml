@@ -84,8 +84,6 @@ services:
   topic-creator:
     container_name: topic-creator
     image: docker.io/bitnami/kafka:3.7
-    env_file:
-      - kafka.env
     depends_on:
       - kafka
     entrypoint: >
