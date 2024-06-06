@@ -1,7 +1,7 @@
 services:
   teslaapiweb:
     image: teslaapiweb
-    container_name: 'teslaapiweb'
+    container_name: teslaapiweb
     build:
       context: .
       dockerfile: src/Web/TeslaApi.Web/Dockerfile
@@ -13,9 +13,10 @@ services:
       - dbmysql
       - garnet
       - rabbitmq
-      - create-topics
+      - topic-creator
+
   dbmysql:
-    container_name: 'dbmysql'
+    container_name: dbmysql
     image: mysql:8.3.0
     restart: always
     environment:
@@ -29,39 +30,37 @@ services:
       - '3306'
     volumes:
       - dbmysqlstorage:/var/lib/mysql
+
   mysqladminer:
-    container_name: 'mysqladminer'
+    container_name: mysqladminer
     image: adminer
     restart: always
     ports:
       - 8080:8080
+
   garnet:
-    container_name: 'garnet'
+    container_name: garnet
     image: 'ghcr.io/microsoft/garnet'
     ulimits:
       memlock: -1
     ports:
       - "6379:6379"
-    # To avoid docker NAT, consider `host` mode.
-    # https://docs.docker.com/compose/compose-file/compose-file-v3/#network_mode
-    # network_mode: "host"
     volumes:
       - garnetdata:/data
+
   rabbitmq:
     image: rabbitmq:3.13.2-management
-    container_name: 'rabbitmq'
+    container_name: rabbitmq
     environment:
       - RABBITMQ_DEFAULT_USER=user
       - RABBITMQ_DEFAULT_PASS=password
     ports:
-        - 5672:5672
-        - 15672:15672
+      - 5672:5672
+      - 15672:15672
     volumes:
-        - rabbitmqdata:/var/lib/rabbitmq/
-        - rabbitmqlog:/var/log/rabbitmq
-#     networks:
-#         - rabbitmq_go_net
-    
+      - rabbitmqdata:/var/lib/rabbitmq/
+      - rabbitmqlog:/var/log/rabbitmq
+
   kafka:
     container_name: kafka
     image: docker.io/bitnami/kafka:3.7
@@ -82,18 +81,16 @@ services:
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
       - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
 
-  create-topics:
+  topic-creator:
+    container_name: topic-creator
     image: docker.io/bitnami/kafka:3.7
+    env_file:
+      - kafka.env
     depends_on:
       - kafka
     entrypoint: >
-      bash -c " 
-      kafka-topics.sh --create --topic topic-name --partitions 1 --replication-factor 1  --bootstrap-server kafka:9092 --if-not-exists;
-      sleep infinity"
-  
-# networks:
-#   rabbitmq_go_net:
-#     driver: bridge
+      bash -c "kafka-topics.sh --create --topic topic-name --partitions 1 --replication-factor 1  --bootstrap-server kafka:9092 --if-not-exists;"
+
 volumes:
   dbmysqlstorage:
   garnetdata:
