@@ -26,7 +26,9 @@ public static class TestEndpoints
         vehicleGroup.MapGet("/mass", MassTest).WithName("masstest");
     }
 
-    static async Task<IResult> MassTest([FromServices] TeslaContext dbContext, [FromServices] IPublishEndpoint publishEndpoint)
+    static async Task<IResult> MassTest([FromServices] TeslaContext dbContext,
+        [FromServices] IPublishEndpoint publishEndpoint,
+        [FromServices] ITopicProducer<KafkaMessage> topicProducer)
     {
         // using var transaction = await dbContext.Database.BeginTransactionAsync();
         var token = new Token
@@ -41,6 +43,11 @@ public static class TestEndpoints
             Value = token.AccessToken.ToString(),
         });
 
+        await topicProducer.Produce(new
+        {
+            Text = token.AccessToken.ToString(),
+        });
+        
         // await transaction.CommitAsync();
         try
         {

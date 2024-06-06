@@ -7,7 +7,7 @@ namespace Extensions;
 
 public static class MassTransitExtensions
 {
-    public static IServiceCollection AddMQMassTransit(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection ConfigMassTransit(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<MassTransitHostOptions>(options =>
         {
@@ -51,6 +51,7 @@ public static class MassTransitExtensions
 
             x.AddRider(rider =>
            {
+               rider.AddProducer<KafkaMessage>(option.RiderTopicName);
                rider.AddConsumer<KafkaMessageConsumer>();
 
                rider.UsingKafka((context, k) =>

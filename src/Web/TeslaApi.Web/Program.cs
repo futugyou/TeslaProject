@@ -23,7 +23,7 @@ builder.Services.AddDbContextPool<TeslaContext>(
 
 // NOTES: do not use in prod
 builder.Services.AddHostedService<RecreateDatabaseHostedService<TeslaContext>>();
-builder.Services.AddMQMassTransit(Configuration);
+builder.Services.ConfigMassTransit(Configuration);
 
 builder.Services.AddScoped<IVehicleStreamService, VehicleStreamService>();
 
