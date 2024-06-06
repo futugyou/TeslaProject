@@ -55,9 +55,9 @@ public static class MassTransitExtensions
 
                rider.UsingKafka((context, k) =>
                {
-                   k.Host("kafka:9092");
+                   k.Host(option.RiderHost);
 
-                   k.TopicEndpoint<KafkaMessage>("topic-name", "consumer-group-name", e =>
+                   k.TopicEndpoint<KafkaMessage>(option.RiderTopicName, option.RiderGroupName, e =>
                    {
                        e.ConfigureConsumer<KafkaMessageConsumer>(context);
                    });
@@ -67,6 +67,16 @@ public static class MassTransitExtensions
 
         return services;
     }
+}
+
+public class MassTransitOptions
+{
+    public string Host { get; set; }
+    public string Username { get; set; }
+    public string Password { get; set; }
+    public string RiderHost { get; set; }
+    public string RiderTopicName { get; set; }
+    public string RiderGroupName { get; set; }
 }
 
 // demo consumer
@@ -110,11 +120,4 @@ class KafkaMessageConsumer : IConsumer<KafkaMessage>
 public record KafkaMessage
 {
     public string Text { get; init; }
-}
-
-public class MassTransitOptions
-{
-    public string Host { get; set; }
-    public string Username { get; set; }
-    public string Password { get; set; }
 }
