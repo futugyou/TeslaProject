@@ -48,11 +48,28 @@ public static class MassTransitExtensions
                 cfg.AutoStart = true;
                 cfg.ConfigureEndpoints(context);
             });
+
+            x.AddRider(rider =>
+           {
+               rider.AddConsumer<KafkaMessageConsumer>();
+
+               rider.UsingKafka((context, k) =>
+               {
+                   k.Host("kafka:9092");
+
+                   k.TopicEndpoint<KafkaMessage>("topic-name", "consumer-group-name", e =>
+                   {
+                       e.ConfigureConsumer<KafkaMessageConsumer>(context);
+                   });
+               });
+           });
         });
 
         return services;
     }
 }
+
+// demo consumer
 public class TeslaEventConsumer : IConsumer<TeslaEvent>
 {
     ILogger<TeslaEventConsumer> _logger;
@@ -62,9 +79,10 @@ public class TeslaEventConsumer : IConsumer<TeslaEvent>
         _logger = logger;
     }
 
-    public async Task Consume(ConsumeContext<TeslaEvent> context)
+    public Task Consume(ConsumeContext<TeslaEvent> context)
     {
-        _logger.LogError("Value: {Value}", context.Message.Value);
+        _logger.LogError("rabbitmq consumer: Value: {Value}", context.Message.Value);
+        return Task.CompletedTask;
     }
 }
 
@@ -73,11 +91,30 @@ public record TeslaEvent
     public string? Value { get; init; }
 }
 
+class KafkaMessageConsumer : IConsumer<KafkaMessage>
+{
+    ILogger<KafkaMessageConsumer> _logger;
+
+    public KafkaMessageConsumer(ILogger<KafkaMessageConsumer> logger)
+    {
+        _logger = logger;
+    }
+
+    public Task Consume(ConsumeContext<KafkaMessage> context)
+    {
+        _logger.LogError("kafka consumer: Text: {Text}", context.Message.Text);
+        return Task.CompletedTask;
+    }
+}
+
+public record KafkaMessage
+{
+    public string Text { get; init; }
+}
 
 public class MassTransitOptions
 {
     public string Host { get; set; }
     public string Username { get; set; }
     public string Password { get; set; }
-
 }
