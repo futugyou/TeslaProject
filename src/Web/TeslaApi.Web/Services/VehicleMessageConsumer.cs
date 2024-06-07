@@ -1,4 +1,3 @@
-using System.Reflection;
 using Domain;
 using Extensions;
 using MassTransit;
@@ -60,7 +59,7 @@ public class VehicleMessageConsumer : IConsumer<VehicleMessage>
         // get tesla state 
         if (ShiftWithoutP.Contains(data.ShiftState))
         {
-            var position = await StartDrive(vehicle, detail, data, cancellation);
+            var drive = await StartDrive(vehicle, detail, data, cancellation);
         }
         // other case
     }
@@ -73,11 +72,29 @@ public class VehicleMessageConsumer : IConsumer<VehicleMessage>
             VehicleId = vehicle,
         };
 
-        // TODO: fill flied
         Position position = new()
         {
+            BatteryHeater = detail.ClimateState?.BatteryHeater ?? false,
+            BatteryHeaterNoPower = detail.ClimateState?.BatteryHeaterNoPower ?? false,
+            BatteryHeaterOn = detail.ChargeState?.BatteryHeaterOn ?? false,
+            Date = DateTime.UtcNow,
+            DriveId = drive,
+            DriverTempSetting = detail.ClimateState == null ? 0 : (decimal)detail.ClimateState.DriverTempSetting,
+            EstBatteryRange = detail.ChargeState == null ? 0 : (decimal)detail.ChargeState.EstBatteryRange,
+            FanStatus = detail.ClimateState == null ? 0 : detail.ClimateState.FanStatus,
+            IdealBatteryRange = detail.ChargeState == null ? 0 : (decimal)detail.ChargeState.IdealBatteryRange,
+            InsideTemp = detail.ClimateState == null ? 0 : (decimal)detail.ClimateState.InsideTemp,
+            IsClimateOn = detail.ClimateState?.IsClimateOn ?? false,
+            IsFrontDefrosterOn = detail.ClimateState?.IsFrontDefrosterOn ?? false,
+            IsRearDefrosterOn = detail.ClimateState?.IsRearDefrosterOn ?? false,
+            OutsideTemp = detail.ClimateState == null ? 0 : (decimal)detail.ClimateState.OutsideTemp,
+            PassengerTempSetting = detail.ClimateState == null ? 0 : (decimal)detail.ClimateState.PassengerTempSetting,
+            TpmsPressureFl = detail.VehicleState == null ? 0 : (decimal)detail.VehicleState.TpmsPressureFL,
+            TpmsPressureFr = detail.VehicleState == null ? 0 : (decimal)detail.VehicleState.TpmsPressureFR,
+            TpmsPressureRl = detail.VehicleState == null ? 0 : (decimal)detail.VehicleState.TpmsPressureRL,
+            TpmsPressureRr = detail.VehicleState == null ? 0 : (decimal)detail.VehicleState.TpmsPressureRR,
+            UsableBatteryLevel = detail.ChargeState == null ? 0 : (decimal)detail.ChargeState.UsableBatteryLevel,
             VehicleId = vehicle,
-            // Date = stream_data.Time,
             Latitude = (decimal)stream_data.EstLat,
             Longitude = (decimal)stream_data.EstLng,
             Power = (decimal)stream_data.Power,
