@@ -55,8 +55,8 @@ public class ChargesDetailMap : IEntityTypeConfiguration<ChargesDetail>
             .HasColumnName("fast_charger_type")
             .HasColumnType("varchar(200)");
 
-        builder.Property(c => c.IdealBatteryRangeKm)
-            .HasColumnName("ideal_battery_range_km").HasColumnType("decimal(8, 6)");
+        builder.Property(c => c.IdealBatteryRange)
+            .HasColumnName("ideal_battery_range").HasColumnType("decimal(8, 6)");
 
         builder.Property(c => c.OutsideTemp)
             .HasColumnName("outside_temp").HasColumnType("decimal(8, 6)");

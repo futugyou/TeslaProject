@@ -16,7 +16,7 @@ public class ChargesDetail
     public string ConnChargeCable { get; set; }
     public string FastChargerBrand { get; set; }
     public string FastChargerType { get; set; }
-    public decimal IdealBatteryRangeKm { get; set; }
+    public decimal IdealBatteryRange { get; set; }
     public bool NotEnoughPowerToHeat { get; set; }
     public decimal OutsideTemp { get; set; }
     public bool BatteryHeater { get; set; }

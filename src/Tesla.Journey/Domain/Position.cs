@@ -9,7 +9,7 @@ public class Position
     public decimal Speed { get; set; }
     public decimal Power { get; set; }
     public decimal Odometer { get; set; }
-    public decimal IdealBatteryRangeKm { get; set; }
+    public decimal IdealBatteryRange { get; set; }
     public decimal BatteryLevel { get; set; }
     public decimal OutsideTemp { get; set; }
     public decimal Elevation { get; set; }
@@ -25,7 +25,7 @@ public class Position
     public bool BatteryHeater { get; set; }
     public bool BatteryHeaterOn { get; set; }
     public bool BatteryHeaterNoPower { get; set; }
-    public decimal EstBatteryRangeKm { get; set; }
+    public decimal EstBatteryRange { get; set; }
     public decimal RatedBatteryRangeKm { get; set; }
     public decimal UsableBatteryLevel { get; set; }
     public decimal TpmsPressureFl { get; set; }

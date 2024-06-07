@@ -32,8 +32,8 @@ public class PositionMap : IEntityTypeConfiguration<Position>
         builder.Property(c => c.Odometer)
             .HasColumnName("odometer").HasColumnType("decimal(8, 6)");
 
-        builder.Property(c => c.IdealBatteryRangeKm)
-            .HasColumnName("ideal_battery_range_km").HasColumnType("decimal(8, 6)");
+        builder.Property(c => c.IdealBatteryRange)
+            .HasColumnName("ideal_battery_range").HasColumnType("decimal(8, 6)");
 
         builder.Property(c => c.BatteryLevel)
             .HasColumnName("battery_level").HasColumnType("decimal(8, 6)");
@@ -56,8 +56,8 @@ public class PositionMap : IEntityTypeConfiguration<Position>
         builder.Property(c => c.InsideTemp)
             .HasColumnName("inside_temp").HasColumnType("decimal(8, 6)");
 
-        builder.Property(c => c.EstBatteryRangeKm)
-            .HasColumnName("est_battery_range_km").HasColumnType("decimal(8, 6)");
+        builder.Property(c => c.EstBatteryRange)
+            .HasColumnName("est_battery_range").HasColumnType("decimal(8, 6)");
 
         builder.Property(c => c.RatedBatteryRangeKm)
             .HasColumnName("rated_battery_range_km").HasColumnType("decimal(8, 6)");
