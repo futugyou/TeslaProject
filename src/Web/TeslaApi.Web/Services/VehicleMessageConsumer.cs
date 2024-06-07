@@ -2,6 +2,7 @@ using System.Reflection;
 using Domain;
 using Extensions;
 using MassTransit;
+using TeslaApi.Contract.Vehicle.State.Data;
 
 namespace Services;
 
@@ -10,37 +11,72 @@ public class VehicleMessageConsumer : IConsumer<VehicleMessage>
     readonly string[] ShiftWithoutP = ["D", "N", "R"];
     private readonly ILogger<VehicleMessageConsumer> _logger;
     private readonly IPositionRepository _positionRepository;
+    private readonly IVehicleRepository _vehicleRepository;
+    private readonly IDriveRepository _driveRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public VehicleMessageConsumer(ILogger<VehicleMessageConsumer> logger, IPositionRepository positionRepository, IUnitOfWork unitOfWork)
+    public VehicleMessageConsumer(ILogger<VehicleMessageConsumer> logger,
+    IPositionRepository positionRepository,
+    IVehicleRepository vehicleRepository,
+    IDriveRepository driveRepository,
+    IUnitOfWork unitOfWork)
     {
         _logger = logger;
         _positionRepository = positionRepository;
+        _vehicleRepository = vehicleRepository;
+        _driveRepository = driveRepository;
         _unitOfWork = unitOfWork;
     }
 
     public async Task Consume(ConsumeContext<VehicleMessage> context)
     {
-
         var data = Util.ConvertStringToType<VehicleStreamData>(context.Message.Raw);
         if (data == null)
         {
             return;
         }
 
-        if (ShiftWithoutP.Contains(data.ShiftState))
+        // TODO: get last vehicle state. it may cached in db or redis
+        VehicleDataDetail detail = new() { State = "online" };
+
+        var vehicle = await _vehicleRepository.GetByVid(detail.Id);
+        if (vehicle == null)
         {
-            // create position
-            await CreatePostition(data, context.CancellationToken);
+            return;
+        }
+
+        switch (detail.State)
+        {
+            case "online":
+                await HandleOnline(vehicle, detail, data, context.Message, context.CancellationToken);
+                break;
         }
 
         _logger.LogError("Value: {Value}", data.ShiftState);
     }
 
-    private async Task CreatePostition(VehicleStreamData stream_data, CancellationToken cancellation)
+    private async Task HandleOnline(Vehicle vehicle, VehicleDataDetail detail, VehicleStreamData data, VehicleMessage message, CancellationToken cancellation)
     {
+        // get tesla state 
+        if (ShiftWithoutP.Contains(data.ShiftState))
+        {
+            var position = await StartDrive(vehicle, detail, data, cancellation);
+        }
+        // other case
+    }
+
+    private async Task<(Drive, Position)> StartDrive(Vehicle vehicle, VehicleDataDetail detail, VehicleStreamData stream_data, CancellationToken cancellation)
+    {
+        // fill other data when stop
+        Drive drive = new()
+        {
+            VehicleId = vehicle,
+        };
+
+        // TODO: fill flied
         Position position = new()
         {
+            VehicleId = vehicle,
             // Date = stream_data.Time,
             Latitude = (decimal)stream_data.EstLat,
             Longitude = (decimal)stream_data.EstLng,
@@ -50,8 +86,12 @@ public class VehicleMessageConsumer : IConsumer<VehicleMessage>
             Elevation = (decimal)stream_data.Elevation,
             Odometer = stream_data.Odometer
         };
+
+        await _driveRepository.Add(drive);
         await _positionRepository.Add(position);
         await _unitOfWork.CommitAsync(cancellation);
+
+        return (drive, position);
     }
 }
 
