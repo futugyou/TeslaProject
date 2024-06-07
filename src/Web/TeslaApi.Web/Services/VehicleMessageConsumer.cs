@@ -7,16 +7,51 @@ namespace Services;
 
 public class VehicleMessageConsumer : IConsumer<VehicleMessage>
 {
+    readonly string[] ShiftWithoutP = ["D", "N", "R"];
     private readonly ILogger<VehicleMessageConsumer> _logger;
+    private readonly IPositionRepository _positionRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public VehicleMessageConsumer(ILogger<VehicleMessageConsumer> logger)
+    public VehicleMessageConsumer(ILogger<VehicleMessageConsumer> logger, IPositionRepository positionRepository, IUnitOfWork unitOfWork)
     {
         _logger = logger;
+        _positionRepository = positionRepository;
+        _unitOfWork = unitOfWork;
     }
+
     public async Task Consume(ConsumeContext<VehicleMessage> context)
     {
+
         var data = Util.ConvertStringToType<VehicleStreamData>(context.Message.Raw);
+        if (data == null)
+        {
+            return;
+        }
+
+        if (ShiftWithoutP.Contains(data.ShiftState))
+        {
+            // create position
+            await CreatePostition(data, context.CancellationToken);
+        }
+
         _logger.LogError("Value: {Value}", data.ShiftState);
+    }
+
+    private async Task CreatePostition(VehicleStreamData stream_data, CancellationToken cancellation)
+    {
+        Position position = new()
+        {
+            // Date = stream_data.Time,
+            Latitude = (decimal)stream_data.EstLat,
+            Longitude = (decimal)stream_data.EstLng,
+            Power = (decimal)stream_data.Power,
+            Speed = (decimal)stream_data.Speed,
+            BatteryLevel = (decimal)stream_data.SOC,
+            Elevation = (decimal)stream_data.Elevation,
+            Odometer = stream_data.Odometer
+        };
+        await _positionRepository.Add(position);
+        await _unitOfWork.CommitAsync(cancellation);
     }
 }
 
