@@ -97,6 +97,7 @@ public class VehicleStateDetail
     [JsonPropertyName("timestamp")]
     public long Timestamp { get; set; }
 
+    #region data may not exist
     [JsonPropertyName("tpms_pressure_fl")]
     public float TpmsPressureFL { get; set; }
 
@@ -108,6 +109,8 @@ public class VehicleStateDetail
 
     [JsonPropertyName("tpms_pressure_rr")]
     public float TpmsPressureRR { get; set; }
+    #endregion
+    
     [JsonPropertyName("valet_mode")]
     public bool ValetMode { get; set; }
     [JsonPropertyName("valet_pin_needed")]
