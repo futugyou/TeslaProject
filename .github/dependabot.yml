@@ -17,6 +17,14 @@ updates:
       openTelemetry:
         patterns:
         - "OpenTelemetry*"
-      configuration:
+      extensions:
         patterns:
-        - "Microsoft.Extensions.Configuration*"
+        - "Microsoft.Extensions.*"
+      aspire:
+        patterns:
+        - "Aspire*"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      time: "02:00"
