@@ -6,9 +6,26 @@ using Extensions;
 using TeslaApi.Extensions.DependencyInjection;
 using Api;
 using Services;
+using OpenTelemetry.Trace;
+using OpenTelemetry.Resources;
 
 var builder = WebApplication.CreateBuilder(args);
 var Configuration = builder.Configuration;
+
+builder.Services.AddOpenTelemetry().WithTracing(builder => builder
+    .SetResourceBuilder(
+        ResourceBuilder.CreateDefault()
+            .AddService(Configuration["Honeycomb.ServiceName"]!)
+            .AddAttributes([new KeyValuePair<string, object>("SampleRate", 2)]))
+    .SetSampler(new TraceIdRatioBasedSampler(0.5))
+    .AddAspNetCoreInstrumentation()
+    .AddHttpClientInstrumentation()
+    .AddBaggageActivityProcessor()
+    .AddOtlpExporter(option =>
+    {
+        option.Endpoint = new Uri(Configuration["Honeycomb.Endpoint"]!);
+        option.Headers = $"x-honeycomb-team={Configuration["Honeycomb.ApiKey"]!}";
+    }));
 
 builder.Services.AddRedisExtension(Configuration);
 builder.Services.AddBackgroundTaskQueue(Configuration);
