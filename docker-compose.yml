@@ -5,6 +5,8 @@ services:
     build:
       context: .
       dockerfile: src/Web/TeslaApi.Web/Dockerfile
+    environment:
+      - HONEYCOMB__APIKEY=your_api_key_value1
     ports:
       - 5000:5000
     depends_on:

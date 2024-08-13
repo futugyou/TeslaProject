@@ -15,7 +15,7 @@ var Configuration = builder.Configuration;
 builder.Services.AddOpenTelemetry().WithTracing(builder => builder
     .SetResourceBuilder(
         ResourceBuilder.CreateDefault()
-            .AddService(Configuration["Honeycomb.ServiceName"]!)
+            .AddService(Configuration["Honeycomb:ServiceName"]!)
             .AddAttributes([new KeyValuePair<string, object>("SampleRate", 2)]))
     .SetSampler(new TraceIdRatioBasedSampler(0.5))
     .AddAspNetCoreInstrumentation()
@@ -23,8 +23,8 @@ builder.Services.AddOpenTelemetry().WithTracing(builder => builder
     .AddBaggageActivityProcessor()
     .AddOtlpExporter(option =>
     {
-        option.Endpoint = new Uri(Configuration["Honeycomb.Endpoint"]!);
-        option.Headers = $"x-honeycomb-team={Configuration["Honeycomb.ApiKey"]!}";
+        option.Endpoint = new Uri(Configuration["Honeycomb:Endpoint"]!);
+        option.Headers = $"x-honeycomb-team={Configuration["Honeycomb:ApiKey"]!}";
     }));
 
 builder.Services.AddRedisExtension(Configuration);

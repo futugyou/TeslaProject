@@ -9,6 +9,7 @@ services:
       - 5000:5000
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - HONEYCOMB__APIKEY=your_api_key_value1
     depends_on:
       - dbmysql
       - garnet

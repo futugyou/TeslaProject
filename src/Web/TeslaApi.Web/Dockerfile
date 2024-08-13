@@ -2,6 +2,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 5000
 
+ENV HONEYCOMB__APIKEY=your_api_key_value2
 ENV ASPNETCORE_URLS=http://+:5000
 
 USER app
