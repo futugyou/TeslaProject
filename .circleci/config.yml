@@ -18,6 +18,10 @@ jobs:
       # Checkout the code as the first step.
       - checkout
       - run:
+          name: Install aspire workload
+          command: |
+            dotnet workload install aspire
+      - run:
           working_directory: ~/project
           name: Run build
           command: |
