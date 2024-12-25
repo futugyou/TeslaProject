@@ -1,8 +1,3 @@
-using Domain;
-using MassTransit;
-using TeslaApi.Contract;
-using TeslaApi.SDK;
-
 namespace Services;
 
 public interface IVehicleStreamService

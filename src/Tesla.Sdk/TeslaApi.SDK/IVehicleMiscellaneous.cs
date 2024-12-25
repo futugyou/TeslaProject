@@ -1,6 +1,3 @@
-using TeslaApi.Contract.Vehicle.Miscellaneous;
-using Refit;
-
 namespace TeslaApi.SDK;
 
 public interface IVehicleMiscellaneous : IVehicleRefit

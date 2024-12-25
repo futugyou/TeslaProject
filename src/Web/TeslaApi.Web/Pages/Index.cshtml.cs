@@ -1,9 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using TeslaApi.SDK;
-using TeslaApi.Contract;
-using TeslaApi.Contract.Authentication;
-
 namespace RazorPagesMovie.Pages;
 
 public class IndexModel : PageModel

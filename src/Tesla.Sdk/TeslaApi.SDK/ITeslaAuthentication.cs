@@ -1,6 +1,4 @@
-﻿using Refit;
-using TeslaApi.Contract.Authentication;
-
+﻿
 namespace TeslaApi.SDK;
 
 public interface ITeslaAuthentication

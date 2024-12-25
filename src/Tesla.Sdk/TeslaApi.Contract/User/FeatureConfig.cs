@@ -1,5 +1,3 @@
-using System.Text.Json.Serialization;
-
 namespace TeslaApi.Contract.User;
 
 public class AuthRejection

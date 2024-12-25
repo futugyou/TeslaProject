@@ -1,5 +1,3 @@
-using Extensions;
-
 namespace TeslaApi.Web;
 
 public class TeslaWebSocketClient : BackgroundService

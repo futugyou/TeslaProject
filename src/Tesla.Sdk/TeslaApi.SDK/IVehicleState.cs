@@ -1,11 +1,3 @@
-
-using TeslaApi.Contract.Vehicle.Products;
-using TeslaApi.Contract.Vehicle.State.Data;
-using TeslaApi.Contract.Vehicle.State.MobileEnabled;
-using TeslaApi.Contract.Vehicle.State.NearbyChargingSites;
-using TeslaApi.Contract.Vehicle.Vehicles;
-using Refit;
-
 namespace TeslaApi.SDK;
 
 public interface IVehicleState : IVehicleRefit

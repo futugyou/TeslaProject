@@ -1,10 +1,4 @@
-﻿using System.ComponentModel;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-
-namespace TeslaApi.Contract;
+﻿namespace TeslaApi.Contract;
 
 public class JsonSerializerExtensions
 {

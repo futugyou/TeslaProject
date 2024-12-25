@@ -1,5 +1,3 @@
-using System.IdentityModel.Tokens.Jwt;
-
 namespace TeslaApi.Contract;
 
 public class TokenParse

@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace TeslaApi.Contract;
+﻿namespace TeslaApi.Contract;
 
 public class ResponseBase
 {

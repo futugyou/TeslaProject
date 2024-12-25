@@ -1,7 +1,3 @@
-using Domain;
-using MassTransit;
-using Microsoft.EntityFrameworkCore;
-
 namespace Infrastruct;
 
 public class TeslaContext : DbContext

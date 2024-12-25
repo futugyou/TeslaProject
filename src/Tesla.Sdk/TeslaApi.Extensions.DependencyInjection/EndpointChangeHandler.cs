@@ -1,7 +1,3 @@
-using System.Net;
-using Microsoft.Extensions.Logging;
-using TeslaApi.Contract;
-
 namespace TeslaApi.Extensions.DependencyInjection;
 
 public class EndpointChangeHandler(ILogger<EndpointChangeHandler> logger) : DelegatingHandler

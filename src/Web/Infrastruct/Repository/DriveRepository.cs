@@ -1,6 +1,3 @@
-
-using Domain;
-
 namespace Infrastruct;
 
 public class DriveRepository : BaseRepository<Drive>, IDriveRepository

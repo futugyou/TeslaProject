@@ -1,6 +1,3 @@
-
-using Domain;
-
 namespace Infrastruct;
 
 public class AddressRepository : BaseRepository<Address>, IAddressRepository

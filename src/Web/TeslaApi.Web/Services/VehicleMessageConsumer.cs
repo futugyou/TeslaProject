@@ -1,8 +1,3 @@
-using Domain;
-using Extensions;
-using MassTransit;
-using TeslaApi.Contract.Vehicle.State.Data;
-
 namespace Services;
 
 public class VehicleMessageConsumer : IConsumer<VehicleMessage>

@@ -1,5 +1,3 @@
-using Domain;
-
 namespace Infrastruct;
 
 public class VehicleMessageRepository : BaseRepository<VehicleMessage>, IVehicleMessageRepository

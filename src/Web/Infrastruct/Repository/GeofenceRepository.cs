@@ -1,6 +1,3 @@
-
-using Domain;
-
 namespace Infrastruct;
 
 public class GeofenceRepository : BaseRepository<Geofence>, IGeofenceRepository

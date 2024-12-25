@@ -1,10 +1,4 @@
-﻿using System.Net.WebSockets;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Refit;
-using TeslaApi.SDK;
-
-namespace TeslaApi.Extensions.DependencyInjection;
+﻿namespace TeslaApi.Extensions.DependencyInjection;
 
 public static class DependencyInjectionExtensions
 {

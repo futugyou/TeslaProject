@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace TeslaApi.Contract.Authentication;
+﻿namespace TeslaApi.Contract.Authentication;
 
 public class BearerTokenRequest
 {

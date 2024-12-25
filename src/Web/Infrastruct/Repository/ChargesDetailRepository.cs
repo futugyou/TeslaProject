@@ -1,6 +1,3 @@
-
-using Domain;
-
 namespace Infrastruct;
 
 public class ChargesDetailRepository : BaseRepository<ChargesDetail>, IChargesDetailRepository

@@ -1,5 +1,4 @@
 ﻿
-using System.Text.Json.Serialization;
 using TeslaApi.Contract.Vehicle.State.VehicleConfig;
 
 namespace TeslaApi.Contract.Vehicle.Products;

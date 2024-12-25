@@ -1,7 +1,3 @@
-
-using System.Threading.Channels;
-using Microsoft.Extensions.Options;
-
 namespace Extensions;
 
 public static class BackgroundTaskQueueExtensions

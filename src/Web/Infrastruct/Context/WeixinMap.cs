@@ -1,7 +1,3 @@
-using Domain;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
 namespace Infrastruct;
 
 public class WeixinMap : IEntityTypeConfiguration<Weixin>

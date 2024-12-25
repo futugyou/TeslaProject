@@ -1,6 +1,3 @@
-using Refit;
-using TeslaApi.Contract.User;
-
 namespace TeslaApi.SDK;
 
 public interface IUser : IVehicleRefit

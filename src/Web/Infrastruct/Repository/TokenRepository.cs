@@ -1,6 +1,3 @@
-using Domain;
-using Microsoft.EntityFrameworkCore;
-
 namespace Infrastruct;
 
 public class TokenRepository : BaseRepository<Token>, ITokenRepository

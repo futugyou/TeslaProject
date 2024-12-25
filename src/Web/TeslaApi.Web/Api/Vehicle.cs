@@ -1,10 +1,3 @@
-using Domain;
-using Extensions;
-using Microsoft.AspNetCore.Mvc;
-using TeslaApi.SDK;
-using TeslaApi.Contract;
-using Services;
-
 namespace Api;
 
 public static class VehicleEndpoints

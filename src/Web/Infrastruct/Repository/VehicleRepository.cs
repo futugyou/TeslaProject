@@ -1,7 +1,3 @@
-
-using Domain;
-using Microsoft.EntityFrameworkCore;
-
 namespace Infrastruct;
 
 public class VehicleRepository(TeslaContext context) : BaseRepository<Vehicle>(context), IVehicleRepository

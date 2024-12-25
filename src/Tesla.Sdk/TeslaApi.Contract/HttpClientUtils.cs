@@ -1,9 +1,4 @@
-﻿using System.Net.Http.Headers;
-using System.Text;
-using System.Text.Json;
-using TeslaApi.Contract;
-
-namespace TeslaApi;
+﻿namespace TeslaApi;
 
 public static class HttpClientUtils
 {

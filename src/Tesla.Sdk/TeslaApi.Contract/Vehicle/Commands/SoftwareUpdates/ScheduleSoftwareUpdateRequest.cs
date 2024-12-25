@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
+﻿
 namespace TeslaApi.Contract.Vehicle.Commands.SoftwareUpdates;
 
 public  class ScheduleSoftwareUpdateRequest

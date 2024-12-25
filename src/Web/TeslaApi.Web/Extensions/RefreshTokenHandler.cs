@@ -1,7 +1,3 @@
-using TeslaApi.Contract;
-using System.Net.Http.Headers;
-using Polly;
-
 namespace Extensions;
 
 public class RefreshTokenHandler : DelegatingHandler

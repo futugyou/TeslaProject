@@ -1,13 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
-using TeslaApi.SDK;
-using TeslaApi.Contract;
-using TeslaApi.Contract.Authentication;
-using Extensions;
-using Infrastruct;
-using MassTransit;
-using Domain;
-using Microsoft.EntityFrameworkCore;
-
 namespace Api;
 
 public static class TestEndpoints

@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using TeslaApi.Contract.Vehicle.State.ChargeState;
+﻿using TeslaApi.Contract.Vehicle.State.ChargeState;
 using TeslaApi.Contract.Vehicle.State.ClimateState;
 using TeslaApi.Contract.Vehicle.State.DriveState;
 using TeslaApi.Contract.Vehicle.State.GUISettings;

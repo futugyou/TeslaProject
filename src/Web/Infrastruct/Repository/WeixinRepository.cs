@@ -1,5 +1,3 @@
-using Domain;
-
 namespace Infrastruct;
 
 public class WeixinRepository : BaseRepository<Weixin>, IWeixinRepository

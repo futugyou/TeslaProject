@@ -1,6 +1,3 @@
-using Microsoft.Extensions.Options;
-using StackExchange.Redis;
-
 namespace Extensions;
 
 public static class DependencyInjectionExtensions

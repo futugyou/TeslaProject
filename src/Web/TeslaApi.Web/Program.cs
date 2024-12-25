@@ -1,14 +1,3 @@
-using TeslaApi.Web;
-using Microsoft.EntityFrameworkCore;
-using Infrastruct;
-using Domain;
-using Extensions;
-using TeslaApi.Extensions.DependencyInjection;
-using Api;
-using Services;
-using OpenTelemetry.Trace;
-using OpenTelemetry.Resources;
-
 var builder = WebApplication.CreateBuilder(args);
 var Configuration = builder.Configuration;
 

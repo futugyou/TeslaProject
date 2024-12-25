@@ -1,21 +1,3 @@
-using TeslaApi.Contract.Vehicle.Commands.Alerts;
-using TeslaApi.Contract.Vehicle.Commands.Charging;
-using TeslaApi.Contract.Vehicle.Commands.Climate;
-using TeslaApi.Contract.Vehicle.Commands.Doors;
-using TeslaApi.Contract.Vehicle.Commands.FrunkTrunk;
-using TeslaApi.Contract.Vehicle.Commands.Homelink;
-using TeslaApi.Contract.Vehicle.Commands.Media;
-using TeslaApi.Contract.Vehicle.Commands.RemoteStart;
-using TeslaApi.Contract.Vehicle.Commands.SentryMode;
-using TeslaApi.Contract.Vehicle.Commands.Sharing;
-using TeslaApi.Contract.Vehicle.Commands.SoftwareUpdates;
-using TeslaApi.Contract.Vehicle.Commands.SpeedLimit;
-using TeslaApi.Contract.Vehicle.Commands.Sunroof;
-using TeslaApi.Contract.Vehicle.Commands.ValetMode;
-using TeslaApi.Contract.Vehicle.Commands.Wake;
-using TeslaApi.Contract.Vehicle.Commands.Windows;
-using Refit;
-
 namespace TeslaApi.SDK;
 
 public interface IVehicleCommand : IVehicleRefit

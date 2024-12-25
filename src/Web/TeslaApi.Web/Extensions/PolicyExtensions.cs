@@ -1,9 +1,3 @@
-using Domain;
-using Polly;
-using System.Net;
-using TeslaApi.SDK;
-using TeslaApi.Contract.Authentication;
-
 namespace Extensions;
 
 public class PolicyExtensions

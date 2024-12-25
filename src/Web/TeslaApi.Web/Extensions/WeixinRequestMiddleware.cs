@@ -1,6 +1,5 @@
-using Domain;
-
 namespace Extensions;
+
 public class WeixinRequestMiddleware(RequestDelegate next)
 {
     private readonly RequestDelegate _next = next;
