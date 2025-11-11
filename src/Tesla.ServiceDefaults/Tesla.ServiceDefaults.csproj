@@ -17,8 +17,8 @@
     <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.13.0" />
     <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.13.0" />
     <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.13.0" />
-    <PackageReference Include="Aspire.RabbitMQ.Client" Version="9.5.2" />
-    <PackageReference Include="Aspire.StackExchange.Redis" Version="9.5.2" />
+    <PackageReference Include="Aspire.RabbitMQ.Client" Version="13.0.0" />
+    <PackageReference Include="Aspire.StackExchange.Redis" Version="13.0.0" />
   </ItemGroup>
 
 </Project>
