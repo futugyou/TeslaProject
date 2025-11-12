@@ -10,22 +10,33 @@ updates:
     schedule:
       interval: "daily"
     groups:
+      aspire:
+        patterns:
+        - "Aspire*"
       efcore:
         patterns:
         - "Microsoft.EntityFrameworkCore*"
         - "Pomelo.EntityFrameworkCore.MySql"
-      openTelemetry:
-        patterns:
-        - "OpenTelemetry*"
-      extensions:
-        patterns:
-        - "Microsoft.Extensions.*"
-      aspire:
-        patterns:
-        - "Aspire*"
       massTransit:
         patterns:
         - "MassTransit*"
+      extensions:
+        patterns:
+        - "Microsoft.Extensions.*"
+      refit:
+        patterns:
+        - "Refit*"
+      serilog:
+        patterns:
+        - "Serilog*"
+      openApi:
+        patterns:
+        - "Microsoft.AspNetCore.OpenApi"
+        - "Swashbuckle.AspNetCore"
+      openTelemetry:
+        patterns:
+        - "OpenTelemetry*"
+
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
