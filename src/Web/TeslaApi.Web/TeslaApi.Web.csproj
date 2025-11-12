@@ -1,28 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="MassTransit.RabbitMQ" Version="8.5.5" />
-    <PackageReference Include="MassTransit.Kafka" Version="8.5.5" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.10" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.11">
+    <PackageReference Include="MassTransit.RabbitMQ" />
+    <PackageReference Include="MassTransit.Kafka" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" >
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="OpenTelemetry" Version="1.13.1" />
-    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.13.1" />
-    <PackageReference Include="OpenTelemetry.Extensions" Version="1.0.0-beta.5" />
-    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.13.1" />
-    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.13.0" />
-    <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.13.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
-		<PackageReference Include="Microsoft.Extensions.Http.Polly" Version="10.0.0" />
-    <PackageReference Include="StackExchange.Redis" Version="2.9.32" />
+    <PackageReference Include="OpenTelemetry" />
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
+    <PackageReference Include="OpenTelemetry.Extensions" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
+    <PackageReference Include="Swashbuckle.AspNetCore" />
+		<PackageReference Include="Microsoft.Extensions.Http.Polly" />
+    <PackageReference Include="StackExchange.Redis" />
   </ItemGroup> 
   
   <ItemGroup>

@@ -9,7 +9,7 @@ builder.Services.AddOpenTelemetry().WithTracing(builder => builder
     .SetSampler(new TraceIdRatioBasedSampler(0.5))
     .AddAspNetCoreInstrumentation()
     .AddHttpClientInstrumentation()
-    .AddBaggageActivityProcessor()
+    .AddBaggageActivityProcessor(_ => true)
     .AddOtlpExporter(option =>
     {
         option.Endpoint = new Uri(Configuration["Honeycomb:Endpoint"]!);
