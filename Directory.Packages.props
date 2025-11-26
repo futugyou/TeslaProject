@@ -17,9 +17,9 @@
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0" />
 
     <!-- MassTransit -->
-    <PackageVersion Include="MassTransit.EntityFrameworkCore" Version="8.5.5" />
-    <PackageVersion Include="MassTransit.Kafka" Version="8.5.5" />
-    <PackageVersion Include="MassTransit.RabbitMQ" Version="8.5.5" />
+    <PackageVersion Include="MassTransit.EntityFrameworkCore" Version="8.5.6" />
+    <PackageVersion Include="MassTransit.Kafka" Version="8.5.6" />
+    <PackageVersion Include="MassTransit.RabbitMQ" Version="8.5.6" />
 
     <!-- Extensions -->
     <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.0" />
