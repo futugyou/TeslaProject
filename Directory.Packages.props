@@ -1,13 +1,13 @@
 <Project>
   <ItemGroup>
     <!-- Aspire Framework -->
-    <PackageVersion Include="Aspire.Hosting.AppHost" Version="13.0.1" />
-    <PackageVersion Include="Aspire.Hosting.MySql" Version="13.0.1" />
-    <PackageVersion Include="Aspire.Hosting.RabbitMQ" Version="13.0.1" />
-    <PackageVersion Include="Aspire.Hosting.Redis" Version="13.0.1" />
-    <PackageVersion Include="Aspire.Pomelo.EntityFrameworkCore.MySql" Version="13.0.1" />
-    <PackageVersion Include="Aspire.RabbitMQ.Client" Version="13.0.1" />
-    <PackageVersion Include="Aspire.StackExchange.Redis" Version="13.0.1" />
+    <PackageVersion Include="Aspire.Hosting.AppHost" Version="13.0.2" />
+    <PackageVersion Include="Aspire.Hosting.MySql" Version="13.0.2" />
+    <PackageVersion Include="Aspire.Hosting.RabbitMQ" Version="13.0.2" />
+    <PackageVersion Include="Aspire.Hosting.Redis" Version="13.0.2" />
+    <PackageVersion Include="Aspire.Pomelo.EntityFrameworkCore.MySql" Version="13.0.2" />
+    <PackageVersion Include="Aspire.RabbitMQ.Client" Version="13.0.2" />
+    <PackageVersion Include="Aspire.StackExchange.Redis" Version="13.0.2" />
 
     <!-- EF Core -->
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.0" />
