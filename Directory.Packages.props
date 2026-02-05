@@ -41,7 +41,7 @@
 
     <!-- OpenApi -->
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.2" />
-    <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.1.1" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.1.2" />
 
     <!-- OpenTelemetry-->    
     <PackageVersion Include="OpenTelemetry" Version="1.15.0" />     
