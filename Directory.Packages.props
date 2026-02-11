@@ -10,11 +10,11 @@
     <PackageVersion Include="Aspire.StackExchange.Redis" Version="13.1.0" />
 
     <!-- EF Core -->
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.2" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.2" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.3" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.3" />
     <PackageVersion Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.2" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.2" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.3" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.3" />
 
     <!-- MassTransit -->
     <PackageVersion Include="MassTransit.EntityFrameworkCore" Version="9.0.1" />
