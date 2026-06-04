@@ -31,8 +31,8 @@
     <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="10.6.0" />
         
     <!-- Refit -->
-    <PackageVersion Include="Refit" Version="10.1.6" />
-    <PackageVersion Include="Refit.HttpClientFactory" Version="10.1.6" />
+    <PackageVersion Include="Refit" Version="11.0.0" />
+    <PackageVersion Include="Refit.HttpClientFactory" Version="11.0.0" />
 
     <!-- Logging -->
     <PackageVersion Include="Serilog" Version="4.3.0" />
