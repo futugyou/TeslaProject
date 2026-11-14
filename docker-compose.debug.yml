@@ -64,7 +64,7 @@ services:
 
   kafka:
     container_name: kafka
-    image: docker.io/bitnami/kafka:3.7
+    image: docker.io/soldevelo/kafka:3.7
     ports:
       - "9092:9092"
     volumes:
@@ -84,7 +84,7 @@ services:
 
   topic-creator:
     container_name: topic-creator
-    image: docker.io/bitnami/kafka:3.7
+    image: docker.io/soldevelo/kafka:3.7
     depends_on:
       - kafka
     entrypoint: >
